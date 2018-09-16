@@ -1,0 +1,9 @@
+*.pyc
+*.swo
+*.swp
+build/
+wheels/
+*.egg-info
+.cache/
+.coverage
+.pytest_cache
