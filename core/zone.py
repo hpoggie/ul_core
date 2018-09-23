@@ -1,5 +1,5 @@
 import random
-from core.game import destroy
+from ul_core.core.game import destroy
 
 
 class Zone(list):

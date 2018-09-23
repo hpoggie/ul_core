@@ -2,7 +2,7 @@ import types
 import re
 
 from .network_manager import NetworkManager
-from core.enums import numericEnum
+from ul_core.core.enums import numericEnum
 
 
 class OpcodeError(Exception):

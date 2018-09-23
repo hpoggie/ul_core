@@ -1,8 +1,8 @@
 from . import base
-from core.game import destroy, Phase
-from core.card import Card
-from core.faction import deck
-from core.player import Player
+from ul_core.core.game import destroy, Phase
+from ul_core.core.card import Card
+from ul_core.core.faction import deck
+from ul_core.core.player import Player
 
 
 class equus(Card):

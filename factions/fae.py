@@ -1,9 +1,9 @@
-from core.player import Player
-from core.exceptions import InvalidTargetError
-from core.faction import deck
-from core.card import Card
-from core.game import destroy
-import factions.base as base
+from ul_core.core.player import Player
+from ul_core.core.exceptions import InvalidTargetError
+from ul_core.core.faction import deck
+from ul_core.core.card import Card
+from ul_core.core.game import destroy
+import ul_core.factions.base as base
 
 
 class faerieMoth(Card):

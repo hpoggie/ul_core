@@ -1,10 +1,10 @@
 import types
 from . import base
-from core.player import Player
-from core.exceptions import IllegalMoveError, InvalidTargetError
-from core.card import Card
-from core.game import destroy, Phase
-from core.faction import deck
+from ul_core.core.player import Player
+from ul_core.core.exceptions import IllegalMoveError, InvalidTargetError
+from ul_core.core.card import Card
+from ul_core.core.game import destroy, Phase
+from ul_core.core.faction import deck
 
 
 class MultiattackCard(Card):

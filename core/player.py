@@ -8,9 +8,9 @@ A player has the following characteristics:
 from copy import deepcopy
 from random import randint
 
-from core.game import Phase
-from core.zone import Zone
-from core.exceptions import IllegalMoveError
+from ul_core.core.game import Phase
+from ul_core.core.zone import Zone
+from ul_core.core.exceptions import IllegalMoveError
 
 startHandSize = 5
 maxManaCap = 15
