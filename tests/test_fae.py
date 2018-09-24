@@ -1,6 +1,6 @@
 from core.card import Card
 from core.game import destroy
-from core.exceptions import InvalidTargetError, IllegalMoveError
+from ul_core.core.exceptions import InvalidTargetError, IllegalMoveError
 import factions.fae as fae
 from .util import newGame
 from . import dummyCards
