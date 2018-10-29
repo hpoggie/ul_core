@@ -38,7 +38,7 @@ class spellBlade(Card):
     rank = "s"
     spell = True
     fast = True
-    desc = "Destroy target face-down card."
+    desc = "Fast. Destroy target face-down card."
 
     def onSpawn(self, target):
         if target.facedown:
