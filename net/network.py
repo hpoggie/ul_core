@@ -1,5 +1,5 @@
 import types
-import re
+import pickle
 
 from .network_manager import NetworkManager
 from ul_core.core.enums import numericEnum
@@ -7,17 +7,6 @@ from ul_core.core.enums import numericEnum
 
 class OpcodeError(Exception):
     pass
-
-
-def serialize(args):
-    return ''.join([{int: 'i', float: 'f', bool: 'b'}[type(x)] +
-                    (repr(int(x)) if isinstance(x, bool) else repr(x))
-                    for x in args])
-
-
-def deserialize(packet):
-    return [{'i': int, 'f': float, 'b': bool}[s[0]](int(s[1:]))
-            for s in re.findall('[a-z][^a-z]*', packet)]
 
 
 class ULNetworkManager(NetworkManager):
@@ -59,8 +48,8 @@ class ServerNetworkManager (ULNetworkManager):
             return
 
         try:
-            operands = deserialize(packet)
-        except KeyError:
+            operands = pickle.loads(packet)
+        except pickle.UnpicklingError:
             print("Got malformed packet: " + packet)
             return
 
@@ -84,7 +73,7 @@ class ServerNetworkManager (ULNetworkManager):
                 def __call__(self, base, *args):
                     self.manager.send(
                         base.addr,
-                        serialize([self.opcode] + list(args)))
+                        pickle.dumps([self.opcode] + list(args)))
 
             # Bind the OpcodeFunc as a method to the class
             setattr(conn, key, types.MethodType(OpcodeFunc(self, i), conn))
@@ -112,7 +101,7 @@ class ClientNetworkManager (ULNetworkManager):
                 def __call__(self, base, *args):
                     base.send(
                         (base.ip, base.port),
-                        serialize([self.opcode] + list(args)))
+                        pickle.dumps([self.opcode] + list(args)))
 
             # Bind the OpcodeFunc as a method to the class
             setattr(self, key, types.MethodType(OpcodeFunc(i), self))
@@ -152,8 +141,8 @@ class ClientNetworkManager (ULNetworkManager):
             return
 
         try:
-            operands = deserialize(packet)
-        except KeyError:
+            operands = pickle.loads(packet)
+        except pickle.UnpicklingError:
             print("Got malformed packet: " + packet)
             return
 
