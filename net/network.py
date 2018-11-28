@@ -1,23 +1,12 @@
 import types
-import re
 
 from .network_manager import NetworkManager
 from ul_core.core.enums import numericEnum
+from ul_core.net.serialization import serialize, deserialize
 
 
 class OpcodeError(Exception):
     pass
-
-
-def serialize(args):
-    return ''.join([{int: 'i', bool: 'b'}[type(x)] +
-                    (repr(int(x)) if isinstance(x, bool) else repr(x))
-                    for x in args])
-
-
-def deserialize(packet):
-    return [{'i': int, 'b': bool}[s[0]](int(s[1:]))
-            for s in re.findall('[a-z][^a-z]*', packet)]
 
 
 class ULNetworkManager(NetworkManager):
