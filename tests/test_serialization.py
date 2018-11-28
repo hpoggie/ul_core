@@ -1,5 +1,5 @@
 import pytest
-from net.serialization import serialize, deserialize
+from net.serialization import serialize, deserialize, DeserializationError
 
 
 def test_sanity_check():
@@ -19,7 +19,7 @@ def test_invalid_characters():
 def test_too_long_integer():
     try:
         a = deserialize('i' + '6' * (10 ** 6))
-    except Exception:
+    except DeserializationError:
         pass
     else:
         assert False
