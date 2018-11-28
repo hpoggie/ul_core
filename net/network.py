@@ -10,13 +10,13 @@ class OpcodeError(Exception):
 
 
 def serialize(args):
-    return ''.join([{int: 'i', float: 'f', bool: 'b'}[type(x)] +
+    return ''.join([{int: 'i', bool: 'b'}[type(x)] +
                     (repr(int(x)) if isinstance(x, bool) else repr(x))
                     for x in args])
 
 
 def deserialize(packet):
-    return [{'i': int, 'f': float, 'b': bool}[s[0]](int(s[1:]))
+    return [{'i': int, 'b': bool}[s[0]](int(s[1:]))
             for s in re.findall('[a-z][^a-z]*', packet)]
 
 
