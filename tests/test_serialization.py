@@ -9,7 +9,7 @@ def test_sanity_check():
 def test_invalid_characters():
     try:
         deserialize('i1@34$')
-    except Exception:
+    except ValueError:
         pass
     else:
         assert False
