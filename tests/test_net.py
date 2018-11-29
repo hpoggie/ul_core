@@ -56,3 +56,14 @@ def test_sanity_check(server, client):
         client.recv()
 
     assert len(client.recvdPackets) > 0
+
+
+def test_bad_packets():
+    nms = (network.ServerNetworkManager(None),
+            network.ClientNetworkManager(None, 'localhost', 9099))
+
+    for nm in nms:
+        nm.onGotPacket('00000', ('localhost', 9099))
+        nm.onGotPacket('i@3#b1', ('localhost', 9099))
+        nm.onGotPacket('i' + '8' * 50000, ('localhost', 9099))
+        nm.onGotPacket('i8' * 50000, ('localhost', 9099))

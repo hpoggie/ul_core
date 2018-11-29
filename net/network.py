@@ -2,7 +2,8 @@ import types
 
 from .network_manager import NetworkManager
 from ul_core.core.enums import numericEnum
-from ul_core.net.serialization import serialize, deserialize
+from ul_core.net.serialization import (serialize, deserialize,
+                                       DeserializationError)
 
 
 class OpcodeError(Exception):
@@ -49,7 +50,7 @@ class ServerNetworkManager (ULNetworkManager):
 
         try:
             operands = deserialize(packet)
-        except KeyError:
+        except DeserializationError:
             print("Got malformed packet: " + packet)
             return
 
@@ -142,7 +143,7 @@ class ClientNetworkManager (ULNetworkManager):
 
         try:
             operands = deserialize(packet)
-        except KeyError:
+        except DeserializationError:
             print("Got malformed packet: " + packet)
             return
 
