@@ -22,5 +22,22 @@ def deserialize(packet):
     if len(packet) > maxPacketLength:
         raise DeserializationError()
 
-    return [{'i': int, 'b': bool}[s[0]](int(s[1:]))
-            for s in re.findall('[a-z][^a-z]*', packet)]
+    ret = []
+
+    for s in re.findall('[a-z][^a-z]*', packet):
+        try:
+            t = {'i': int, 'b': bool}[s[0]]
+        except KeyError as e:
+            raise DeserializationError('Bad type specifier', e)
+
+        try:
+            i = int(s[1:])
+        except ValueError as e:
+            raise DeserializationError('Bad literal', e)
+
+        ret.append(i)
+
+    if ret == []:
+        raise DeserializationError('No sequence found.')
+
+    return ret

@@ -9,9 +9,19 @@ def test_sanity_check():
 def test_invalid_characters():
     try:
         deserialize('i1@34$')
-    except ValueError:
+    except DeserializationError:
         pass
     else:
+        assert False
+
+
+def test_invalid_starting_character():
+    try:
+        i = deserialize('00000')
+    except DeserializationError:
+        pass
+    else:
+        print(i)
         assert False
 
 
