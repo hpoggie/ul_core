@@ -20,7 +20,7 @@ def serialize(args):
 
 def deserialize(packet):
     if len(packet) > maxPacketLength:
-        raise DeserializationError()
+        raise DeserializationError('Packet is too long.')
 
     ret = []
 
