@@ -19,6 +19,9 @@ class FakeClient:
     def updateNumPlayers(self, d):
         self.recvdPackets.append(d)
 
+    def recv(self):
+        self.networkManager.recv()
+
 
 @pytest.fixture(scope='function')
 def server():
@@ -37,14 +40,19 @@ def server():
     os.kill(pid, signal.SIGKILL)
 
 
-def test_sanity_check(server):
+@pytest.fixture(scope='function')
+def client():
     cl = FakeClient()
     cnm = network.ClientNetworkManager(cl, 'localhost', 9099)
+    cl.networkManager = cnm
     cnm.verbose = True
     cnm.connect(('localhost', 9099))
+    return cl
 
+
+def test_sanity_check(server, client):
     stime = time.time()
-    while time.time() < stime + 1 and len(cl.recvdPackets) == 0:
-        cnm.recv()
+    while time.time() < stime + 1 and len(client.recvdPackets) == 0:
+        client.recv()
 
-    assert len(cl.recvdPackets) > 0
+    assert len(client.recvdPackets) > 0
