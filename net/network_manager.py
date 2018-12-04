@@ -2,9 +2,6 @@ import socket
 import select
 
 
-maxBufferLength = 10000
-
-
 class ConnectionClosed(BaseException):
     def __init__(self, conn):
         self.conn = conn
@@ -28,6 +25,7 @@ class NetworkManager:
         self.ip = "127.0.0.1"
         self.port = 9099
         self.bufsize = 1024
+        self.maxBufferLength = 10000
 
         # internet, tcp
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -99,7 +97,7 @@ class NetworkManager:
 
             c.buffer += newData
 
-            if len(c.buffer) > maxBufferLength:
+            if len(c.buffer) > self.maxBufferLength:
                 c.close()
                 raise BufferTooLong(c)
 

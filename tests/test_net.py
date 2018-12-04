@@ -71,7 +71,7 @@ def test_bad_packets():
 
 def test_long_packet(server, client):
     addr = ('localhost', 9099)
-    client.networkManager.send(addr, 'a' * (network_manager.maxBufferLength + 5))
+    client.networkManager.send(addr, 'a' * (client.networkManager.maxBufferLength + 5))
 
     stime = time.time()
     while time.time() < stime + 1:
