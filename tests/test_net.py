@@ -67,3 +67,17 @@ def test_bad_packets():
         nm.onGotPacket('i@3#b1', ('localhost', 9099))
         nm.onGotPacket('i' + '8' * 50000, ('localhost', 9099))
         nm.onGotPacket('i8' * 50000, ('localhost', 9099))
+
+
+def test_long_packet(server, client):
+    addr = ('localhost', 9099)
+    client.networkManager.send(addr, 'a' * (network_manager.maxBufferLength + 5))
+
+    stime = time.time()
+    while time.time() < stime + 1:
+        try:
+            client.recv()
+        except network_manager.ConnectionClosed:
+            return
+
+    assert False

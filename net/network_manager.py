@@ -2,6 +2,9 @@ import socket
 import select
 
 
+maxBufferLength = 10000
+
+
 class ConnectionClosed(BaseException):
     def __init__(self, conn):
         self.conn = conn
@@ -91,6 +94,11 @@ class NetworkManager:
                 raise ConnectionClosed(c)
 
             c.buffer += newData
+
+            if len(c.buffer) > maxBufferLength:
+                c.close()
+                raise ConnectionClosed(c)
+
             data = c.buffer.split('\0')
             c.buffer = data[-1]
             data = data[:-1]
