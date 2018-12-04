@@ -10,6 +10,10 @@ class ConnectionClosed(BaseException):
         self.conn = conn
 
 
+class BufferTooLong(ConnectionClosed):
+    pass
+
+
 class Connection:
     def __init__(self, conn, addr):
         self.conn, self.addr = conn, addr
@@ -97,7 +101,7 @@ class NetworkManager:
 
             if len(c.buffer) > maxBufferLength:
                 c.close()
-                raise ConnectionClosed(c)
+                raise BufferTooLong(c)
 
             data = c.buffer.split('\0')
             c.buffer = data[-1]
