@@ -168,7 +168,8 @@ class crystalRain(Card):
             destroy(target)
 
     def afterFight(self, enemy):
-        base.sweepAbility(self)
+        for player in self.game.players:
+            player.faceups.destroyAllUnits()
 
 
 class Templar(Player):
