@@ -77,9 +77,6 @@ class NetworkManager:
             tgt = next(x for x in self.connections if x.addr == target)
             tgt.conn.sendall(packet)
 
-    def sendInts(self, target, *args):
-        self.send(target, ":".join(str(x) for x in args))
-
     def recv(self):
         readers, writers, errors = select.select(
             [c.conn for c in self.connections], [], [], 0)
