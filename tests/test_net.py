@@ -50,6 +50,10 @@ def client():
     return cl
 
 
+def test_fake_server():
+    FakeServer()
+
+
 def test_sanity_check(server, client):
     stime = time.time()
     while time.time() < stime + 1 and len(client.recvdPackets) == 0:
