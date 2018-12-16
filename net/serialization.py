@@ -13,14 +13,19 @@ class DeserializationError(Exception):
 
 
 def serialize(args):
-    return ''.join([{int: 'i', bool: 'b'}[type(x)] +
+    return bytes(''.join([{int: 'i', bool: 'b'}[type(x)] +
                     (repr(int(x)) if isinstance(x, bool) else repr(x))
-                    for x in args])
+                    for x in args]), 'utf-8')
 
 
 def deserialize(packet):
     if len(packet) > maxPacketLength:
         raise DeserializationError('Packet is too long.')
+
+    try:
+        packet = packet.decode('utf-8')
+    except UnicodeDecodeError as e:
+        raise DeserializationError('Bad unicode', e)
 
     ret = []
 

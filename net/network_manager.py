@@ -14,7 +14,7 @@ class BufferTooLong(ConnectionClosed):
 class Connection:
     def __init__(self, conn, addr):
         self.conn, self.addr = conn, addr
-        self.buffer = ''
+        self.buffer = b''
 
     def close(self):
         self.conn.close()
@@ -66,7 +66,7 @@ class NetworkManager:
         self.sock.setblocking(0)
 
     def send(self, target, data):
-        packet = bytes(str(data) + '\0', 'utf-8')
+        packet = bytes(data) + b'\0'
 
         if self.verbose:
             print("Sent packet " + str(packet) + " to " + str(target))
@@ -88,11 +88,11 @@ class NetworkManager:
             c = next(x for x in self.connections if x.conn == conn)
 
             try:
-                newData = c.conn.recv(self.bufsize).decode()
+                newData = c.conn.recv(self.bufsize)
             except ConnectionResetError:
                 raise ConnectionClosed(c)
 
-            if newData == "":
+            if newData == b'':
                 raise ConnectionClosed(c)
 
             c.buffer += newData
@@ -101,7 +101,7 @@ class NetworkManager:
                 c.close()
                 raise BufferTooLong(c)
 
-            data = c.buffer.split('\0')
+            data = c.buffer.split(b'\0')
             c.buffer = data[-1]
             data = data[:-1]
 

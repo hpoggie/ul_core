@@ -8,7 +8,7 @@ def test_sanity_check():
 
 def test_invalid_characters():
     try:
-        deserialize('i1@34$')
+        deserialize(b'i1@34$')
     except DeserializationError:
         pass
     else:
@@ -17,7 +17,7 @@ def test_invalid_characters():
 
 def test_invalid_starting_character():
     try:
-        i = deserialize('00000')
+        i = deserialize(b'00000')
     except DeserializationError:
         pass
     else:
@@ -28,7 +28,7 @@ def test_invalid_starting_character():
 @pytest.mark.timeout(5, method='thread')
 def test_too_long_integer():
     try:
-        a = deserialize('i' + '6' * (10 ** 6))
+        a = deserialize(b'i' + b'6' * (10 ** 6))
     except DeserializationError:
         pass
     else:

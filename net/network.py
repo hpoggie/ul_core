@@ -51,7 +51,7 @@ class ServerNetworkManager (ULNetworkManager):
         try:
             operands = deserialize(packet)
         except DeserializationError:
-            print("Got malformed packet: " + packet)
+            print("Got malformed packet: " + repr(packet))
             return
 
         (opcode, operands) = (operands[0], operands[1:])
@@ -144,7 +144,7 @@ class ClientNetworkManager (ULNetworkManager):
         try:
             operands = deserialize(packet)
         except DeserializationError:
-            print("Got malformed packet: " + packet)
+            print("Got malformed packet: " + repr(packet))
             return
 
         (opcode, operands) = (operands[0], operands[1:])
