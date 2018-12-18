@@ -41,6 +41,13 @@ def testThiefAbilityWrongGuess():
     p0.thiefAbility(p0.hand[0], 'Corvus', c)
     assert c.zone is p1.facedowns
 
+    try:
+        p0.thiefAbility(p0.hand[0], 'Corvus', c)
+    except IllegalMoveError:
+        pass
+    else:
+        assert False
+
 
 def testThiefAbilityWrongPhase():
     game, p0, p1 = newGame(thieves.Thief)
