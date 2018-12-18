@@ -25,6 +25,23 @@ def testThiefAbility():
     else:
         assert False
 
+
+def testThiefAbilityWrongGuess():
+    game, p0, p1 = newGame(thieves.Thief)
+    game.start()
+
+    p0.endTurn()
+    p1.endPhase()
+    p1.endPhase()
+    c = next(c for c in p1.deck + p1.hand if c.name == 'Elephant')
+    c.zone = p1.facedowns
+
+    p1.endTurn()
+
+    p0.thiefAbility(p0.hand[0], 'Corvus', c)
+    assert c.zone is p1.facedowns
+
+
 def testThiefAbilityWrongPhase():
     game, p0, p1 = newGame(thieves.Thief)
     game.start()
