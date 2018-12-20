@@ -206,3 +206,7 @@ class Templar(Player):
         if self.game.phase == Phase.play:
             self.templarAbility(target)
         super().endPhase()
+
+
+for c in allCards:
+    c.iconPath = Templar.iconPath

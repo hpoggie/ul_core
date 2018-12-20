@@ -227,3 +227,7 @@ class Thief(Player):
         discard.zone = discard.owner.graveyard
 
         self.popAction()
+
+
+for c in allCards:
+    c.iconPath = Thief.iconPath

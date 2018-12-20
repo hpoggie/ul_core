@@ -176,3 +176,7 @@ class Faerie(Player):
     def endPhase(self, card=None):
         self.failIfInactive()
         self.game.endPhase(keepFacedown=[card])
+
+
+for c in allCards:
+    c.iconPath = Faerie.iconPath

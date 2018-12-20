@@ -63,4 +63,8 @@ class mindControlTrap(Card):
 
 
 allCards = [elephant, sweep, spellBlade, mindControlTrap]
+
+for c in allCards:
+    c.iconPath = Card().imagePath
+
 deck = [sweep(), spellBlade(), mindControlTrap()]

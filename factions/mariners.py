@@ -214,3 +214,7 @@ class Mariner(Player):
 
         if self.game.phase == Phase.play and fish:
             self.fish()
+
+
+for c in allCards:
+    c.iconPath = Mariner.iconPath
