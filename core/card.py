@@ -190,4 +190,4 @@ class Card:
 
     @property
     def imagePath(self):
-        return self.owner.iconPath + '/' + self.image
+        return self.iconPath + '/' + self.image
