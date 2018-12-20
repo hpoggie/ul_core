@@ -165,6 +165,11 @@ class humboldtSquid(AquaticCard):
         self.rank = 1
 
 
+allCards = [humboldtSquid, braintwister, nuisanceFlooding,
+              highTide, grandJelly, unexpectedShark, kraken,
+              voidstar, ripCurrent]
+
+
 class Mariner(Player):
     iconPath = "mariner_icons"
     cardBack = "nautilus-shell.png"

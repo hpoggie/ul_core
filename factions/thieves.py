@@ -172,6 +172,11 @@ class heavyLightning(Card):
         self.controller.drawCards(3)
 
 
+allCards = [fog, spectralCrab, spellHound, doubleDragon,
+        headLightning, roseEmblem, daggerEmblem, hydra,
+        timeBeing, heavyLightning, spellScalpel]
+
+
 class Thief(Player):
     name = "Thieves"
     iconPath = "thief_icons"

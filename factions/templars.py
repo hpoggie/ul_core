@@ -172,6 +172,11 @@ class crystalRain(Card):
             player.faceups.destroyAllUnits()
 
 
+allCards = [corvus, leftGrail, rightGrail, equus, guardianAngel,
+            holyHandGrenade, wrathOfGod, archangel, miracle,
+            crystalLance, crystalRain, crystalElemental, invest]
+
+
 class Templar(Player):
     name = "Templars"
     iconPath = "templar_icons"

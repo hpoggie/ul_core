@@ -153,6 +153,11 @@ class fireDust(Card):
             c2.rank -= 1
 
 
+allCards = [faerieMoth, oberonsGuard, titaniasGuard,
+        preciseDiscard, mesmerism, returnToSender,
+        enchantersTrap, radiance, fireDust]
+
+
 class Faerie(Player):
     name = "Fae"
     iconPath = "fae_icons"

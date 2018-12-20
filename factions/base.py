@@ -62,4 +62,5 @@ class mindControlTrap(Card):
         enemy.zone = self.controller.faceups
 
 
+allCards = [elephant, sweep, spellBlade, mindControlTrap]
 deck = [sweep(), spellBlade(), mindControlTrap()]
