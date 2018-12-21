@@ -173,6 +173,7 @@ allCards = [humboldtSquid, braintwister, nuisanceFlooding,
 
 
 class Mariner(Player):
+    iconPath = iconPath
     cardBack = "nautilus-shell.png"
     deck = deck(humboldtSquid, 5,
               braintwister, 4,

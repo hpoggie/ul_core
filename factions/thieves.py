@@ -181,6 +181,7 @@ allCards = [fog, spectralCrab, spellHound, doubleDragon,
 
 class Thief(Player):
     name = "Thieves"
+    iconPath = iconPath
     cardBack = "dagger-rose.png"
     deck = deck(
         base.elephant,

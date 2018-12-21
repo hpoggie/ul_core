@@ -162,6 +162,7 @@ allCards = [faerieMoth, oberonsGuard, titaniasGuard,
 
 class Faerie(Player):
     name = "Fae"
+    iconPath = iconPath
     cardBack = "fairy.png"
     deck = deck(
         faerieMoth, 5,
