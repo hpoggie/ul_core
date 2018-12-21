@@ -13,7 +13,11 @@ availableFactions = [
 
 allCards = {}
 
+i = 0
+
 for module in (base, templars, mariners, thieves, fae):
     for card in module.allCards:
         allCards[card.__name__] = card
         card.iconPath = module.iconPath
+        card.cardId = i
+        i += 1
