@@ -6,6 +6,8 @@ from ul_core.core.card import Card
 from ul_core.core.game import destroy, Phase
 from ul_core.core.faction import deck
 
+iconPath = "thief_icons"
+
 
 class MultiattackCard(Card):
     def __init__(self, **kwargs):
@@ -179,7 +181,6 @@ allCards = [fog, spectralCrab, spellHound, doubleDragon,
 
 class Thief(Player):
     name = "Thieves"
-    iconPath = "thief_icons"
     cardBack = "dagger-rose.png"
     deck = deck(
         base.elephant,
@@ -227,7 +228,3 @@ class Thief(Player):
         discard.zone = discard.owner.graveyard
 
         self.popAction()
-
-
-for c in allCards:
-    c.iconPath = Thief.iconPath

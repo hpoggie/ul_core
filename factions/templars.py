@@ -4,6 +4,8 @@ from ul_core.core.card import Card
 from ul_core.core.faction import deck
 from ul_core.core.player import Player
 
+iconPath = "templar_icons"
+
 
 class equus(Card):
     name = "Equus"
@@ -179,7 +181,6 @@ allCards = [corvus, leftGrail, rightGrail, equus, guardianAngel,
 
 class Templar(Player):
     name = "Templars"
-    iconPath = "templar_icons"
     cardBack = "templar-shield.png"
     deck = deck(
             corvus, 5,
@@ -206,7 +207,3 @@ class Templar(Player):
         if self.game.phase == Phase.play:
             self.templarAbility(target)
         super().endPhase()
-
-
-for c in allCards:
-    c.iconPath = Templar.iconPath

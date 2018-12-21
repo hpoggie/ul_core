@@ -1,8 +1,7 @@
 from ul_core.core.game import destroy
 import ul_core.core.card as card
 
-
-imagePath = 'base_icons/'
+iconPath = 'base_icons/'
 
 
 class elephant(card.Card):
@@ -57,8 +56,4 @@ class mindControlTrap(card.Card):
 
 
 allCards = [elephant, sweep, spellBlade, mindControlTrap]
-
-for c in allCards:
-    c.iconPath = imagePath
-
 deck = [sweep(), spellBlade(), mindControlTrap()]

@@ -5,6 +5,8 @@ from ul_core.core.card import Card
 from ul_core.core.game import destroy
 import ul_core.factions.base as base
 
+iconPath = "fae_icons"
+
 
 class faerieMoth(Card):
     name = "Faerie Moth"
@@ -160,7 +162,6 @@ allCards = [faerieMoth, oberonsGuard, titaniasGuard,
 
 class Faerie(Player):
     name = "Fae"
-    iconPath = "fae_icons"
     cardBack = "fairy.png"
     deck = deck(
         faerieMoth, 5,
@@ -176,7 +177,3 @@ class Faerie(Player):
     def endPhase(self, card=None):
         self.failIfInactive()
         self.game.endPhase(keepFacedown=[card])
-
-
-for c in allCards:
-    c.iconPath = Faerie.iconPath

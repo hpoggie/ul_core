@@ -16,3 +16,4 @@ allCards = {}
 for module in (base, templars, mariners, thieves, fae):
     for card in module.allCards:
         allCards[card.__name__] = card
+        card.iconPath = module.iconPath
