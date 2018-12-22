@@ -40,7 +40,7 @@ def deserialize(packet):
             raise DeserializationError('Bad type specifier', e)
 
         try:
-            i = int(s[1:])
+            i = t(s[1:])
         except ValueError as e:
             raise DeserializationError('Bad literal', e)
 
