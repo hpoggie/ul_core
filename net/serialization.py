@@ -13,9 +13,16 @@ class DeserializationError(Exception):
 
 
 def serialize(args):
-    return bytes(''.join([{int: 'i', bool: 'b'}[type(x)] +
-                    (repr(int(x)) if isinstance(x, bool) else repr(x))
-                    for x in args]), 'utf-8')
+    def typeSpecifier(x):
+        return {int: 'i', bool: 'b'}[type(x)]
+
+    def data(x):
+        if isinstance(x, bool):
+            x = int(x)
+
+        return repr(x)
+
+    return bytes(''.join([typeSpecifier(x) + data(x) for x in args]), 'utf-8')
 
 
 def deserialize(packet):
