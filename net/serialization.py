@@ -17,10 +17,7 @@ def serialize(args):
         return {int: 'i', bool: 'b'}[type(x)]
 
     def data(x):
-        if isinstance(x, bool):
-            x = int(x)
-
-        return repr(x)
+        return repr(int(x))
 
     return bytes(''.join([typeSpecifier(x) + data(x) for x in args]), 'utf-8')
 
