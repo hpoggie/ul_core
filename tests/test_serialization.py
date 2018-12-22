@@ -3,7 +3,16 @@ from net.serialization import serialize, deserialize, DeserializationError
 
 
 def test_sanity_check():
-    deserialize(serialize([135, True]))
+    deserialize(serialize([135, True, 'abc']))
+
+
+def test_no_separator():
+    try:
+        deserialize(b'i1i2s3')
+    except DeserializationError:
+        pass
+    else:
+        assert False
 
 
 def test_invalid_characters():

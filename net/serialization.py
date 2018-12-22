@@ -14,12 +14,16 @@ class DeserializationError(Exception):
 
 def serialize(args):
     def typeSpecifier(x):
-        return {int: 'i', bool: 'b'}[type(x)]
+        return {int: 'i', bool: 'b', str: 's'}[type(x)]
 
     def data(x):
-        return repr(int(x))
+        return x if isinstance(x, str) else repr(int(x))
 
-    return bytes(''.join([typeSpecifier(x) + data(x) for x in args]), 'utf-8')
+    # \uffff is guaranteed not to be a valid unicode character.
+    # Thus it will never be part of a string that we would
+    # want to serialize and can be used as a separator for strings
+    return bytes('\uffff'.join([typeSpecifier(x) + data(x) for x in args]),
+                 'utf-8')
 
 
 def deserialize(packet):
@@ -33,9 +37,9 @@ def deserialize(packet):
 
     ret = []
 
-    for s in re.findall('[a-z][^a-z]*', packet):
+    for s in re.findall('[a-z][^\uffff]+', packet):
         try:
-            t = {'i': int, 'b': bool}[s[0]]
+            t = {'i': int, 'b': bool, 's': str}[s[0]]
         except KeyError as e:
             raise DeserializationError('Bad type specifier', e)
 
