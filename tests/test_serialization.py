@@ -6,6 +6,11 @@ def test_sanity_check():
     deserialize(serialize([135, True, 'abc']))
 
 
+def test_bools():
+    lst = [False, True, False]
+    assert lst == deserialize(serialize(lst))
+
+
 def test_no_separator():
     try:
         deserialize(b'i1i2s3')

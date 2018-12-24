@@ -12,6 +12,15 @@ class DeserializationError(Exception):
     pass
 
 
+def intStringToBool(s):
+    """
+    Python reads bool('0') as True for some weird reason.
+    It also reads bool('False') as True, so just using
+    repr wouldn't help.
+    """
+    return bool(int(s))
+
+
 def serialize(args):
     def typeSpecifier(x):
         return {int: 'i', bool: 'b', str: 's'}[type(x)]
@@ -39,7 +48,7 @@ def deserialize(packet):
 
     for s in re.findall('[a-z][^\uffff]+', packet):
         try:
-            t = {'i': int, 'b': bool, 's': str}[s[0]]
+            t = {'i': int, 'b': intStringToBool, 's': str}[s[0]]
         except KeyError as e:
             raise DeserializationError('Bad type specifier', e)
 
