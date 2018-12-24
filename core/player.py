@@ -39,6 +39,7 @@ class Player:
         for i, card in enumerate(self.deck):
             card.owner = self
             card._zone = self.deck
+            card.cardId = i
 
         # Add extra data so we can find zones by index
         self.zones = [
