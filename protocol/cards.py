@@ -1,18 +1,13 @@
-class ZIE:
-    """
-    ZIE = Zone, Index, Enemy
-    Enemy is true if this is controlled by the opponent.
+import collections
+"""
+ZIE = Zone, Index, Enemy
+Enemy is true if this is controlled by the opponent.
 
-    ZIE is relative to a player, meaning if you get a ZIE from a client, enemy
-    is true if it's controlled by that client's opponent. If you get a ZIE from
-    the server, enemy is true if the card is controlled by your opponent.
-    """
-
-    def __init__(self, zone, index, enemy):
-        self.zone = zone
-        self.index = index
-        self.enemy = enemy
-
+ZIE is relative to a player, meaning if you get a ZIE from a client, enemy
+is true if it's controlled by that client's opponent. If you get a ZIE from
+the server, enemy is true if the card is controlled by your opponent.
+"""
+ZIE = collections.namedtuple('ZIE', ['zone', 'index', 'enemy'])
 
 ZIE.Null = ZIE(-1, -1, False)
 
