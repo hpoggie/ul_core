@@ -7,12 +7,14 @@ class ZIE:
     is true if it's controlled by that client's opponent. If you get a ZIE from
     the server, enemy is true if the card is controlled by your opponent.
     """
-    Null = ZIE(-1, -1, False)
 
     def __init__(self, zone, index, enemy):
         self.zone = zone
         self.index = index
         self.enemy = enemy
+
+
+ZIE.Null = ZIE(-1, -1, False)
 
 
 def zieToCard(pl, zie):
