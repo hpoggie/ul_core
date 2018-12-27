@@ -2,6 +2,7 @@
 *.swo
 *.swp
 build/
+dist/
 wheels/
 *.egg-info
 .cache/
