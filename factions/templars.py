@@ -10,7 +10,7 @@ iconPath = "templar_icons"
 class equus(Card):
     name = "Equus"
     image = "horse-head.png"
-    cost = 3
+    cost = 4
     desc = "Rank: 5 if your mana cap is odd, 2 if it's even."
 
     @property
@@ -54,11 +54,11 @@ class corvus(Card):
     name = "Corvus"
     image = "raven.png"
     cost = 1
-    rank = 1
-    desc = "On Spawn: add 1 to your mana cap."
+    desc = "Rank: 2 if your mana cap is odd, 3 if it's even."
 
-    def onSpawn(self):
-        self.controller.manaCap += 1
+    @property
+    def rank(self):
+        return 1 if (self.controller.manaCap % 2 == 0) else 2
 
 
 class miracle(Card):
@@ -124,12 +124,9 @@ class guardianAngel(Card):
     name = "Guardian Angel"
     image = "winged-shield.png"
     cost = 4
+    rank = 4
     taunt = True
-    desc = "Taunt. Rank: 3 if your mana cap is odd, 5 if it's even."
-
-    @property
-    def rank(self):
-        return 5 if (self.controller.manaCap % 2 == 0) else 3
+    desc = "Taunt."
 
 
 class crystalLance(Card):
@@ -154,9 +151,10 @@ class crystalLance(Card):
 class crystalRain(Card):
     name = "Crystal Rain"
     image = "crystal-bars.png"
-    cost = 5
+    cost = 4
     rank = 's'
-    desc = ("Destroy target face-down card. "
+    fast = True
+    desc = ("Fast. Destroy target face-down card. "
             "If this is attacked while face-down, "
             "destroy all face-up units.")
     targetDesc = "Destroy target face-down card."
