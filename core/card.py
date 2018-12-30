@@ -97,18 +97,33 @@ class Card:
         self.spawn(target)
 
     def spawn(self, target=None, newController=None):
+        self.pushSpawn(newController=newController)
+        self.controller.popAction()
+        if self.requiresTarget:
+            self.controller.replaceCallback(target)
+            self.controller.replaceCallback = None
+            self.controller.popAction()
+
+    def pushSpawn(self, newController=None):
         if newController is None:
             newController = self.controller
 
         self.zone = newController.faceups
-        if self.requiresTarget:
-            if target is not None and target.isValidTarget:
-                self.onSpawn(target)
-        else:
-            self.onSpawn()
+
+        def cleanupSpell():
+            self.zone = self.owner.graveyard
 
         if self.spell and not self.continuous:
-            self.zone = self.owner.graveyard
+            newController.pushAction(cleanupSpell)
+
+        if self.requiresTarget:
+            def doActionWithTarget(target):
+                if target is not None and target.isValidTarget:
+                    self.onSpawn(target)
+
+            newController.pushAction(doActionWithTarget)
+        else:
+            newController.pushAction(lambda: self.onSpawn())
 
     def attack(self, target):
         self.hasAttacked = True
