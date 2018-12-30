@@ -22,14 +22,14 @@ class oberonsGuard(Card):
     image = 'elf-helmet.png'
     cost = 2
     rank = 2
-    desc = ("When this spawns, you may return target face-down card you "
-            "control to its owner's hand.")
+    desc = ("On Spawn: you may turn target face-up card you "
+            "control face-down.")
 
     def onSpawn(self, target):
-        if target.zone is not self.controller.facedowns:
+        if target.zone is not self.controller.faceups:
             raise InvalidTargetError()
 
-        target.zone = target.owner.hand
+        target.zone = target.controller.facedowns
 
 
 class titaniasGuard(Card):
