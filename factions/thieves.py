@@ -40,7 +40,7 @@ class spectralCrab(Card):
     name = "Spectral Crab"
     image = 'crab.png'
     cost = 2
-    desc = "Has rank 4 while face-down."
+    desc = "Rank: 4 while face-down, 2 otherwise."
 
     @property
     def rank(self):
@@ -52,7 +52,7 @@ class timeBeing(Card):
     image = 'dead-eye.png'
     cost = 12
     rank = 3
-    desc = "When this spawns, take an extra turn after this one."
+    desc = "On Spawn: take an extra turn after this one."
 
     def onSpawn(self):
         self.controller.takeExtraTurn()
@@ -133,7 +133,7 @@ class spellHound(Card):
     image = 'wolf-howl.png'
     cost = 3
     rank = 2
-    desc = "When this spawns, look at your opponent's hand."
+    desc = "On Spawn: look at your opponent's hand."
 
     def onSpawn(self):
         for c in self.controller.opponent.hand:
