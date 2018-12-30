@@ -11,8 +11,7 @@ class equus(Card):
     name = "Equus"
     image = "horse-head.png"
     cost = 3
-    desc = ("Has rank 2 if your mana cap is even and rank 5 if your mana cap "
-            "is odd.")
+    desc = "Rank: 5 if your mana cap is odd, 2 if it's even."
 
     @property
     def rank(self):
@@ -32,7 +31,7 @@ class holyHandGrenade(Card):
     fast = True
     cost = 4
     rank = 's'
-    desc = "Destroy target card."
+    desc = "Fast. Destroy target card."
 
     def onSpawn(self, target):
         destroy(target)
@@ -44,7 +43,7 @@ class wrathOfGod(Card):
     cost = 5
     rank = 's'
     fast = True
-    desc = "Destroy all face-up units."
+    desc = "Fast. Destroy all face-up units."
 
     def onSpawn(self):
         for player in self.game.players:
@@ -56,7 +55,7 @@ class corvus(Card):
     image = "raven.png"
     cost = 1
     rank = 1
-    desc = "When this spawns, add 1 to your mana cap."
+    desc = "On Spawn: add 1 to your mana cap."
 
     def onSpawn(self):
         self.controller.manaCap += 1
@@ -102,8 +101,7 @@ class leftGrail(Card):
     image = "holy-grail.png"
     cost = 2
     taunt = True
-    desc = ("Taunt. Has rank 2 if your mana cap is even and rank 3 if your "
-            "mana cap is odd.")
+    desc = "Taunt. Rank: 3 if your mana cap is odd, 2 if it's even."
 
     @property
     def rank(self):
@@ -115,8 +113,7 @@ class rightGrail(Card):
     image = "holy-grail.png"
     cost = 2
     taunt = True
-    desc = ("Taunt. Has rank 3 if your mana cap is even and rank 2 if your "
-            "mana cap is odd.")
+    desc = "Taunt. Rank: 2 if your mana cap is odd, 3 if it's even."
 
     @property
     def rank(self):
@@ -128,8 +125,7 @@ class guardianAngel(Card):
     image = "winged-shield.png"
     cost = 4
     taunt = True
-    desc = ("Taunt. Has rank 5 if your mana cap is even and rank 3 if your "
-            "mana cap is odd.")
+    desc = "Taunt. Rank: 3 if your mana cap is odd, 5 if it's even."
 
     @property
     def rank(self):
