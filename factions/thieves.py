@@ -75,8 +75,8 @@ class fog(Card):
     image = 'frog.png'
     cost = 1
     rank = 1
-    isValidTarget = False
-    desc = "This can't be the target of spells or abilities."
+    taunt = True
+    desc = "Taunt."
 
 
 class hydra(MultiattackCard):
