@@ -69,19 +69,6 @@ def testThiefAbilityWrongPhase():
     else:
         assert False
 
-def testFog():
-    game, p0, p1 = newGame([thieves.fog()], [base.spellBlade()])
-    game.start()
-
-    p0.endPhase()
-    p0.play(0)
-    p0.endTurn()
-
-    p1.mana = 3
-    p1.playFaceup(0, p0.facedowns[0])
-    assert len(p0.facedowns) == 1
-
-
 def testHydra():
     game, p0, p1 = newGame(
         [thieves.hydra()],
