@@ -104,9 +104,9 @@ def testMiracleNotEnoughCards():
     assert len(p0.hand) == 2
 
 
-def testGrail():
+def testGargoyle():
     game, p0, p1 = newGame()
-    c = templars.leftGrail()
+    c = templars.gargoyle()
     c.owner = p0
     c.zone = p0.faceups
     c = templars.corvus()
