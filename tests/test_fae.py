@@ -53,7 +53,7 @@ def test_faerie_dragon():
     fd = fae.faerieDragon(owner=p0, game=game, zone=p0.faceups)
     destroy(fd)
 
-    assert fd.zone is p0.hand
+    assert fd.zone is p0.facedowns
 
 
 def test_mesmerism():
@@ -64,10 +64,11 @@ def test_mesmerism():
     c3 = dummyCards.one(owner=p1, game=game, zone=p1.faceups)
 
     mes = fae.mesmerism(owner=p0, game=game, zone=p0.facedowns)
-    p0.mana = 2
+    p0.mana = 10
     p0.revealFacedown(mes)
 
     assert len(p1.faceups) == 0
+    assert len(p0.faceups) == 3
 
 
 def test_return_to_sender():
@@ -77,7 +78,7 @@ def test_return_to_sender():
         dummyCards.one(owner=p1, game=game, zone=p1.facedowns)
 
     rts = fae.returnToSender(owner=p0, game=game, zone=p0.facedowns)
-    p0.mana = 3
+    p0.mana = 9
     p0.revealFacedown(rts)
 
     assert len(p1.facedowns) == 0
