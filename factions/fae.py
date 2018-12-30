@@ -126,8 +126,20 @@ class radiance(Card):
         self.controller.pushAction(nextCard)
 
 
+class wildMagic(Card):
+    name = "Wild Magic"
+    image = 'spiky-explosion.png'
+    cost = 5
+    rank = 'il'
+    desc = "Discard your hand. Draw three cards."
+
+    def onSpawn(self):
+        self.controller.hand.destroyAll()
+        self.controller.drawCards(3)
+
+
 allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,
-            enchantersTrap, radiance]
+            enchantersTrap, radiance, wildMagic]
 
 
 class Faerie(Player):
@@ -141,7 +153,8 @@ class Faerie(Player):
         mesmerism, 1,
         returnToSender, 1,
         enchantersTrap, 2,
-        radiance, 2) + base.deck
+        radiance, 2,
+        wildMagic, 2) + base.deck
 
     def endPhase(self, card=None):
         self.failIfInactive()
