@@ -107,19 +107,23 @@ class enchantersTrap(Card):
 class radiance(Card):
     name = "Radiance"
     image = 'sun.png'
-    cost = 4
+    cost = 8
     rank = 'il'
-    continuous = True
-    desc = ("Until end of turn, for every 1 damage you deal to your opponent,"
-            "they must discard a random card.")
+    desc = "Turn all your face-down cards face-up."
 
-    def afterDealDamage(self, player, amount):
-        if player is self.controller.opponent:
-            for i in range(amount):
-                player.discardRandom()
+    def onSpawn(self):
+        player = self.controller
 
-    def beforeEndTurn(self):
-        destroy(self)
+        def nextCard():
+            try:
+                c = player.facedowns[0]
+            except IndexError:
+                pass
+            else:
+                self.controller.pushAction(nextCard)
+                c.pushSpawn()
+
+        self.controller.pushAction(nextCard)
 
 
 allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,
