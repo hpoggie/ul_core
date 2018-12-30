@@ -46,26 +46,6 @@ class titaniasGuard(Card):
         target.zone = target.controller.facedowns
 
 
-class preciseDiscard(Card):
-    name = "Precise Discard"
-    image = 'card-pick.png'
-    cost = 2
-    rank = 'il'
-    desc = "Look at your opponent's hand and discard a card from it."
-
-    def onSpawn(self):
-        for c in self.controller.opponent.hand:
-            c.visible = True
-
-        def discard(card):
-            if card.zone is not self.controller.opponent.hand:
-                raise InvalidTargetError()
-
-            card.zone = card.owner.graveyard
-
-        self.controller.pushAction(discard)
-
-
 class faerieDragon(Card):
     name = "Faerie Dragon"
     image = 'chameleon-glyph.png'
@@ -142,26 +122,8 @@ class radiance(Card):
         destroy(self)
 
 
-class fireDust(Card):
-    name = "Fire Dust"
-    image = 'hot-spices.png'
-    cost = 3
-    rank = 'il'
-    continuous = True
-    desc = "Your units have +1 rank while attacking."
-
-    def beforeAnyFight(self, c1, c2):
-        if c2.controller is self.controller:
-            c2.rank += 1
-
-    def afterAnyFight(self, c1, c2):
-        if c2.controller is self.controller:
-            c2.rank -= 1
-
-
-allCards = [faerieMoth, oberonsGuard, titaniasGuard,
-        preciseDiscard, mesmerism, returnToSender,
-        enchantersTrap, radiance, fireDust]
+allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,
+            enchantersTrap, radiance]
 
 
 class Faerie(Player):
@@ -172,12 +134,10 @@ class Faerie(Player):
         faerieMoth, 5,
         oberonsGuard, 2,
         titaniasGuard, 2,
-        preciseDiscard, 2,
         mesmerism, 1,
         returnToSender, 1,
         enchantersTrap, 2,
-        radiance, 2,
-        fireDust, 3) + base.deck
+        radiance, 2) + base.deck
 
     def endPhase(self, card=None):
         self.failIfInactive()
