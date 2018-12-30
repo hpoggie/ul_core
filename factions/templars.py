@@ -161,7 +161,7 @@ allCards = [corvus, gargoyle, equus, guardianAngel, holyHandGrenade,
 class Templar(Player):
     name = "Templars"
     iconPath = iconPath
-    cardBack = "templar-shield.png"
+    cardBack = "egyptian-temple.png"
     deck = deck(
             corvus, 5,
             gargoyle, 4,
