@@ -153,7 +153,7 @@ class braintwister(AquaticCard):
     image = 'braintwister.png'
     cost = 2
     rank = 2
-    desc = ("Aquatic. When this spawns, your opponent discards a random "
+    desc = ("Aquatic. On Spawn: your opponent discards a random "
             "card.")
 
     def onSpawn(self):
