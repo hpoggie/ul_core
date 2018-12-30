@@ -138,8 +138,22 @@ class wildMagic(Card):
         self.controller.drawCards(3)
 
 
+class gatewayToFaerie(Card):
+    name = "Gateway to Faerie"
+    image = 'magic-portal.png'
+    cost = 3
+    rank = 'il'
+    desc = "Turn target face-down card face-up."
+
+    def onSpawn(self, target):
+        if not target.facedown:
+            raise InvalidTargetError()
+
+        target.pushSpawn()
+
+
 allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,
-            enchantersTrap, radiance, wildMagic]
+            enchantersTrap, radiance, wildMagic, gatewayToFaerie]
 
 
 class Faerie(Player):
@@ -154,7 +168,8 @@ class Faerie(Player):
         returnToSender, 1,
         enchantersTrap, 2,
         radiance, 2,
-        wildMagic, 2) + base.deck
+        wildMagic, 2,
+        gatewayToFaerie, 3) + base.deck
 
     def endPhase(self, card=None):
         self.failIfInactive()

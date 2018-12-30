@@ -110,6 +110,17 @@ def test_radiance_head_lightning():
     assert p0.replaceCallback is not None
 
 
+def test_gateway():
+    game, p0, p1 = newGame()
+
+    gateway = fae.gatewayToFaerie(owner=p0, game=game, zone=p0.facedowns)
+    one = dummyCards.one(owner=p0, game=game, zone=p0.facedowns)
+
+    p0.mana = gateway.cost
+    p0.revealFacedown(gateway, one)
+    assert one.zone is p0.faceups
+
+
 def test_titanias_guard():
     game, p0, p1 = newGame()
 
