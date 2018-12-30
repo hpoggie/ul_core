@@ -77,7 +77,7 @@ class crystalElemental(Card):
     image = "crystal-cluster.png"
     cost = 7
     rank = 4
-    desc = "Whenever you destroy an enemy face-down card, draw a card."
+    desc = "Whenever an enemy face-down card is destroyed, draw a card."
 
     def beforeDestroy(self, card):
         if card.zone is self.controller.opponent.facedowns:
