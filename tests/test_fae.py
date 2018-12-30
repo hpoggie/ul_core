@@ -2,6 +2,7 @@ from core.card import Card
 from core.game import destroy
 from ul_core.core.exceptions import InvalidTargetError, IllegalMoveError
 import factions.fae as fae
+import factions.thieves as thieves  # For Head Lightning
 from .util import newGame
 from . import dummyCards
 
@@ -96,6 +97,17 @@ def test_radiance():
     assert left.zone == p0.faceups
     assert right.zone == p0.faceups
     assert right2.zone == p0.faceups
+
+
+def test_radiance_head_lightning():
+    game, p0, p1 = newGame()
+
+    rad = fae.radiance(owner=p0, game=game, zone=p0.facedowns)
+    thieves.headLightning(owner=p0, game=game, zone=p0.facedowns)
+
+    p0.mana = rad.cost
+    p0.revealFacedown(rad)
+    assert p0.replaceCallback is not None
 
 
 def test_titanias_guard():
