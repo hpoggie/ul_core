@@ -87,17 +87,28 @@ class grandJelly(AquaticCard):
     desc = "Aquatic. Taunt."
 
 
-class ripCurrent(AquaticCard):
+class ripCurrent(Card):
     name = "Rip Current"
     image = 'water-bolt.png'
     cost = 9
     rank = 's'
-    desc = ("Aquatic. Destroy all your opponent's face-up units "
-            "and face-down cards.")
+    continuous = True
+    desc = ("Destroy all your opponent's face-up units "
+            "and face-down cards. Flood the battlefield for 4 turns.")
 
     def onSpawn(self):
         self.controller.opponent.facedowns.destroyAll()
         self.controller.opponent.faceups.destroyAllUnits()
+        self.counter = 4
+        flood(self.game)
+
+    def beforeEndTurn(self):
+        self.counter -= 1
+        if self.counter <= 0:
+            self.game.destroy(self)
+
+    def onDeath(self):
+        unflood(self.game)
 
 
 class highTide(Card):
@@ -154,14 +165,15 @@ class humboldtSquid(AquaticCard):
     image = 'tentacle-strike.png'
     cost = 1
     rank = 1
-    desc = "Aquatic. This has rank 5 while attacking a unit."
+    fast = True
+    desc = "Aquatic. Fast. This has rank 5 while attacking a unit."
 
     def beforeAnyFight(self, target, attacker):
         # TODO: black magic
         # 2nd arg is always the attacker
         # find cleaner way to do this
         if attacker == self and isinstance(target, Card):
-            self.rank = 5
+            self.rank = 4
 
     def afterFight(self, target):
         self.rank = 1
