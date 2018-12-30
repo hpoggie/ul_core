@@ -54,7 +54,7 @@ class corvus(Card):
     name = "Corvus"
     image = "raven.png"
     cost = 1
-    desc = "Rank: 2 if your mana cap is odd, 3 if it's even."
+    desc = "Rank: 2 if your mana cap is odd, 1 if it's even."
 
     @property
     def rank(self):
