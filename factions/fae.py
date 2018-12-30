@@ -113,15 +113,17 @@ class radiance(Card):
 
     def onSpawn(self):
         player = self.controller
+        affectedCards = []  # Don't turn the same card face-up twice
 
         def nextCard():
             try:
-                c = player.facedowns[0]
-            except IndexError:
+                c = next(c for c in player.facedowns if c not in affectedCards)
+            except StopIteration:
                 pass
             else:
                 self.controller.pushAction(nextCard)
                 c.pushSpawn()
+                affectedCards.append(c)
 
         self.controller.pushAction(nextCard)
 

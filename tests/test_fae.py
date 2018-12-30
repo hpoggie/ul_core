@@ -110,6 +110,16 @@ def test_radiance_head_lightning():
     assert p0.replaceCallback is not None
 
 
+def test_radiance_enchanters_trap():
+    game, p0, p1 = newGame()
+
+    rad = fae.radiance(owner=p0, game=game, zone=p0.facedowns)
+    ec = fae.enchantersTrap(owner=p0, game=game, zone=p0.facedowns)
+
+    p0.mana = rad.cost
+    p0.revealFacedown(rad)
+
+
 def test_gateway():
     game, p0, p1 = newGame()
 
