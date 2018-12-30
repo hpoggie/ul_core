@@ -152,8 +152,22 @@ class gatewayToFaerie(Card):
         target.pushSpawn()
 
 
+class dullahan(Card):
+    name = "Dullahan"
+    image = 'dullahan.png'
+    cost = 3
+    rank = 2
+    desc = ("On Spawn: Name a card, then look at all enemy face-down cards and "
+            "Destroy all of them with the chosen name.")
+
+    def onSpawn(self, name):
+        for c in self.controller.opponent.facedowns:
+            if c.name == name:
+                destroy(c)
+
+
 allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,
-            enchantersTrap, radiance, wildMagic, gatewayToFaerie]
+            enchantersTrap, radiance, wildMagic, gatewayToFaerie, dullahan]
 
 
 class Faerie(Player):
@@ -169,7 +183,8 @@ class Faerie(Player):
         enchantersTrap, 2,
         radiance, 2,
         wildMagic, 2,
-        gatewayToFaerie, 3) + base.deck
+        gatewayToFaerie, 3,
+        dullahan, 2) + base.deck
 
     def endPhase(self, card=None):
         self.failIfInactive()
