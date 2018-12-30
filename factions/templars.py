@@ -96,28 +96,13 @@ class invest(Card):
         self.controller.drawCard()
 
 
-class leftGrail(Card):
-    name = "Left Grail"
-    image = "holy-grail.png"
+class gargoyle(Card):
+    name = "Gargoyle"
+    image = "gargoyle.png"
     cost = 2
+    rank = 2
     taunt = True
-    desc = "Taunt. Rank: 3 if your mana cap is odd, 2 if it's even."
-
-    @property
-    def rank(self):
-        return 2 if (self.controller.manaCap % 2 == 0) else 3
-
-
-class rightGrail(Card):
-    name = "Right Grail"
-    image = "holy-grail.png"
-    cost = 2
-    taunt = True
-    desc = "Taunt. Rank: 2 if your mana cap is odd, 3 if it's even."
-
-    @property
-    def rank(self):
-        return 3 if (self.controller.manaCap % 2 == 0) else 2
+    desc = "Taunt."
 
 
 class guardianAngel(Card):
@@ -168,9 +153,9 @@ class crystalRain(Card):
             player.faceups.destroyAllUnits()
 
 
-allCards = [corvus, leftGrail, rightGrail, equus, guardianAngel,
-            holyHandGrenade, wrathOfGod, archangel, miracle,
-            crystalLance, crystalRain, crystalElemental, invest]
+allCards = [corvus, gargoyle, equus, guardianAngel, holyHandGrenade,
+            wrathOfGod, archangel, miracle, crystalLance, crystalRain,
+            crystalElemental, invest]
 
 
 class Templar(Player):
@@ -179,8 +164,7 @@ class Templar(Player):
     cardBack = "templar-shield.png"
     deck = deck(
             corvus, 5,
-            leftGrail, 2,
-            rightGrail, 2,
+            gargoyle, 4,
             equus, 3,
             guardianAngel, 2,
             base.elephant,
