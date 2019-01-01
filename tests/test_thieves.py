@@ -140,3 +140,16 @@ def testHeavyLightning():
     assert len(p1.faceups) == 0
     assert len(p1.facedowns) == 0
     assert len(p0.hand) == 3
+
+
+def test_time_being():
+    game, p0, p1 = newGame()
+
+    tb = thieves.timeBeing(owner=p0, game=game, zone=p0.facedowns)
+    p0.mana = tb.cost
+    p0.revealFacedown(tb)
+
+    p0.endTurn()
+
+    assert p0.active
+    assert p0.mana == p0.manaCap

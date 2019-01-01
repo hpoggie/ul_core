@@ -136,13 +136,13 @@ class Game:
         player.manaCap += 1
         if player.manaCap > 15:
             player.opponent.win()
-        player.opponent.mana = player.opponent.manaCap
 
         if player.extraTurns > 0:
             player.extraTurns -= 1
         else:
             self.turn = Turn.p2 if self.turn == Turn.p1 else Turn.p1
 
+        self.activePlayer.mana = self.activePlayer.manaCap
         self.phase = Phase.startOfTurn
         self.activePlayer.onStartOfTurn()
 
