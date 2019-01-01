@@ -46,6 +46,7 @@ def client():
     cnm = network.ClientNetworkManager(cl, 'localhost', 9099)
     cl.networkManager = cnm
     cnm.verbose = True
+    time.sleep(0.1)
     cnm.connect(('localhost', 9099))
     return cl
 
