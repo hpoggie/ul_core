@@ -314,7 +314,8 @@ class Player:
 
     def endTurn(self, *args, **kwargs):
         self.failIfInactive()
-        while self.active:
+        originalExtraTurns = self.extraTurns
+        while self.active and self.extraTurns == originalExtraTurns:
             self.endPhase(*args, **kwargs)
 
     def takeExtraTurn(self):
