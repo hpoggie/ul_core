@@ -165,6 +165,9 @@ class Player:
         """
         Pop actions off the stack until we get a decision or it's empty
         """
+        if self.replaceCallback is not None:
+            return
+
         try:
             func = self.actionStack.pop()
         except IndexError:

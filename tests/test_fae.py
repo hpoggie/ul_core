@@ -120,6 +120,27 @@ def test_radiance_enchanters_trap():
     p0.revealFacedown(rad)
 
 
+def test_radiance_oberons_guard():
+    """
+    Tests popping something from action stack not clobbering further actions
+    """
+
+    game, p0, p1 = newGame()
+
+    rad = fae.radiance(owner=p0, game=game, zone=p0.facedowns)
+    og = fae.oberonsGuard(owner=p0, game=game, zone=p0.facedowns)
+    fae.oberonsGuard(owner=p0, game=game, zone=p0.facedowns)
+
+    p0.mana = rad.cost
+    p0.revealFacedown(rad)
+
+    assert og.faceup
+
+    p0.replace(rad)
+
+    assert p0.replaceCallback is not None
+
+
 def test_gateway():
     game, p0, p1 = newGame()
 
