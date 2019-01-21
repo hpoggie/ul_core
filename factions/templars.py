@@ -85,7 +85,7 @@ class guardianAngel(Card):
     name = "Guardian Angel"
     image = "winged-shield.png"
     cost = 4
-    rank = 4
+    rank = 3
     taunt = True
     desc = "Taunt."
 
