@@ -38,28 +38,6 @@ def testEquus():
     assert p0.faceups[0].rank == 2
 
 
-def testHolyHandGrenade():
-    game, p0, p1 = newGame(
-        [templars.corvus(), templars.corvus()],
-        [templars.holyHandGrenade(), templars.holyHandGrenade()])
-    p0.mana = 5
-    p0.drawCard()
-    p0.hand[0].fast = True
-    p0.playFaceup(p0.hand[0])
-    p0.endPhase()
-    p0.play(p0.hand[0])
-    p0.endTurn()
-    p1.mana = 8
-    p1.drawCard()
-    p1.drawCard()
-
-    p1.playFaceup(p1.hand[0], p0.facedowns[0])
-    assert len(p0.facedowns) == 0
-
-    p1.playFaceup(p1.hand[0], p0.faceups[0])
-    assert len(p0.facedowns) == 0
-
-
 def testWrathOfGod():
     game, p0, p1 = newGame(
         [templars.corvus(), templars.corvus()],
