@@ -83,7 +83,9 @@ class Player:
         self.deck.shuffle()
 
     def drawOpeningHand(self):
-        for i in range(0, startHandSize):
+        handSize = (startHandSize - 1 if self == self.game.players[0]
+                    else startHandSize)
+        for i in range(0, handSize):
             self.drawCard()
 
     def onStartOfTurn(self):

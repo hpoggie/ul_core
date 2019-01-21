@@ -51,8 +51,6 @@ class Game:
 
     def finishMulligans(self):
         self.turn = Turn.p1
-        self.players[0].hasFirstPlayerPenalty = True
-        self.players[1].hasFirstPlayerPenalty = False
 
     @property
     def activePlayer(self):
@@ -112,10 +110,7 @@ class Game:
             for c in self.activePlayer.facedowns[:]:
                 if c not in keepFacedown:
                     c.zone = c.owner.graveyard
-            if self.activePlayer.hasFirstPlayerPenalty:
-                self.activePlayer.hasFirstPlayerPenalty = False
-            else:
-                self.activePlayer.drawCard()
+            self.activePlayer.drawCard()
 
         self.phase += 1
 

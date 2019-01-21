@@ -112,11 +112,11 @@ def testMulligan():
     game.start()
     game.turn = None
     hand0 = deepcopy(p0.hand)
-    assert len(hand0) == core.player.startHandSize
+    assert len(hand0) == core.player.startHandSize - 1
     c = p0.hand[0]
     p0.mulligan(c)
     hand1 = deepcopy(p0.hand)
-    assert len(hand1) == core.player.startHandSize
+    assert len(hand1) == core.player.startHandSize - 1
     assert hand0 != hand1
 
     assert c in p0.deck  # Has the card been returned to the deck
