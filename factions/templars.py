@@ -63,8 +63,8 @@ class miracle(Card):
 class crystalElemental(Card):
     name = "Crystal Elemental"
     image = "crystal-cluster.png"
-    cost = 7
-    rank = 4
+    cost = 5
+    rank = 3
     desc = "Whenever an enemy face-down card is destroyed, draw a card."
 
     def beforeDestroy(self, card):
