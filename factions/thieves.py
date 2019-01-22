@@ -109,7 +109,10 @@ class headLightning(Card):
         self.controller.drawCards(3)
 
         def replace(c1, c2):
-            self.controller.topdeck([c1, c2])
+            if c1.zone == c2.zone == self.controller.hand:
+                self.controller.topdeck([c1, c2])
+            else:
+                raise InvalidTargetError()
 
         self.controller.pushAction(replace)
 

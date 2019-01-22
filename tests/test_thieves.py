@@ -1,7 +1,7 @@
 from .util import newGame
 import factions.base as base
 import factions.thieves as thieves
-from ul_core.core.exceptions import IllegalMoveError
+from ul_core.core.exceptions import IllegalMoveError, InvalidTargetError
 
 
 def testThiefAbility():
@@ -105,6 +105,26 @@ def testHeadLightning():
     assert len(p0.hand) == oldHandSize + 2  # Play 1, draw 3
     p0.replace(p0.hand[0], p0.hand[1])
     assert len(p0.hand) == oldHandSize
+
+
+def test_head_lightning_weird_targets():
+    game, p0, p1 = newGame(thieves.Thief)
+
+    hl = next(c for c in p0.deck if c.name == "Head Lightning")
+    hl.zone = p0.hand
+    hl.fast = True
+
+    scs = [c for c in p1.deck if c.name == "Spectral Crab"][:2]
+    for sc in scs:
+        sc.zone = p1.faceups
+
+    p0.playFaceup(hl)
+    try:
+        p0.replace(p1.faceups[0], p1.faceups[1])
+    except InvalidTargetError:
+        pass
+    else:
+        assert False
 
 
 def testEmblem():
