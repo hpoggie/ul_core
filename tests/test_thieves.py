@@ -1,6 +1,7 @@
 from .util import newGame
 import factions.base as base
 import factions.thieves as thieves
+import factions.fae as fae
 from ul_core.core.exceptions import IllegalMoveError, InvalidTargetError
 
 
@@ -125,6 +126,22 @@ def test_head_lightning_weird_targets():
         pass
     else:
         assert False
+
+
+def test_steal_enchanters_trap():
+    """
+    Stealing Enchanter's Trap should work but turn it face-down again.
+    """
+
+    game, p0, p1 = newGame(fae.Faerie, thieves.Thief)
+    et = next(c for c in p0.deck if c.name == "Enchanter's Trap")
+    game.start()
+    et.zone = p0.hand
+    p0.endPhase()
+    p0.play(et)
+    p0.endTurn()
+    p1.thiefAbility(p1.hand[0], "Enchanter's Trap", et)
+    assert et.zone == p1.facedowns
 
 
 def testEmblem():

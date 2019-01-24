@@ -97,11 +97,10 @@ class enchantersTrap(Card):
     desc = "Can't be face-up."
 
     def moveToZone(self, zone):
-        if (zone is self.game.players[0].faceups or
-                zone is self.game.players[1].faceups):
-            return
-
         super().moveToZone(zone)
+
+        if self.faceup:
+            super().moveToZone(self.controller.facedowns)
 
 
 class radiance(Card):
