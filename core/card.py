@@ -118,7 +118,9 @@ class Card:
 
         if self.requiresTarget:
             def doActionWithTarget(target):
-                if target is not None and target.isValidTarget:
+                if (target is not None and
+                        isinstance(target, Card) and
+                        target.isValidTarget):
                     self.onSpawn(target)
 
             newController.pushAction(doActionWithTarget)

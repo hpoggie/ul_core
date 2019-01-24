@@ -1,6 +1,7 @@
 from . import dummyCards
 from .util import newGame
 import factions.base
+from core.exceptions import InvalidTargetError
 
 
 def testSweep():
@@ -49,3 +50,18 @@ def testMindControlTrap():
 
     assert(len(p1.faceups) == 0)
     assert(p2.faceups[0] == attacker)
+
+
+def testSpellBlade():
+    game, p0, p1 = newGame([factions.base.spellBlade()])
+
+    p0.endPhase()
+    p0.play(p0.hand[0])
+    p0.endTurn()
+
+    p1.drawCard()
+    p1.mana = 3
+    p1.playFaceup(p1.hand[0], "foobar")
+
+    # If target is invalid, spell blade fizzles
+    assert len(p0.hand) == 0
