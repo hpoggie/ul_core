@@ -190,3 +190,20 @@ def test_time_being():
 
     assert p0.active
     assert p0.mana == p0.manaCap
+
+
+def testFactionAbilityBadArgs():
+    game, p0, p1 = newGame(thieves.Thief)
+    game.start()
+
+    p0.endTurn()
+    p1.endPhase()
+    p1.endPhase()
+    c = next(c for c in p1.deck + p1.hand if c.name == 'Elephant')
+    c.zone = p1.facedowns
+
+    p1.endTurn()
+    try:
+        p0.thiefAbility(p0.hand[0], c, 'Elephant')
+    except InvalidTargetError:
+        pass

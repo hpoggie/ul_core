@@ -203,17 +203,38 @@ class Thief(Player):
     def onStartOfTurn(self):
         pass
 
-    def thiefAbility(self, discard, name, target):
-        self.failIfInactive()
-
+    def validateThiefAbilityInput(self, discard, name, target):
+        """
+        Check if the input we got is legal.
+        Fails if zones are wrong or we get arguments that aren't cards
+        """
         if self.game.phase != Phase.startOfTurn:
             raise IllegalMoveError("Can only try to steal at start of turn.")
 
-        if discard.zone is not self.hand:
+        # Check if discard has a zone attribute
+        # Done separately to avoid catching possible AttributeErrors from
+        # self.hand
+        try:
+            dzone = discard.zone
+        except AttributeError:
+            raise IllegalMoveError(
+                "Can't discard something that's not a card.")
+
+        if dzone is not self.hand:
             raise IllegalMoveError("That card is not in your hand.")
 
-        if target.zone is not self.opponent.facedowns:
+        try:
+            tzone = target.zone
+        except AttributeError:
+            raise InvalidTargetError(
+                "Can't target something with Thief ability that's not a card.")
+
+        if tzone is not self.opponent.facedowns:
             raise InvalidTargetError()
+
+    def thiefAbility(self, discard, name, target):
+        self.failIfInactive()
+        self.validateThiefAbilityInput(discard, name, target)
 
         self.pushAction(lambda: self.endPhase())
 
