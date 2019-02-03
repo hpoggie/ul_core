@@ -86,7 +86,7 @@ class NetworkManager:
 
             try:
                 newData = c.conn.recv(self.bufsize)
-            except ConnectionResetError:
+            except (ConnectionResetError, TimeoutError):
                 raise ConnectionClosed(c)
 
             if newData == b'':
