@@ -1,5 +1,3 @@
-import collections
-
 from core.game import Game, Turn
 from core.player import Player
 
@@ -26,18 +24,18 @@ def newGame(*args):
         game = Game(args[0], args[0])
     # If we got 2 arguments and at least one of them is a list
     elif len(args) == 2 and len(
-            [x for x in args if isinstance(x, collections.Iterable)]) > 0:
+            [x for x in args if hasattr(x, '__iter__')]) > 0:
         # For each of the arguments, if it's a list, make that the player's
         # deck, otherwise make a list containing only that card and make it
         # the player's deck
         players = [dummyFactionPlayer(arg)
-                   if isinstance(arg, collections.Iterable)
+                   if hasattr(arg, '__iter__')
                    else dummyFactionPlayer([arg]) for arg in args]
         game = Game(*players)
     elif len(args) == 0:
         pl = dummyFactionPlayer([])
         game = Game(pl, pl)
-    elif isinstance(args[0], collections.Iterable):
+    elif hasattr(args[0], '__iter__'):
         # if we only got one list, treat that the same as a bunch of cards
         pl = dummyFactionPlayer(args[0])
         game = Game(pl, pl)
