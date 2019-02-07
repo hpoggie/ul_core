@@ -166,7 +166,7 @@ class humboldtSquid(AquaticCard):
     cost = 1
     rank = 1
     fast = True
-    desc = "Aquatic. Fast. This has rank 5 while attacking a unit."
+    desc = "Aquatic. Fast. This has rank 4 while attacking a unit."
 
     def beforeAnyFight(self, target, attacker):
         # TODO: black magic
