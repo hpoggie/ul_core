@@ -153,6 +153,12 @@ class Card:
     def afterFight(self, target):
         pass
 
+    def beforeAttack(self, target):
+        pass
+
+    def afterAttack(self, target):
+        pass
+
     @property
     def zone(self):
         return self._zone

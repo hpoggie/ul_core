@@ -70,6 +70,7 @@ class Game:
 
     def fight(self, attacker, target):
         self.doEventTriggers('beforeAnyFight', attacker, target)
+        attacker.beforeAttack(target)
         attacker.beforeFight(target)
         target.beforeFight(attacker)
 
@@ -93,6 +94,7 @@ class Game:
                 self.destroy(target)
 
         self.doEventTriggers('afterAnyFight', attacker, target)
+        attacker.afterAttack(target)
         attacker.afterFight(target)
         target.afterFight(attacker)
 

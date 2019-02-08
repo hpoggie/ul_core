@@ -168,11 +168,10 @@ class humboldtSquid(AquaticCard):
     fast = True
     desc = "Aquatic. Fast. This has rank 4 while attacking a unit."
 
-    def beforeAnyFight(self, attacker, target):
-        if attacker == self and isinstance(target, Card):
-            self.rank = 4
+    def beforeAttack(self, target):
+        self.rank = 4
 
-    def afterFight(self, target):
+    def afterAttack(self, target):
         self.rank = 1
 
 
