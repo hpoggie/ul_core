@@ -68,33 +68,33 @@ class Game:
             for c in pl.faceups[:]:
                 doTrigger(c, name)
 
-    def fight(self, c1, c2):
-        self.doEventTriggers('beforeAnyFight', c1, c2)
-        c1.beforeFight(c2)
-        c2.beforeFight(c1)
+    def fight(self, attacker, target):
+        self.doEventTriggers('beforeAnyFight', attacker, target)
+        attacker.beforeFight(target)
+        target.beforeFight(attacker)
 
-        if c1.zone == c1.controller.facedowns:
-            c1.visible = True
-        if c2.zone == c2.controller.facedowns:
-            c2.visible = True
+        if attacker.zone == attacker.controller.facedowns:
+            attacker.visible = True
+        if target.zone == target.controller.facedowns:
+            target.visible = True
 
-        if c1.spell or c2.spell:
-            if c1.illusion:
-                self.destroy(c1)
-            if c2.illusion:
-                self.destroy(c2)
+        if attacker.spell or target.spell:
+            if attacker.illusion:
+                self.destroy(attacker)
+            if target.illusion:
+                self.destroy(target)
         else:
-            if c1.rank < c2.rank:
-                self.destroy(c1)
-            if c1.rank > c2.rank:
-                self.destroy(c2)
-            elif c1.rank == c2.rank:
-                self.destroy(c1)
-                self.destroy(c2)
+            if attacker.rank < target.rank:
+                self.destroy(attacker)
+            if attacker.rank > target.rank:
+                self.destroy(target)
+            elif attacker.rank == target.rank:
+                self.destroy(attacker)
+                self.destroy(target)
 
-        self.doEventTriggers('afterAnyFight', c1, c2)
-        c1.afterFight(c2)
-        c2.afterFight(c1)
+        self.doEventTriggers('afterAnyFight', attacker, target)
+        attacker.afterFight(target)
+        target.afterFight(attacker)
 
     @event
     def destroy(self, card):

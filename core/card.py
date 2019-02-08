@@ -133,7 +133,7 @@ class Card:
         if target is self.controller.opponent.face:
             self.attackFace()
         else:
-            self.game.fight(target, self)
+            self.game.fight(attacker=self, target=target)
 
     def attackFace(self):
         self.game.dealDamage(self.controller.opponent, self.rank)

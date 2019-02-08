@@ -168,10 +168,7 @@ class humboldtSquid(AquaticCard):
     fast = True
     desc = "Aquatic. Fast. This has rank 4 while attacking a unit."
 
-    def beforeAnyFight(self, target, attacker):
-        # TODO: black magic
-        # 2nd arg is always the attacker
-        # find cleaner way to do this
+    def beforeAnyFight(self, attacker, target):
         if attacker == self and isinstance(target, Card):
             self.rank = 4
 
