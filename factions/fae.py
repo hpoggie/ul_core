@@ -121,8 +121,10 @@ class radiance(Card):
                 pass
             else:
                 self.controller.pushAction(nextCard)
-                c.pushSpawn()
+                # Do this before c.spawn() because that will pop actions
+                # Causing nextCard to be called
                 affectedCards.append(c)
+                c.spawn()
 
         self.controller.pushAction(nextCard)
 
@@ -150,7 +152,7 @@ class gatewayToFaerie(Card):
         if not target.facedown:
             raise InvalidTargetError()
 
-        target.pushSpawn()
+        target.spawn()
 
 
 allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,

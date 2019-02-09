@@ -239,14 +239,7 @@ class Thief(Player):
         self.pushAction(lambda: self.endPhase())
 
         if target.name == name:
-            if target.requiresTarget:  # Can choose the target of the ability
-                def callback(abilityTarget):
-                    target.spawn(target=abilityTarget, newController=self)
-                    discard.zone = discard.owner.graveyard
-
-                self.pushAction(callback)
-            else:
-                target.spawn(target=None, newController=self)
+            target.spawn(newController=self)
         else:
             target.visible = True
 
