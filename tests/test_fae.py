@@ -171,3 +171,19 @@ def test_oberons_guard():
     og = fae.oberonsGuard(owner=p0, game=game, zone=p0.facedowns)
     p0.mana = 2
     p0.revealFacedown(og, None)
+
+
+def test_dullahan():
+    game, p0, p1 = newGame()
+    d = fae.dullahan(owner=p0, game=game, zone=p0.facedowns)
+    one = dummyCards.one(owner=p1, game=game, zone=p1.facedowns)
+    one = dummyCards.one(owner=p1, game=game, zone=p1.facedowns)
+    two = dummyCards.one(owner=p1, game=game, zone=p1.facedowns)
+    two.name = "Two"
+
+    p0.mana = d.cost
+    p0.revealFacedown(d)
+    assert p0.replaceCallback is not None
+    p0.replace('One')
+    assert len(p1.facedowns) == 1
+    assert p1.facedowns[0] == two

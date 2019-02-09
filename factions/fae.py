@@ -155,6 +155,25 @@ class gatewayToFaerie(Card):
         target.spawn()
 
 
+class dullahan(Card):
+    name = "Dullahan"
+    image = 'dullahan.png'
+    cost = 3
+    rank = 2
+    desc = ("On Spawn: Name a card. Look at all your opponent's "
+            "face-down cards and turn all of them with the chosen name "
+            "face-up.")
+
+    def onSpawn(self):
+        def nameAndDestroy(name):
+            if not isinstance(name, str):
+                raise InvalidTargetError("Card name must be a string.")
+
+            self.controller.opponent.facedowns.destroyAll(lambda c: c.name == name)
+
+        self.controller.pushAction(nameAndDestroy)
+
+
 allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,
             enchantersTrap, radiance, wildMagic, gatewayToFaerie]
 
