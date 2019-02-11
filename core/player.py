@@ -18,6 +18,13 @@ startHandSize = 5
 maxManaCap = 15
 
 
+class ActionArgumentTypeError(IllegalMoveError):
+    """
+    Raised when the wrong argument type is passed to an action.
+    """
+    pass
+
+
 class Player:
     iconPath = "./my_faction_icons"
     cardBack = "my-faction-back.png"
@@ -149,21 +156,25 @@ class Player:
     def win(self):
         self.game.end(winner=self)
 
-    def replace(self, *cards):
+    def replace(self, *args):
         if self.replaceCallback is None:
             raise IllegalMoveError("No effect to replace for.")
         else:
-            self.replaceCallback(*cards)
+            for i, arg in enumerate(args):
+                if not isinstance(arg, self.replaceCallback.argTypes[i]):
+                    raise ActionArgumentTypeError("Wrong argument type for action.")
+
+            self.replaceCallback(*args)
             self.replaceCallback = None
             self.popAction()
 
-    def pushAction(self, func, argType=Card):
+    def pushAction(self, func, argTypes=None):
         """
         Push an action onto the stack
         This is useful for requiring things to happen after targetCallback
         is called
         """
-        self.actionStack.append(Action(func, argType))
+        self.actionStack.append(Action(func, argTypes))
 
     def popAction(self):
         """

@@ -170,7 +170,7 @@ class dullahan(Card):
 
             self.controller.opponent.facedowns.destroyAll(lambda c: c.name == name)
 
-        self.controller.pushAction(nameAndDestroy)
+        self.controller.pushAction(nameAndDestroy, argTypes=(str,))
 
 
 allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,
