@@ -175,7 +175,7 @@ class dullahan(Card):
 
 
 allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,
-            enchantersTrap, radiance, wildMagic, gatewayToFaerie]
+            enchantersTrap, radiance, wildMagic, gatewayToFaerie, dullahan]
 
 
 class Faerie(Player):
