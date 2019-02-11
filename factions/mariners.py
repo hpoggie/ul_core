@@ -214,7 +214,8 @@ class Mariner(Player):
                 card.zone = card.owner.deck
         else:
             # Can't do anything until calling replace
-            self.replaceCallback = replace
+            self.pushAction(replace)
+            self.popAction()
 
     def endPhase(self, fish=False):
         if self.hasFirstPlayerPenalty and fish:
