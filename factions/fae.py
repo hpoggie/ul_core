@@ -161,8 +161,7 @@ class dullahan(Card):
     cost = 3
     rank = 2
     desc = ("On Spawn: Name a card. Look at all your opponent's "
-            "face-down cards and turn all of them with the chosen name "
-            "face-up.")
+            "face-down cards and destroy all of them with the chosen name.")
 
     def onSpawn(self):
         def nameAndDestroy(name):
