@@ -11,8 +11,6 @@ from random import randint
 from ul_core.core.game import Phase
 from ul_core.core.zone import Zone
 from ul_core.core.exceptions import IllegalMoveError
-from ul_core.core.card import Card
-from ul_core.core.action import Action
 
 startHandSize = 5
 maxManaCap = 15
@@ -157,13 +155,13 @@ class Player:
             self.replaceCallback = None
             self.popAction()
 
-    def pushAction(self, func, argType=Card):
+    def pushAction(self, func):
         """
         Push an action onto the stack
         This is useful for requiring things to happen after targetCallback
         is called
         """
-        self.actionStack.append(Action(func, argType))
+        self.actionStack.append(func)
 
     def popAction(self):
         """
@@ -173,14 +171,14 @@ class Player:
             return
 
         try:
-            action = self.actionStack.pop()
+            func = self.actionStack.pop()
         except IndexError:
             pass
         else:
-            if action.nArgs > 0:
-                self.replaceCallback = action
+            if func.__code__.co_argcount > 0:
+                self.replaceCallback = func
             else:
-                action()
+                func()
                 self.popAction()
 
     # Actions
