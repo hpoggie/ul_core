@@ -1,14 +1,8 @@
-from ul_core.core.card import Card
-
-
 class Action:
-    def __init__(self, func, argTypes):
+    def __init__(self, func, argType):
         self.func = func
         self.nArgs = func.__code__.co_argcount
-        if argTypes is None:
-            self.argTypes = (Card,) * self.nArgs
-        else:
-            self.argTypes = argTypes
+        self.argType = argType
 
     def __call__(self, *args):
         self.func(*args)
