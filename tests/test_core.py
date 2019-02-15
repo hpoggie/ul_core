@@ -1,9 +1,9 @@
 from . import util
 from . import dummyCards
-import core.player
-from core.player import Player, IllegalMoveError
-from factions.templars import Templar
-import factions.base
+import ul_core.core.player as player
+from ul_core.core.player import Player, IllegalMoveError
+from ul_core.factions.templars import Templar
+import ul_core.factions.base as base
 
 
 def deckContainsDuplicates(deck):
@@ -112,11 +112,11 @@ def testMulligan():
     game.start()
     game.turn = None
     hand0 = deepcopy(p0.hand)
-    assert len(hand0) == core.player.startHandSize - 1
+    assert len(hand0) == player.startHandSize - 1
     c = p0.hand[0]
     p0.mulligan(c)
     hand1 = deepcopy(p0.hand)
-    assert len(hand1) == core.player.startHandSize - 1
+    assert len(hand1) == player.startHandSize - 1
     assert hand0 != hand1
 
     assert c in p0.deck  # Has the card been returned to the deck
@@ -159,8 +159,8 @@ def testRepr():
 
 
 def testRequiresTarget():
-    assert factions.base.spellBlade().requiresTarget
-    assert not factions.base.sweep().requiresTarget
+    assert base.spellBlade().requiresTarget
+    assert not base.sweep().requiresTarget
 
 
 def testZoneLists():

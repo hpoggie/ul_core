@@ -1,5 +1,5 @@
-from core.game import Game, Turn
-from core.player import Player
+from ul_core.core.game import Game, Turn
+from ul_core.core.player import Player
 
 
 def dummyFactionPlayer(deck):

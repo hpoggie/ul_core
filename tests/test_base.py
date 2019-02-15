@@ -1,12 +1,12 @@
 from . import dummyCards
 from .util import newGame
-import factions.base
-from core.exceptions import InvalidTargetError
+import ul_core.factions.base as base
+from ul_core.core.exceptions import InvalidTargetError
 
 
 def testSweep():
     game, p1, p2 = newGame(
-        [factions.base.sweep()],
+        [base.sweep()],
         [dummyCards.one(), dummyCards.one(), dummyCards.one()])
 
     p1.endPhase()
@@ -32,7 +32,7 @@ def testSweep():
 def testMindControlTrap():
     game, p1, p2, = newGame(
         [dummyCards.one()],
-        [factions.base.mindControlTrap()])
+        [base.mindControlTrap()])
 
     p1.endPhase()
     p1.play(p1.hand[0])
@@ -53,7 +53,7 @@ def testMindControlTrap():
 
 
 def testSpellBlade():
-    game, p0, p1 = newGame([factions.base.spellBlade()])
+    game, p0, p1 = newGame([base.spellBlade()])
 
     p0.endPhase()
     p0.play(p0.hand[0])

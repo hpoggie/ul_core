@@ -1,7 +1,7 @@
 from .util import newGame
 from ul_core.core.exceptions import IllegalMoveError
-from core.game import Game, Turn, Phase
-import factions.templars as templars
+from ul_core.core.game import Game, Turn, Phase
+import ul_core.factions.templars as templars
 
 
 def testTemplarAbility():

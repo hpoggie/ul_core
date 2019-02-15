@@ -1,4 +1,4 @@
-from core.card import Card
+from ul_core.core.card import Card
 
 
 def test_card_dsl():

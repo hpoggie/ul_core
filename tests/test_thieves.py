@@ -1,7 +1,7 @@
 from .util import newGame
-import factions.base as base
-import factions.thieves as thieves
-import factions.fae as fae
+import ul_core.factions.base as base
+import ul_core.factions.thieves as thieves
+import ul_core.factions.fae as fae
 from ul_core.core.exceptions import IllegalMoveError, InvalidTargetError
 
 

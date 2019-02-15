@@ -1,5 +1,5 @@
 import pytest
-from net.serialization import serialize, deserialize, DeserializationError
+from ul_core.net.serialization import serialize, deserialize, DeserializationError
 
 
 def test_sanity_check():

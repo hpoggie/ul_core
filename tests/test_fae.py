@@ -1,8 +1,8 @@
-from core.card import Card
-from core.game import destroy
+from ul_core.core.card import Card
+from ul_core.core.game import destroy
 from ul_core.core.exceptions import InvalidTargetError, IllegalMoveError
-import factions.fae as fae
-import factions.thieves as thieves  # For Head Lightning
+import ul_core.factions.fae as fae
+import ul_core.factions.thieves as thieves  # For Head Lightning
 from .util import newGame
 from . import dummyCards
 

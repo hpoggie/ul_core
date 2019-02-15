@@ -1,6 +1,6 @@
 import pytest
-import net.network as network
-import net.network_manager as network_manager
+import ul_core.net.network as network
+import ul_core.net.network_manager as network_manager
 import os
 import time
 import sys
