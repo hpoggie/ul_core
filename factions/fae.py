@@ -191,8 +191,7 @@ class Faerie(Player):
         enchantersTrap, 2,
         radiance, 2,
         wildMagic, 2,
-        gatewayToFaerie, 3,
-        dullahan, 2) + base.deck
+        gatewayToFaerie, 3) + base.deck
 
     def endPhase(self, card=None):
         self.failIfInactive()
