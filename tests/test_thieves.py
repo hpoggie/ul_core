@@ -3,6 +3,7 @@ import ul_core.factions.base as base
 import ul_core.factions.thieves as thieves
 import ul_core.factions.fae as fae
 from ul_core.core.exceptions import IllegalMoveError, InvalidTargetError
+from . import dummyCards
 
 
 def testThiefAbility():
@@ -176,6 +177,23 @@ def testHeavyLightning():
 
     assert len(p1.faceups) == 0
     assert len(p1.facedowns) == 0
+
+
+def test_heavy_lightning_ambush():
+    game, p0, p1 = newGame([thieves.heavyLightning()], [dummyCards.one()])
+    game.start()
+
+    p0.endPhase()
+    p0.play(p0.hand[0])
+    p0.endTurn()
+
+    p1.hand[0].fast = True
+    p1.playFaceup(p1.hand[0])
+    p1.endPhase()
+    p1.attack(p1.faceups[0], p0.facedowns[0])
+
+    assert len(p1.faceups) == 0
+    assert len(p0.facedowns) == 0
 
 
 def test_time_being():
