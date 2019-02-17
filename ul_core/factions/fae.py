@@ -14,7 +14,10 @@ class faerieMoth(Card):
     cost = 1
     rank = 1
     fast = True
-    desc = "Fast."
+    desc = "Fast. On Spawn: Play the top card of your deck face-down."
+
+    def onSpawn(self):
+        self.controller.deck[-1].zone = self.controller.facedowns
 
 
 class oberonsGuard(Card):
