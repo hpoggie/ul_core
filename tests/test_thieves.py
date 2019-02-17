@@ -176,7 +176,6 @@ def testHeavyLightning():
 
     assert len(p1.faceups) == 0
     assert len(p1.facedowns) == 0
-    assert len(p0.hand) == 3
 
 
 def test_time_being():

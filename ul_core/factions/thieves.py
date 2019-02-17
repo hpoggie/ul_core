@@ -164,17 +164,14 @@ class heavyLightning(Card):
     image = 'heavy-lightning.png'
     cost = 11
     rank = 's'
-    desc = ("Destroy all your opponent's face-up units and face-down"
-            " cards. Draw 3 cards. When this is attacked, its cost"
-            " becomes 5.")
+    desc = "Destroy your opponent's board. Ambush: cast this."
 
     def afterFight(self, c2):
-        self.cost = 5
+        self.spawn()
 
     def onSpawn(self):
         self.controller.opponent.facedowns.destroyAll()
         self.controller.opponent.faceups.destroyAllUnits()
-        self.controller.drawCards(3)
 
 
 allCards = [fog, spectralCrab, spellHound, doubleDragon,
