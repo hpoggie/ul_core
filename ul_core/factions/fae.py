@@ -3,7 +3,7 @@ from ul_core.core.exceptions import InvalidTargetError
 from ul_core.core.faction import deck
 from ul_core.core.card import Card
 from ul_core.core.game import destroy
-import ul_core.factions.base as base
+from . import base
 
 iconPath = "fae_icons"
 
