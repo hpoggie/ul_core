@@ -207,7 +207,9 @@ class Player:
 
         card.zone = self.facedowns
         card.hasAttacked = False
-        card.locked = True
+
+        if not card.fast:
+            card.locked = True
 
     @action
     def revealFacedown(self, card, *args, **kwargs):
