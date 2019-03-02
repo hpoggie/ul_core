@@ -115,9 +115,6 @@ class Game:
 
     @event
     def endPhase(self, keepFacedown=[]):
-        if self.phase == Phase.reveal:
-            self.activePlayer.drawCard()
-
         self.phase += 1
 
         if self.phase > Phase.play:
@@ -157,6 +154,7 @@ class Game:
             f.hasAttacked = False
 
         self.activePlayer.hasTakenAction = False
+        self.activePlayer.drawCard()
 
     def end(self, winner):
         raise EndOfGame(winner)

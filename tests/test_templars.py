@@ -25,13 +25,13 @@ def testTemplarAbility():
 
     # Try discarding something not in your hand
     p0.templarAbility(p1.hand[0])
-    assert len(p1.hand) == 6
+    assert len(p1.hand) == 7
     assert p0.manaCap == 4
 
 
 def testEquus():
     game, p0, p1 = newGame(templars.equus())
-    p0.deck[0].zone = p0.faceups
+    p0.hand[0].zone = p0.faceups
     p0.manaCap = 3
     assert p0.faceups[0].rank == 5
     p0.manaCap = 4
@@ -60,7 +60,6 @@ def testWrathOfGod():
 def testMiracle():
     game, p0, p1 = newGame(
         [templars.corvus() for i in range(6)] + [templars.miracle()])
-    p0.drawCard()
     assert len(p0.hand) == 1
     p0.hand[0].fast = True
     p0.hand[0].cost = 0
@@ -74,7 +73,6 @@ def testMiracleNotEnoughCards():
         templars.corvus(),
         templars.miracle()
     )
-    p0.drawCard()
     assert len(p0.hand) == 1
     p0.hand[0].fast = True
     p0.hand[0].cost = 0
