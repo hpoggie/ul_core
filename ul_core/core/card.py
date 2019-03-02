@@ -58,6 +58,9 @@ class Card:
         self.stale = False  # Will this fizzle at end of turn?
         self.locked = False  # Can this be cast?
 
+        # Alpha effects can only be done as the first action on your turn
+        self.alpha = False
+
         for (key, value) in kwargs.items():
             setattr(self, key, value)
 

@@ -149,7 +149,8 @@ class gatewayToFaerie(Card):
     image = 'magic-portal.png'
     cost = 3
     rank = 'il'
-    desc = "Turn target face-down card face-up."
+    alpha = True
+    desc = "α: Turn target face-down card face-up."
 
     def onSpawn(self, target):
         if not target.facedown:

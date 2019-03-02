@@ -9,7 +9,7 @@ from copy import deepcopy
 from random import randint
 
 from ul_core.core.zone import Zone
-from ul_core.core.exceptions import IllegalMoveError
+from ul_core.core.exceptions import IllegalMoveError, AlphaEffectError
 from .triggeredEffect import TriggeredEffect
 
 startHandSize = 5
@@ -226,6 +226,10 @@ class Player:
 
         if card.locked:
             raise IllegalMoveError("Card is locked and can't be cast this turn.")
+
+        if card.alpha and self.hasTakenAction:
+            raise AlphaEffectError(
+                "Can only use an alpha effect as the first effect on your turn.")
 
         card.cast(*args, **kwargs)
         # Get any triggered effects that we might have pushed

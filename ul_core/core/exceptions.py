@@ -4,3 +4,7 @@ class IllegalMoveError (Exception):
 
 class InvalidTargetError(IllegalMoveError):
     pass
+
+
+class AlphaEffectError(IllegalMoveError):
+    pass

@@ -1,6 +1,7 @@
 from ul_core.core.card import Card
 from ul_core.core.game import destroy
 from ul_core.core.exceptions import InvalidTargetError, IllegalMoveError
+from ul_core.core.exceptions import AlphaEffectError
 import ul_core.factions.fae as fae
 import ul_core.factions.thieves as thieves  # For Head Lightning
 from .util import newGame
@@ -151,6 +152,25 @@ def test_gateway():
     p0.mana = gateway.cost
     p0.revealFacedown(gateway, one)
     assert one.zone is p0.faceups
+
+
+def test_gateway_alpha():
+    game, p0, p1 = newGame()
+
+    gateway = fae.gatewayToFaerie(owner=p0, game=game, zone=p0.facedowns)
+    one = dummyCards.one(owner=p0, game=game, zone=p0.facedowns)
+
+    p0.mana = one.cost
+    p0.revealFacedown(one)
+
+    p0.mana = gateway.cost
+
+    try:
+        p0.revealFacedown(gateway, None)
+    except AlphaEffectError:
+        pass
+    else:
+        assert False
 
 
 def test_titanias_guard():
