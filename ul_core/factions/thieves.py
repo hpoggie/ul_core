@@ -114,7 +114,7 @@ class headLightning(Card):
             else:
                 raise InvalidTargetError()
 
-        self.controller.pushAction(replace)
+        self.controller.pushTriggeredEffect(replace)
 
 
 class roseEmblem(Card):
@@ -233,7 +233,7 @@ class Thief(Player):
         self.failIfInactive()
         self.validateThiefAbilityInput(discard, name, target)
 
-        self.pushAction(lambda: self.endPhase())
+        self.pushTriggeredEffect(lambda: self.endPhase())
 
         if target.name == name:
             target.spawn(newController=self)

@@ -214,7 +214,7 @@ class Mariner(Player):
                 card.zone = card.owner.deck
         else:
             # Can't do anything until calling replace
-            self.pushAction(replace)
+            self.pushTriggeredEffect(replace)
             self.popAction()
 
     def endPhase(self, fish=False):

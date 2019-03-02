@@ -150,11 +150,9 @@ class Player:
             self.game.requiredDecision = None
             self.popAction()
 
-    def pushAction(self, func):
+    def pushTriggeredEffect(self, func):
         """
-        Push an action onto the stack
-        This is useful for requiring things to happen after targetCallback
-        is called
+        Push a triggered effect onto the global stack
         """
         self.game.pushTriggeredEffect(TriggeredEffect(self, func))
 

@@ -112,7 +112,7 @@ class Card:
             self.zone = self.owner.graveyard
 
         if self.spell and not self.continuous:
-            self.controller.pushAction(cleanupSpell)
+            self.controller.pushTriggeredEffect(cleanupSpell)
 
         if self.requiresTarget:
             def doActionWithTarget(target):
@@ -121,9 +121,9 @@ class Card:
                         target.isValidTarget):
                     self.onSpawn(target)
 
-            self.controller.pushAction(doActionWithTarget)
+            self.controller.pushTriggeredEffect(doActionWithTarget)
         else:
-            self.controller.pushAction(lambda: self.onSpawn())
+            self.controller.pushTriggeredEffect(lambda: self.onSpawn())
 
     def attack(self, target):
         self.hasAttacked = True

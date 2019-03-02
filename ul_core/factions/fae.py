@@ -123,13 +123,13 @@ class radiance(Card):
             except StopIteration:
                 pass
             else:
-                self.controller.pushAction(nextCard)
+                self.controller.pushTriggeredEffect(nextCard)
                 # Do this before c.spawn() because that will pop actions
                 # Causing nextCard to be called
                 affectedCards.append(c)
                 c.spawn()
 
-        self.controller.pushAction(nextCard)
+        self.controller.pushTriggeredEffect(nextCard)
 
 
 class wildMagic(Card):
@@ -174,7 +174,7 @@ class dullahan(Card):
 
             self.controller.opponent.facedowns.destroyAll(lambda c: c.name == name)
 
-        self.controller.pushAction(nameAndDestroy)
+        self.controller.pushTriggeredEffect(nameAndDestroy)
 
 
 allCards = [faerieMoth, oberonsGuard, titaniasGuard, mesmerism, returnToSender,
