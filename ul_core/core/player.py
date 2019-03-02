@@ -189,7 +189,7 @@ class Player:
 
         if self.game.requiredDecision is not None:
             raise IllegalMoveError(
-                "Must replace cards from effect first.")
+                "Must make required decisions first.")
 
     def play(self, card):
         self.failIfInactive()
