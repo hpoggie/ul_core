@@ -3,7 +3,7 @@ from . import base
 from ul_core.core.player import Player, action
 from ul_core.core.exceptions import IllegalMoveError, InvalidTargetError
 from ul_core.core.card import Card
-from ul_core.core.game import destroy, Phase
+from ul_core.core.game import destroy
 from ul_core.core.faction import deck
 
 iconPath = "thief_icons"

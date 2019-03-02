@@ -55,7 +55,6 @@ def testAquatic():
     game.start()
     p0.manaCap = 7  # Make sure we have enough to play our stuff
 
-    p0.endPhase()
     p0.play(0)
     p0.endTurn()
 
@@ -84,7 +83,6 @@ def testRipCurrent():
     game.start()
     game.flooded = True  # So we can play the cards
 
-    p0.endPhase()
     p0.play(0)
     p0.endTurn()
     p0.manaCap = 9  # Cheat
@@ -92,7 +90,6 @@ def testRipCurrent():
     p1.hand[0].cost = 0
     p1.hand[0].fast = True
     p1.playFaceup(0)
-    p1.endPhase()
     p1.play(0)
     p1.endTurn()
 
@@ -107,13 +104,11 @@ def testShark():
                            [mariners.unexpectedShark()])
     game.start()
 
-    p0.endPhase()
     p0.play(0)
     p0.endTurn()
 
     p1.hand[0].cost = 0
     p1.playFaceup(0)
-    p1.endPhase()
     p1.attack(0, p0.facedowns[0])
 
     assert len(p0.facedowns) == 0
@@ -165,7 +160,6 @@ def testSquid():
     squid = p1.hand[0]
     squid.fast = True
     p1.playFaceup(squid)
-    p1.endPhase()
     assert squid.rank == 1
     assert len(p0.faceups) == 1
     p1.attack(squid, p0.faceups[0])
@@ -181,8 +175,6 @@ def testAquaticMCT():
     p0.drawCard()  # Make sure hand is in order
     game.start()
 
-    p0.endPhase()
-
     # Play the high tide & squid
     squid, highTide = p0.hand
     p0.play(highTide)
@@ -190,13 +182,11 @@ def testAquaticMCT():
 
     p0.endTurn()
 
-    p1.endPhase()
     p1.play(0)  # Play the MCT
     p1.endTurn()
 
     p0.revealFacedown(highTide)
     p0.revealFacedown(squid)
-    p0.endPhase()
     p0.attack(squid, p1.facedowns[0])
 
     p0.endTurn()

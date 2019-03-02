@@ -1,6 +1,6 @@
 from .util import newGame
 from ul_core.core.exceptions import IllegalMoveError
-from ul_core.core.game import Game, Turn, Phase
+from ul_core.core.game import Game, Turn
 import ul_core.factions.templars as templars
 
 
@@ -90,7 +90,6 @@ def testGargoyle():
     c.zone = p1.faceups
     p1.faceups[0].hasAttacked = False
     game.turn = Turn.p2
-    game.phase = Phase.play
     # Should fail if attack works
     try:
         p1.attack(p1.faceups[0], p0.face)
@@ -111,11 +110,9 @@ def testCrystalElemental():
     p0.playFaceup(p0.hand[0])
     p0.endTurn()
 
-    p1.endPhase()  # Draws the card
     p1.play(p1.hand[0])  # Play the card face-down
     p1.endTurn()
 
-    p0.endPhase()
     assert(len(p0.hand) == 0)
 
     # give them a card to draw

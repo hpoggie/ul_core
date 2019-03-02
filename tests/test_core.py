@@ -30,10 +30,9 @@ def testForDuplicatesBetweenPlayers():
 
 def testReveal():
     game, player, p1 = util.newGame(dummyCards.one())
-    player.endPhase()  # draw the card
     newCard = player.hand[0]
     player.play(newCard)
-    player.endPhase()
+    player.endTurn()
     p1.endTurn()
     player.revealFacedown(newCard)
     assert newCard.zone == player.faceups
@@ -41,7 +40,6 @@ def testReveal():
 
 def testPlay():
     game, player, _ = util.newGame(dummyCards.one())
-    player.endPhase()
     newCard = player.hand[0]
     player.play(newCard)
     assert newCard.zone == player.facedowns
@@ -65,7 +63,6 @@ def testAttackFace():
     game, player, _ = util.newGame(newCard)
     player.drawCard()
     player.playFaceup(player.hand[0])
-    player.endPhase()
     player.attackFace(player.faceups[0])
     assert game.players[1].manaCap == 2
 
@@ -77,12 +74,10 @@ def testAttackFacedown():
     game, p0, p1 = util.newGame(newCard)
     game.start()
     # 1st player plays a facedown
-    p0.endPhase()
     p0.play(game.players[0].hand[0])
     p0.endTurn()
     # 2nd player attacks it
     p1.playFaceup(p1.hand[0])
-    p1.endPhase()
     p1.attack(p1.faceups[0], p0.facedowns[0])
     assert len(p0.facedowns) == 0
     assert len(p1.faceups) == 0
@@ -99,7 +94,6 @@ def testAttackFaceup():
     p0.endTurn()
     # 2nd player attacks it
     p1.playFaceup(p1.hand[0])
-    p1.endPhase()
     p1.attack(p1.faceups[0], p0.faceups[0])
     assert len(p0.facedowns) == 0
     assert len(p1.faceups) == 0
@@ -137,17 +131,14 @@ def testActionsWithIndices():
     print(p0.hand)
     p0.hand[0].fast = True  # Cheat
     p0.playFaceup(0)
-    p0.endPhase()
     p0.play(0)
     p0.attackFace(0)
-    p0.endPhase()
+    p0.endTurn()
 
-    p1.endPhase()
     p1.play(0)
-    p1.endPhase()
+    p1.endTurn()
 
     p0.revealFacedown(0)
-    p0.endPhase()
     p0.attackFacedown(0, 0)
 
 

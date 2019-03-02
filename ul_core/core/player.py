@@ -277,14 +277,8 @@ class Player:
         self.attack(attacker, self.opponent.face)
 
     @action
-    def endPhase(self):
-        self.game.endPhase()
-
-    @action
     def endTurn(self, *args, **kwargs):
-        originalExtraTurns = self.extraTurns
-        while self.active and self.extraTurns == originalExtraTurns:
-            self.endPhase(*args, **kwargs)
+        self.game.endTurn(*args, **kwargs)
 
     def takeExtraTurn(self):
         self.extraTurns += 1

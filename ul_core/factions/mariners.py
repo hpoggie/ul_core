@@ -1,7 +1,7 @@
 import random
 
 from . import base
-from ul_core.core.game import Phase, destroy
+from ul_core.core.game import destroy
 from ul_core.core.card import Card
 from ul_core.core.faction import deck
 from ul_core.core.player import Player, action

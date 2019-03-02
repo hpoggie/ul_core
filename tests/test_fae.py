@@ -32,7 +32,6 @@ def test_illusions():
     assert di.illusion
     di.zone = p1.facedowns
 
-    p0.endPhase()
     p0.attack(one, di)
 
     assert di.zone == p1.graveyard

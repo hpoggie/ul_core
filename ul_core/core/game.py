@@ -1,7 +1,6 @@
 from . import enums
 
 Turn = enums.numericEnum('p1', 'p2')
-Phase = enums.numericEnum('reveal', 'play')
 
 
 def destroy(card):
@@ -15,7 +14,7 @@ class EndOfGame(BaseException):
 
 def event(func):
     # Automatically generate function names for before and after events
-    # e.g. endPhase -> beforeEndPhase
+    # e.g. endTurn -> beforeEndTurn
     upperName = func.__name__[0].upper() + func.__name__[1:]
     beforeEventName = 'before' + upperName
     afterEventName = 'after' + upperName
@@ -36,7 +35,6 @@ class Game:
         """
         # It's no one's turn until both players have mulliganed
         self.turn = None
-        self.phase = Phase.reveal
 
         self.players = (p1Type(), p2Type())
         for player in self.players:
@@ -114,13 +112,6 @@ class Game:
         player.manaCap += amount
 
     @event
-    def endPhase(self, keepFacedown=[]):
-        self.phase += 1
-
-        if self.phase > Phase.play:
-            self.endTurn()
-
-    @event
     def endTurn(self, keepFacedown=[]):
         # Make hand cards invisible so you can't easily see what's played
         for pl in self.players:
@@ -148,7 +139,6 @@ class Game:
     @event
     def startTurn(self):
         self.activePlayer.mana = self.activePlayer.manaCap
-        self.phase = Phase.reveal
 
         for f in self.activePlayer.faceups:
             f.hasAttacked = False

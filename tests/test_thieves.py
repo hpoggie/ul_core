@@ -11,7 +11,6 @@ def testThiefAbility():
     game.start()
 
     p0.endTurn()
-    p1.endPhase()
     c = next(c for c in p1.deck + p1.hand if c.name == 'Elephant')
     c.zone = p1.facedowns
 
@@ -32,7 +31,6 @@ def testThiefAbilityWrongGuess():
     game.start()
 
     p0.endTurn()
-    p1.endPhase()
     c = next(c for c in p1.deck + p1.hand if c.name == 'Elephant')
     c.zone = p1.facedowns
 
@@ -60,7 +58,6 @@ def testHydra():
     for c in p1.hand[:]:
         c.zone = p1.faceups
 
-    p0.endPhase()
     for i in range(3):
         p0.attack(hydra, p1.faceups[0])
 
@@ -116,7 +113,6 @@ def test_steal_enchanters_trap():
     et = next(c for c in p0.deck if c.name == "Enchanter's Trap")
     game.start()
     et.zone = p0.hand
-    p0.endPhase()
     p0.play(et)
     p0.endTurn()
     p1.thiefAbility(p1.hand[0], "Enchanter's Trap", et)
@@ -161,13 +157,11 @@ def test_heavy_lightning_ambush():
     game, p0, p1 = newGame([thieves.heavyLightning()], [dummyCards.one()])
     game.start()
 
-    p0.endPhase()
     p0.play(p0.hand[0])
     p0.endTurn()
 
     p1.hand[0].fast = True
     p1.playFaceup(p1.hand[0])
-    p1.endPhase()
     p1.attack(p1.faceups[0], p0.facedowns[0])
 
     assert len(p1.faceups) == 0
@@ -192,7 +186,6 @@ def testFactionAbilityBadArgs():
     game.start()
 
     p0.endTurn()
-    p1.endPhase()
     c = next(c for c in p1.deck + p1.hand if c.name == 'Elephant')
     c.zone = p1.facedowns
 
