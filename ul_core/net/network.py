@@ -41,7 +41,7 @@ class ServerNetworkManager (ULNetworkManager):
         'attack',
         'play',
         'endPhase',
-        'replace',
+        'makeDecision',
         'useThiefAbility')
 
     def onGotPacket(self, packet, addr):
@@ -130,7 +130,7 @@ class ClientNetworkManager (ULNetworkManager):
         'updatePhase',
         'updatePlayerCounter',
         'updateEnemyCounter',
-        'requestReplace',
+        'requestDecision',
         'endRedraw',
         'winGame',
         'loseGame',
