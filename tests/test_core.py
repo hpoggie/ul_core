@@ -108,7 +108,8 @@ def testAttackFaceup():
 def testMulligan():
     from copy import deepcopy
 
-    game, p0, p1 = util.newGame([dummyCards.one() for i in range(40)])
+    game, p0, p1 = util.newGame([dummyCards.one() for i in range(40)],
+            disableMulligans=False)
     game.start()
     game.turn = None
     hand0 = deepcopy(p0.hand)

@@ -6,7 +6,7 @@ def dummyFactionPlayer(deck):
     return type('DFP', (Player,), {'deck': list(deck)})
 
 
-def newGame(*args):
+def newGame(*args, disableMulligans=True):
     """
     Helper function for writing cleaner tests.
     Tries to intelligently create a new game from the arguments you give it.
@@ -44,7 +44,8 @@ def newGame(*args):
         game = Game(pl, pl)
 
     # Disable mulligans by default
-    game.turn = Turn.p1
+    if disableMulligans:
+        game.finishMulligans()
 
     # Return the players for convenience
     return game, game.players[0], game.players[1]
