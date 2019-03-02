@@ -107,7 +107,7 @@ def test_radiance_head_lightning():
 
     p0.mana = rad.cost
     p0.revealFacedown(rad)
-    assert p0.replaceCallback is not None
+    assert game.activeDecision is not None
 
 
 def test_radiance_enchanters_trap():
@@ -138,7 +138,7 @@ def test_radiance_oberons_guard():
 
     p0.replace(rad)
 
-    assert p0.replaceCallback is not None
+    assert game.activeDecision is not None
 
 
 def test_gateway():
@@ -183,7 +183,7 @@ def test_dullahan():
 
     p0.mana = d.cost
     p0.revealFacedown(d)
-    assert p0.replaceCallback is not None
+    assert game.activeDecision is not None
     p0.replace('One')
     assert len(p1.facedowns) == 1
     assert p1.facedowns[0] == two

@@ -54,9 +54,6 @@ class Player:
         # Counter for "Take an extra turn after this one" effects
         self.extraTurns = 0
 
-        # Callback for effects that require replacing cards
-        self.replaceCallback = None
-
     def __repr__(self):
         if hasattr(self, 'game'):
             return "Player %d" % self.game.players.index(self)
@@ -146,11 +143,11 @@ class Player:
         self.game.end(winner=self)
 
     def replace(self, *cards):
-        if self.replaceCallback is None:
-            raise IllegalMoveError("No effect to replace for.")
+        if self.game.activeDecision is None:
+            raise IllegalMoveError("No decision to replace for.")
         else:
-            self.replaceCallback.resolve(*cards)
-            self.replaceCallback = None
+            self.game.activeDecision.resolve(*cards)
+            self.game.activeDecision = None
             self.popAction()
 
     def pushAction(self, func):
@@ -162,7 +159,7 @@ class Player:
         self.game.pushTriggeredEffect(TriggeredEffect(self, func))
 
     def popAction(self):
-        if self.replaceCallback is not None:
+        if self.game.activeDecision is not None:
             return
 
         self.game.resolveTriggeredEffects()
@@ -193,7 +190,7 @@ class Player:
         if not self.active:
             raise IllegalMoveError("It is not your turn.")
 
-        if self.replaceCallback is not None:
+        if self.game.activeDecision is not None:
             raise IllegalMoveError(
                 "Must replace cards from effect first.")
 

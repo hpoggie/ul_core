@@ -47,6 +47,9 @@ class Game:
         # Stack used for resolving triggered effects.
         self.triggeredEffectStack = []
 
+        # Decision that must be made for the game to progress
+        self.activeDecision = None
+
     def start(self):
         for player in self.players:
             player.shuffle()
@@ -157,12 +160,11 @@ class Game:
         Pop effects off the stack until we get a decision or it's empty
         """
         while (len(self.triggeredEffectStack) > 0
-                and not any(p for p in self.players
-                    if p.replaceCallback is not None)):
+                and self.activeDecision is None):
             effect = self.triggeredEffectStack.pop()
 
             if effect.requiresTarget:
-                effect.owner.replaceCallback = effect
+                self.activeDecision = effect
                 break
             else:
                 effect.resolve()
