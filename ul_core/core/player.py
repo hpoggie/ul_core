@@ -143,11 +143,11 @@ class Player:
         self.game.end(winner=self)
 
     def makeRequiredDecision(self, *cards):
-        if self.game.activeDecision is None:
+        if self.game.requiredDecision is None:
             raise IllegalMoveError("No decision to make.")
         else:
-            self.game.activeDecision.resolve(*cards)
-            self.game.activeDecision = None
+            self.game.requiredDecision.resolve(*cards)
+            self.game.requiredDecision = None
             self.popAction()
 
     def pushAction(self, func):
@@ -187,7 +187,7 @@ class Player:
         if not self.active:
             raise IllegalMoveError("It is not your turn.")
 
-        if self.game.activeDecision is not None:
+        if self.game.requiredDecision is not None:
             raise IllegalMoveError(
                 "Must replace cards from effect first.")
 

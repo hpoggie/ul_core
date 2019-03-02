@@ -48,7 +48,7 @@ class Game:
         self.triggeredEffectStack = []
 
         # Decision that must be made for the game to progress
-        self.activeDecision = None
+        self.requiredDecision = None
 
     def start(self):
         for player in self.players:
@@ -160,11 +160,11 @@ class Game:
         Pop effects off the stack until we get a decision or it's empty
         """
         while (len(self.triggeredEffectStack) > 0
-                and self.activeDecision is None):
+                and self.requiredDecision is None):
             effect = self.triggeredEffectStack.pop()
 
             if effect.requiresTarget:
-                self.activeDecision = effect
+                self.requiredDecision = effect
                 break
             else:
                 effect.resolve()
