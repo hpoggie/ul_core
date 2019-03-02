@@ -123,10 +123,7 @@ class Game:
 
         self.phase += 1
 
-        if self.phase == Phase.play:
-            for f in self.activePlayer.faceups:
-                f.hasAttacked = False
-        elif self.phase > Phase.play:
+        if self.phase > Phase.play:
             self.endTurn()
 
     @event
@@ -152,6 +149,10 @@ class Game:
     def startTurn(self):
         self.activePlayer.mana = self.activePlayer.manaCap
         self.phase = Phase.startOfTurn
+
+        for f in self.activePlayer.faceups:
+            f.hasAttacked = False
+
         self.activePlayer.onStartOfTurn()
 
     def end(self, winner):

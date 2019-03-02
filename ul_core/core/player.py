@@ -260,9 +260,6 @@ class Player:
         if attacker.hasAttacked:
             raise IllegalMoveError("Can only attack once per turn.")
 
-        if self.game.phase != Phase.play:
-            raise IllegalMoveError("Can only attack during attack phase.")
-
         if attacker.zone != self.faceups:
             raise IllegalMoveError("Can only attack with face-up cards.")
 
