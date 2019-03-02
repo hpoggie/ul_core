@@ -10,13 +10,6 @@ def testFish():
 
     p0.endTurn()
 
-    p1.endPhase(fish=True)
-    toReplace = p1.hand[:3]
-    p1.makeRequiredDecision(*toReplace)
-
-    # Make sure cards are bottomdecked
-    assert p1.deck[:3] == toReplace
-
     # Can't put back cards unless we're fishing
     try:
         p1.makeRequiredDecision(p1.hand[:3])
@@ -25,9 +18,14 @@ def testFish():
     else:
         assert False
 
-    p1.endTurn()
+    p1.fish()
+    toReplace = p1.hand[:3]
+    p1.makeRequiredDecision(*toReplace)
 
-    p0.endPhase(fish=True)
+    # Make sure cards are bottomdecked
+    assert p1.deck[:3] == toReplace
+
+    p0.fish()
 
     # Have to decide what to put back
     try:

@@ -193,6 +193,7 @@ class Mariner(Player):
               voidstar,
               ripCurrent) + base.deck
 
+    @action
     def fish(self):
         def replace(c1, c2, c3):
             """
@@ -205,6 +206,7 @@ class Mariner(Player):
                     raise InvalidTargetError()
 
             self.bottomdeck(cards)
+            self.game.endTurn()  # Don't check if we have priority
 
         self.drawCards(2)
 
@@ -216,13 +218,3 @@ class Mariner(Player):
             # Can't do anything until calling replace
             self.pushTriggeredEffect(replace)
             self.game.resolveTriggeredEffects()
-
-    @action
-    def endPhase(self, fish=False):
-        if self.hasFirstPlayerPenalty and fish:
-            raise IllegalMoveError("Can't fish if you're not drawing.")
-
-        super().endPhase()
-
-        if self.game.phase == Phase.play and fish:
-            self.fish()
