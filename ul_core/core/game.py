@@ -57,6 +57,7 @@ class Game:
 
     def finishMulligans(self):
         self.turn = Turn.p1
+        self.startTurn()
 
     @property
     def activePlayer(self):
@@ -145,6 +146,10 @@ class Game:
         else:
             self.turn = Turn.p2 if self.turn == Turn.p1 else Turn.p1
 
+        self.startTurn()
+
+    @event
+    def startTurn(self):
         self.activePlayer.mana = self.activePlayer.manaCap
         self.phase = Phase.startOfTurn
         self.activePlayer.onStartOfTurn()
