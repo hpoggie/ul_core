@@ -116,9 +116,6 @@ class Game:
     @event
     def endPhase(self, keepFacedown=[]):
         if self.phase == Phase.reveal:
-            for c in self.activePlayer.facedowns[:]:
-                if c not in keepFacedown:
-                    c.zone = c.owner.graveyard
             self.activePlayer.drawCard()
 
         self.phase += 1
@@ -127,11 +124,17 @@ class Game:
             self.endTurn()
 
     @event
-    def endTurn(self):
+    def endTurn(self, keepFacedown=[]):
         # Make hand cards invisible so you can't easily see what's played
         for pl in self.players:
             for c in pl.hand:
                 c.visible = False
+
+        for c in self.activePlayer.facedowns[:]:
+            if c.stale and c not in keepFacedown:
+                c.zone = c.owner.graveyard
+            else:
+                c.stale = True
 
         player = self.activePlayer
         player.manaCap += 1

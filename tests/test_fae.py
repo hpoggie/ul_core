@@ -12,7 +12,9 @@ def test_fae_ability():
     game.start()
     p0.hand[0].zone = p0.facedowns
     p0.hand[0].zone = p0.facedowns
-    p0.endPhase(p0.facedowns[0])
+    p0.endTurn()
+    p1.endTurn()
+    p0.endTurn(p0.facedowns[0])
     assert len(p0.facedowns) == 1
 
 

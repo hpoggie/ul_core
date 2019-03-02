@@ -197,5 +197,5 @@ class Faerie(Player):
         gatewayToFaerie, 3) + base.deck
 
     @action
-    def endPhase(self, card=None):
-        self.game.endPhase(keepFacedown=[card])
+    def endTurn(self, card=None):
+        self.game.endTurn(keepFacedown=[card])
