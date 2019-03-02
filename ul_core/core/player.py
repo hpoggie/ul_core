@@ -228,7 +228,7 @@ class Player:
             raise IllegalMoveError("Can't reveal a card that's not face-down.")
 
         card.cast(*args, **kwargs)
-        self.popAction()  # Get any replace effects that we might have pushed
+        self.popAction()  # Get any triggered effects that we might have pushed
 
     def playFaceup(self, card, *args, **kwargs):
         self.failIfInactive()
