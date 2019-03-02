@@ -159,9 +159,6 @@ class Player:
         self.game.pushTriggeredEffect(TriggeredEffect(self, func))
 
     def popAction(self):
-        if self.game.activeDecision is not None:
-            return
-
         self.game.resolveTriggeredEffects()
 
     # Actions
