@@ -42,3 +42,6 @@ class Mariner(mariners.Mariner):
 
 class Faerie(fae.Faerie):
     pass
+
+
+availableFactions = [Templar, Mariner, Thief, Faerie]
