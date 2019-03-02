@@ -93,7 +93,7 @@ def test_radiance():
 
     p0.mana = rad.cost
     p0.revealFacedown(rad)
-    assert p0.actionStack == []
+    assert game.triggeredEffectStack == []
     assert left.zone == p0.faceups
     assert right.zone == p0.faceups
     assert right2.zone == p0.faceups

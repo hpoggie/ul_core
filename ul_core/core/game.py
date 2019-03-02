@@ -44,6 +44,9 @@ class Game:
             for card in player.deck:
                 card.game = self
 
+        # Stack used for resolving triggered effects.
+        self.triggeredEffectStack = []
+
     def start(self):
         for player in self.players:
             player.shuffle()
@@ -145,3 +148,21 @@ class Game:
 
     def end(self, winner):
         raise EndOfGame(winner)
+
+    def pushTriggeredEffect(self, effect):
+        self.triggeredEffectStack.append(effect)
+
+    def resolveTriggeredEffects(self):
+        """
+        Pop effects off the stack until we get a decision or it's empty
+        """
+        while (len(self.triggeredEffectStack) > 0
+                and not any(p for p in self.players
+                    if p.replaceCallback is not None)):
+            effect = self.triggeredEffectStack.pop()
+
+            if effect.requiresTarget:
+                effect.owner.replaceCallback = effect
+                break
+            else:
+                effect.resolve()

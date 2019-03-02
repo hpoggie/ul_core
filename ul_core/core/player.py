@@ -11,6 +11,7 @@ from random import randint
 from ul_core.core.game import Phase
 from ul_core.core.zone import Zone
 from ul_core.core.exceptions import IllegalMoveError
+from .triggeredEffect import TriggeredEffect
 
 startHandSize = 5
 maxManaCap = 15
@@ -55,9 +56,6 @@ class Player:
 
         # Callback for effects that require replacing cards
         self.replaceCallback = None
-
-        # Stack for forced actions (see push() and pop())
-        self.actionStack = []
 
     def __repr__(self):
         if hasattr(self, 'game'):
@@ -151,7 +149,7 @@ class Player:
         if self.replaceCallback is None:
             raise IllegalMoveError("No effect to replace for.")
         else:
-            self.replaceCallback(*cards)
+            self.replaceCallback.resolve(*cards)
             self.replaceCallback = None
             self.popAction()
 
@@ -161,25 +159,13 @@ class Player:
         This is useful for requiring things to happen after targetCallback
         is called
         """
-        self.actionStack.append(func)
+        self.game.pushTriggeredEffect(TriggeredEffect(self, func))
 
     def popAction(self):
-        """
-        Pop actions off the stack until we get a decision or it's empty
-        """
         if self.replaceCallback is not None:
             return
 
-        try:
-            func = self.actionStack.pop()
-        except IndexError:
-            pass
-        else:
-            if func.__code__.co_argcount > 0:
-                self.replaceCallback = func
-            else:
-                func()
-                self.popAction()
+        self.game.resolveTriggeredEffects()
 
     # Actions
 

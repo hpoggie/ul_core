@@ -96,9 +96,7 @@ class Card:
         self.controller.mana -= self.cost
         self.spawn()
         if self.requiresTarget:
-            self.controller.replaceCallback(target)
-            self.controller.replaceCallback = None
-            self.controller.popAction()
+            self.controller.replace(target)
 
     def spawn(self, newController=None):
         if newController is None:
