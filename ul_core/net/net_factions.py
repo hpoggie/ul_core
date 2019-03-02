@@ -1,6 +1,7 @@
 import ul_core.factions.templars as templars
 import ul_core.factions.thieves as thieves
 import ul_core.factions.mariners as mariners
+import ul_core.factions.fae as fae
 
 
 class ProtocolError(Exception):
@@ -37,3 +38,7 @@ class Thief(thieves.Thief):
 class Mariner(mariners.Mariner):
     def factionAbility(self):
         self.fish()
+
+
+class Faerie(fae.Faerie):
+    pass
