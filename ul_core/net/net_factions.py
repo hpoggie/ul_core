@@ -1,5 +1,6 @@
 import ul_core.factions.templars as templars
 import ul_core.factions.thieves as thieves
+import ul_core.factions.mariners as mariners
 
 
 class ProtocolError(Exception):
@@ -31,3 +32,8 @@ class Thief(thieves.Thief):
                 raise ProtocolError("Bad target index.", e)
 
         self.thiefAbility()
+
+
+class Mariner(mariners.Mariner):
+    def factionAbility(self):
+        self.fish()
