@@ -1,7 +1,7 @@
 from . import enums
 
 Turn = enums.numericEnum('p1', 'p2')
-Phase = enums.numericEnum('startOfTurn', 'reveal', 'play')
+Phase = enums.numericEnum('reveal', 'play')
 
 
 def destroy(card):
@@ -148,14 +148,12 @@ class Game:
     @event
     def startTurn(self):
         self.activePlayer.mana = self.activePlayer.manaCap
-        self.phase = Phase.startOfTurn
+        self.phase = Phase.reveal
 
         for f in self.activePlayer.faceups:
             f.hasAttacked = False
 
         self.activePlayer.hasTakenAction = False
-
-        self.activePlayer.onStartOfTurn()
 
     def end(self, winner):
         raise EndOfGame(winner)
