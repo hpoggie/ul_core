@@ -242,4 +242,4 @@ class Thief(Player):
 
         discard.zone = discard.owner.graveyard
 
-        self.popAction()
+        self.game.resolveTriggeredEffects()

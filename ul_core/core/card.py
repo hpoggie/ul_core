@@ -105,7 +105,7 @@ class Card:
         self.zone = newController.faceups
 
         self.pushSpawnEffect()
-        self.controller.popAction()
+        self.game.resolveTriggeredEffects()
 
     def pushSpawnEffect(self):
         def cleanupSpell():

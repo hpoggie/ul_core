@@ -148,16 +148,13 @@ class Player:
         else:
             self.game.requiredDecision.resolve(*cards)
             self.game.requiredDecision = None
-            self.popAction()
+            self.game.resolveTriggeredEffects()
 
     def pushTriggeredEffect(self, func):
         """
         Push a triggered effect onto the global stack
         """
         self.game.pushTriggeredEffect(TriggeredEffect(self, func))
-
-    def popAction(self):
-        self.game.resolveTriggeredEffects()
 
     # Actions
 
@@ -226,7 +223,8 @@ class Player:
             raise IllegalMoveError("Can't reveal a card that's not face-down.")
 
         card.cast(*args, **kwargs)
-        self.popAction()  # Get any triggered effects that we might have pushed
+        # Get any triggered effects that we might have pushed
+        self.game.resolveTriggeredEffects()
 
     def playFaceup(self, card, *args, **kwargs):
         self.failIfInactive()
@@ -250,7 +248,7 @@ class Player:
             raise IllegalMoveError("Not enough mana.")
 
         card.cast(*args, **kwargs)
-        self.popAction()
+        self.game.resolveTriggeredEffects()
 
     def attack(self, attacker, target):
         self.failIfInactive()

@@ -215,7 +215,7 @@ class Mariner(Player):
         else:
             # Can't do anything until calling replace
             self.pushTriggeredEffect(replace)
-            self.popAction()
+            self.game.resolveTriggeredEffects()
 
     def endPhase(self, fish=False):
         if self.hasFirstPlayerPenalty and fish:
