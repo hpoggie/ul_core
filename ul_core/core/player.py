@@ -8,7 +8,6 @@ A player has the following characteristics:
 from copy import deepcopy
 from random import randint
 
-from ul_core.core.game import Phase
 from ul_core.core.zone import Zone
 from ul_core.core.exceptions import IllegalMoveError
 from .triggeredEffect import TriggeredEffect
@@ -202,10 +201,6 @@ class Player:
         if isinstance(card, int):
             card = self.hand[card]
 
-        if self.game.phase != Phase.play:
-            raise IllegalMoveError("""
-            Can only play facedowns during play phase.""")
-
         if card.zone != self.hand:
             raise IllegalMoveError(
                 "Can't play %s because it's not in your hand." % repr(card))
@@ -218,10 +213,6 @@ class Player:
         # Overload
         if isinstance(card, int):
             card = self.facedowns[card]
-
-        if self.game.phase != Phase.reveal:
-            raise IllegalMoveError("""
-            Can only reveal facedowns during reveal phase.""")
 
         if self.mana < card.cost:
             raise IllegalMoveError("Not enough mana. (cost %d; mana %d)"
@@ -239,10 +230,6 @@ class Player:
         # Overload
         if isinstance(card, int):
             card = self.hand[card]
-
-        if self.game.phase != Phase.reveal:
-            raise IllegalMoveError("""
-                    Can only play faceups during reveal phase.""")
 
         if card not in self.hand:
             raise IllegalMoveError("""
