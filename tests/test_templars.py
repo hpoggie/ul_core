@@ -13,18 +13,18 @@ def testTemplarAbility():
     p0.mulligan()
     p1.mulligan()
 
-    p0.endTurn(p0.hand[0])
+    p0.templarAbility(p0.hand[0])
 
     assert len(p0.hand) == 4  # First player penalty
     assert p0.manaCap == 3
 
-    p1.endTurn(None)
+    p1.templarAbility(None)
 
     assert len(p1.hand) == 6
     assert p1.manaCap == 2
 
     # Try discarding something not in your hand
-    p0.endTurn(p1.hand[0])
+    p0.templarAbility(p1.hand[0])
     assert len(p1.hand) == 6
     assert p0.manaCap == 4
 
