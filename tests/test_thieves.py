@@ -105,7 +105,7 @@ def testHeadLightning():
     oldHandSize = len(p0.hand)
     p0.playFaceup(hl)
     assert len(p0.hand) == oldHandSize + 2  # Play 1, draw 3
-    p0.replace(p0.hand[0], p0.hand[1])
+    p0.makeRequiredDecision(p0.hand[0], p0.hand[1])
     assert len(p0.hand) == oldHandSize
 
 
@@ -122,7 +122,7 @@ def test_head_lightning_weird_targets():
 
     p0.playFaceup(hl)
     try:
-        p0.replace(p1.faceups[0], p1.faceups[1])
+        p0.makeRequiredDecision(p1.faceups[0], p1.faceups[1])
     except InvalidTargetError:
         pass
     else:

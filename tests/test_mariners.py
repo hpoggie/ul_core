@@ -12,14 +12,14 @@ def testFish():
 
     p1.endPhase(fish=True)
     toReplace = p1.hand[:3]
-    p1.replace(*toReplace)
+    p1.makeRequiredDecision(*toReplace)
 
     # Make sure cards are bottomdecked
     assert p1.deck[:3] == toReplace
 
     # Can't put back cards unless we're fishing
     try:
-        p1.replace(p1.hand[:3])
+        p1.makeRequiredDecision(p1.hand[:3])
     except IllegalMoveError:
         pass
     else:
@@ -39,7 +39,7 @@ def testFish():
 
     # Must put back 3
     try:
-        p0.replace(*(p1.hand[:2] + [None]))
+        p0.makeRequiredDecision(*(p1.hand[:2] + [None]))
     except IllegalMoveError:
         pass
     else:

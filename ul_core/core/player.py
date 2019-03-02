@@ -142,9 +142,9 @@ class Player:
     def win(self):
         self.game.end(winner=self)
 
-    def replace(self, *cards):
+    def makeRequiredDecision(self, *cards):
         if self.game.activeDecision is None:
-            raise IllegalMoveError("No decision to replace for.")
+            raise IllegalMoveError("No decision to make.")
         else:
             self.game.activeDecision.resolve(*cards)
             self.game.activeDecision = None

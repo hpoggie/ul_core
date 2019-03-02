@@ -136,7 +136,7 @@ def test_radiance_oberons_guard():
 
     assert og.faceup
 
-    p0.replace(rad)
+    p0.makeRequiredDecision(rad)
 
     assert game.activeDecision is not None
 
@@ -184,6 +184,6 @@ def test_dullahan():
     p0.mana = d.cost
     p0.revealFacedown(d)
     assert game.activeDecision is not None
-    p0.replace('One')
+    p0.makeRequiredDecision('One')
     assert len(p1.facedowns) == 1
     assert p1.facedowns[0] == two

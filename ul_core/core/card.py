@@ -96,7 +96,7 @@ class Card:
         self.controller.mana -= self.cost
         self.spawn()
         if self.requiresTarget:
-            self.controller.replace(target)
+            self.controller.makeRequiredDecision(target)
 
     def spawn(self, newController=None):
         if newController is None:
