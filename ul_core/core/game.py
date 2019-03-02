@@ -153,6 +153,8 @@ class Game:
         for f in self.activePlayer.faceups:
             f.hasAttacked = False
 
+        self.activePlayer.hasTakenAction = False
+
         self.activePlayer.onStartOfTurn()
 
     def end(self, winner):

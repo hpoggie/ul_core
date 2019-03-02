@@ -17,6 +17,18 @@ startHandSize = 5
 maxManaCap = 15
 
 
+def action(func):
+    """
+    Property that calls failIfInactive before and sets hasTakenAction after
+    """
+    def newFunc(self, *args, **kwargs):
+        self.failIfInactive()
+        func(self, *args, **kwargs)
+        self.hasTakenAction = True
+
+    return newFunc
+
+
 class Player:
     iconPath = "./my_faction_icons"
     cardBack = "my-faction-back.png"
@@ -35,6 +47,7 @@ class Player:
 
         self.hasMulliganed = False
         self.hasFirstPlayerPenalty = False
+        self.hasTakenAction = False
 
         self.referenceDeck = self.deck[:]
         for i, card in enumerate(self.deck):
@@ -186,9 +199,8 @@ class Player:
             raise IllegalMoveError(
                 "Must make required decisions first.")
 
+    @action
     def play(self, card):
-        self.failIfInactive()
-
         # Overload
         if isinstance(card, int):
             card = self.hand[card]
@@ -204,9 +216,8 @@ class Player:
         card.zone = self.facedowns
         card.hasAttacked = False
 
+    @action
     def revealFacedown(self, card, *args, **kwargs):
-        self.failIfInactive()
-
         # Overload
         if isinstance(card, int):
             card = self.facedowns[card]
@@ -226,9 +237,8 @@ class Player:
         # Get any triggered effects that we might have pushed
         self.game.resolveTriggeredEffects()
 
+    @action
     def playFaceup(self, card, *args, **kwargs):
-        self.failIfInactive()
-
         # Overload
         if isinstance(card, int):
             card = self.hand[card]
@@ -250,9 +260,8 @@ class Player:
         card.cast(*args, **kwargs)
         self.game.resolveTriggeredEffects()
 
+    @action
     def attack(self, attacker, target):
-        self.failIfInactive()
-
         # Overload
         if isinstance(attacker, int):
             attacker = self.faceups[attacker]
@@ -283,12 +292,12 @@ class Player:
     def attackFace(self, attacker):
         self.attack(attacker, self.opponent.face)
 
+    @action
     def endPhase(self):
-        self.failIfInactive()
         self.game.endPhase()
 
+    @action
     def endTurn(self, *args, **kwargs):
-        self.failIfInactive()
         originalExtraTurns = self.extraTurns
         while self.active and self.extraTurns == originalExtraTurns:
             self.endPhase(*args, **kwargs)
