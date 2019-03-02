@@ -1,5 +1,5 @@
 from .util import newGame
-import ul_core.net.net_factions as nf
+import ul_core.net.factions as nf
 
 
 def testTemplarAbilityIndices():
