@@ -40,7 +40,6 @@ class ServerNetworkManager (ULNetworkManager):
         'playFaceup',
         'attack',
         'play',
-        'endPhase',
         'makeDecision',
         'useThiefAbility')
 
@@ -127,7 +126,6 @@ class ClientNetworkManager (ULNetworkManager):
         'updatePlayerManaCap',
         'updatePlayerMana',
         'updateEnemyManaCap',
-        'updatePhase',
         'updatePlayerCounter',
         'updateEnemyCounter',
         'requestDecision',
