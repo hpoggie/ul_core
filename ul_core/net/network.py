@@ -41,7 +41,8 @@ class ServerNetworkManager (ULNetworkManager):
         'attack',
         'play',
         'makeDecision',
-        'useThiefAbility')
+        'useThiefAbility',
+        'endTurn')
 
     def onGotPacket(self, packet, addr):
         if packet == '':
