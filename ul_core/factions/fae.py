@@ -1,4 +1,4 @@
-from ul_core.core.player import Player
+from ul_core.core.player import Player, action
 from ul_core.core.exceptions import InvalidTargetError
 from ul_core.core.faction import deck
 from ul_core.core.card import Card
@@ -196,6 +196,6 @@ class Faerie(Player):
         wildMagic, 2,
         gatewayToFaerie, 3) + base.deck
 
+    @action
     def endPhase(self, card=None):
-        self.failIfInactive()
         self.game.endPhase(keepFacedown=[card])

@@ -2,7 +2,7 @@ from . import base
 from ul_core.core.game import destroy, Phase
 from ul_core.core.card import Card
 from ul_core.core.faction import deck
-from ul_core.core.player import Player
+from ul_core.core.player import Player, action
 
 iconPath = "templar_icons"
 
@@ -150,6 +150,7 @@ class Templar(Player):
             crystalRain, 2,
             crystalElemental) + base.deck
 
+    @action
     def templarAbility(self, card):
         if card and card in self.hand:
             card.zone = self.graveyard

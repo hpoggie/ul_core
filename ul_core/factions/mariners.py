@@ -4,7 +4,7 @@ from . import base
 from ul_core.core.game import Phase, destroy
 from ul_core.core.card import Card
 from ul_core.core.faction import deck
-from ul_core.core.player import Player
+from ul_core.core.player import Player, action
 from ul_core.core.exceptions import IllegalMoveError, InvalidTargetError
 
 iconPath = "mariner_icons"
@@ -217,6 +217,7 @@ class Mariner(Player):
             self.pushTriggeredEffect(replace)
             self.game.resolveTriggeredEffects()
 
+    @action
     def endPhase(self, fish=False):
         if self.hasFirstPlayerPenalty and fish:
             raise IllegalMoveError("Can't fish if you're not drawing.")

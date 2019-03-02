@@ -1,6 +1,6 @@
 import types
 from . import base
-from ul_core.core.player import Player
+from ul_core.core.player import Player, action
 from ul_core.core.exceptions import IllegalMoveError, InvalidTargetError
 from ul_core.core.card import Card
 from ul_core.core.game import destroy, Phase
@@ -229,8 +229,8 @@ class Thief(Player):
         if tzone is not self.opponent.facedowns:
             raise InvalidTargetError()
 
+    @action
     def thiefAbility(self, discard, name, target):
-        self.failIfInactive()
         self.validateThiefAbilityInput(discard, name, target)
 
         self.pushTriggeredEffect(lambda: self.endPhase())
