@@ -197,16 +197,15 @@ class Thief(Player):
         heavyLightning,
         spellScalpel) + base.deck
 
-    def onStartOfTurn(self):
-        pass
-
     def validateThiefAbilityInput(self, discard, name, target):
         """
         Check if the input we got is legal.
         Fails if zones are wrong or we get arguments that aren't cards
+        Also fails if we did something else before
         """
-        if self.game.phase != Phase.startOfTurn:
-            raise IllegalMoveError("Can only try to steal at start of turn.")
+        if self.hasTakenAction:
+            raise IllegalMoveError(
+                "α effects can only be done as the first action on your turn.")
 
         # Check if discard has a zone attribute
         # Done separately to avoid catching possible AttributeErrors from
@@ -232,8 +231,6 @@ class Thief(Player):
     @action
     def thiefAbility(self, discard, name, target):
         self.validateThiefAbilityInput(discard, name, target)
-
-        self.pushTriggeredEffect(lambda: self.endPhase())
 
         if target.name == name:
             target.spawn(newController=self)

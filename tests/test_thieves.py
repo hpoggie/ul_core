@@ -12,7 +12,6 @@ def testThiefAbility():
 
     p0.endTurn()
     p1.endPhase()
-    p1.endPhase()
     c = next(c for c in p1.deck + p1.hand if c.name == 'Elephant')
     c.zone = p1.facedowns
 
@@ -34,7 +33,6 @@ def testThiefAbilityWrongGuess():
 
     p0.endTurn()
     p1.endPhase()
-    p1.endPhase()
     c = next(c for c in p1.deck + p1.hand if c.name == 'Elephant')
     c.zone = p1.facedowns
 
@@ -50,26 +48,6 @@ def testThiefAbilityWrongGuess():
     else:
         assert False
 
-
-def testThiefAbilityWrongPhase():
-    game, p0, p1 = newGame(thieves.Thief)
-    game.start()
-
-    p0.endTurn()
-    p1.endPhase()
-    p1.endPhase()
-    c = next(c for c in p1.deck + p1.hand if c.name == 'Sweep')
-    c.zone = p1.facedowns
-
-    p1.endTurn()
-    p0.endPhase()
-
-    try:
-        p0.thiefAbility(p0.hand[0], 'Sweep', c)
-    except IllegalMoveError:
-        pass
-    else:
-        assert False
 
 def testHydra():
     game, p0, p1 = newGame(
@@ -214,7 +192,6 @@ def testFactionAbilityBadArgs():
     game.start()
 
     p0.endTurn()
-    p1.endPhase()
     p1.endPhase()
     c = next(c for c in p1.deck + p1.hand if c.name == 'Elephant')
     c.zone = p1.facedowns

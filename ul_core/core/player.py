@@ -98,6 +98,9 @@ class Player:
 
     def onStartOfTurn(self):
         self.endPhase()
+        # TODO: hack to make thief ability work.
+        # Otherwise endPhase makes alpha effects not work
+        self.hasTakenAction = False
 
     def drawCard(self):
         if len(self.deck) != 0:
