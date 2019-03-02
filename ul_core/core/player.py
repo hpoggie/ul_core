@@ -207,6 +207,7 @@ class Player:
 
         card.zone = self.facedowns
         card.hasAttacked = False
+        card.locked = True
 
     @action
     def revealFacedown(self, card, *args, **kwargs):
@@ -220,6 +221,9 @@ class Player:
 
         if card.zone != self.facedowns:
             raise IllegalMoveError("Can't reveal a card that's not face-down.")
+
+        if card.locked:
+            raise IllegalMoveError("Card is locked and can't be cast this turn.")
 
         card.cast(*args, **kwargs)
         # Get any triggered effects that we might have pushed

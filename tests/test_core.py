@@ -160,3 +160,22 @@ def testZoneLists():
 
     for z in p0.zones:
         assert z not in p1.zones
+
+
+def testCardLocking():
+    game, p0, p1 = util.newGame(dummyCards.one())
+
+    p0.play(p0.hand[0])
+
+    # Should not be able to cast a fd on same turn
+    try:
+        p0.revealFacedown(p0.facedowns[0])
+    except IllegalMoveError:
+        pass
+    else:
+        assert False
+
+    p0.endTurn()
+    p1.endTurn()
+    p0.revealFacedown(p0.facedowns[0])
+    assert len(p0.faceups) == 1

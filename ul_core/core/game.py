@@ -123,6 +123,7 @@ class Game:
                 c.zone = c.owner.graveyard
             else:
                 c.stale = True
+                c.locked = False
 
         player = self.activePlayer
         player.manaCap += 1

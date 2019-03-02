@@ -56,6 +56,7 @@ class Card:
         self._visible = False
         self.desc = ""
         self.stale = False  # Will this fizzle at end of turn?
+        self.locked = False  # Can this be cast?
 
         for (key, value) in kwargs.items():
             setattr(self, key, value)
@@ -179,6 +180,7 @@ class Card:
         self.visible = False
         self.hasAttacked = False
         self.stale = False
+        self.locked = False
 
     @property
     def faceup(self):
