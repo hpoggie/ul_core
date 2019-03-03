@@ -32,7 +32,7 @@ class Thief(thieves.Thief):
             except IndexError as e:
                 raise ProtocolError("Bad target index.", e)
 
-        self.thiefAbility()
+        self.thiefAbility(discard, name, target)
 
 
 class Mariner(mariners.Mariner):
