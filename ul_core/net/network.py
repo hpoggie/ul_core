@@ -129,6 +129,8 @@ class ClientNetworkManager (ULNetworkManager):
         'updateEnemyManaCap',
         'updatePlayerCounter',
         'updateEnemyCounter',
+        'updatePlayerFacedownStaleness',
+        'updateEnemyFacedownStaleness',
         'requestDecision',
         'endRedraw',
         'winGame',
