@@ -69,7 +69,6 @@ def testAttackFace():
 
 def testAttackFacedown():
     newCard = dummyCards.one()
-    newCard.fast = True
     newCard.cost = 0
     game, p0, p1 = util.newGame(newCard)
     game.start()
@@ -77,6 +76,7 @@ def testAttackFacedown():
     p0.play(game.players[0].hand[0])
     p0.endTurn()
     # 2nd player attacks it
+    p1.hand[0].fast = True
     p1.playFaceup(p1.hand[0])
     p1.attack(p1.faceups[0], p0.facedowns[0])
     assert len(p0.facedowns) == 0

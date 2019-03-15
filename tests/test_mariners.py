@@ -170,7 +170,10 @@ def testSquid():
 
 
 def testAquaticMCT():
-    game, p0, p1 = newGame([mariners.highTide(), mariners.humboldtSquid()],
+    slowSquid = mariners.humboldtSquid()
+    slowSquid.fast = False
+
+    game, p0, p1 = newGame([mariners.highTide(), slowSquid],
                            [base.mindControlTrap()])
     p0.drawCard()  # Make sure hand is in order
     game.start()

@@ -47,7 +47,7 @@ def testMindControlTrap():
 
 
 def testSpellBlade():
-    game, p0, p1 = newGame([base.spellBlade()])
+    game, p0, p1 = newGame([dummyCards.one()], [base.spellBlade()])
 
     p0.play(p0.hand[0])
     p0.endTurn()

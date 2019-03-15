@@ -205,6 +205,10 @@ class Player:
             raise IllegalMoveError(
                 "Can't play %s because it's not in your hand." % repr(card))
 
+        if card.fast:
+            raise IllegalMoveError(
+                "Can't play fast cards face-down.")
+
         card.zone = self.facedowns
         card.hasAttacked = False
 
