@@ -2,7 +2,7 @@ import socket
 import select
 
 
-class ConnectionClosed(BaseException):
+class ConnectionClosed(Exception):
     def __init__(self, conn):
         self.conn = conn
 

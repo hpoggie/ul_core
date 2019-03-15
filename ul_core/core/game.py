@@ -7,7 +7,7 @@ def destroy(card):
     card.game.destroy(card)
 
 
-class EndOfGame(BaseException):
+class EndOfGame(Exception):
     def __init__(self, winner):
         self.winner = winner
 
