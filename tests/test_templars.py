@@ -5,13 +5,8 @@ import ul_core.factions.templars as templars
 
 
 def testTemplarAbility():
-    game = Game(templars.Templar, templars.Templar)
-    p0 = game.players[0]
-    p1 = game.players[1]
+    game, p0, p1 = newGame(templars.Templar, templars.Templar)
     game.start()
-    # empty mulligans
-    p0.mulligan()
-    p1.mulligan()
 
     p0.templarAbility(p0.hand[0])
 

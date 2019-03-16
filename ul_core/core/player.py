@@ -29,7 +29,9 @@ def action(func):
 
         self.game.pushTriggeredEffect(
             TriggeredEffect(self, execute))
-        self.game.resolveTriggeredEffects()
+
+        if self.game.autoresolve:
+            self.game.resolveTriggeredEffects()
 
     return newFunc
 

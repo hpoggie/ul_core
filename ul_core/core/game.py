@@ -28,7 +28,7 @@ def event(func):
 
 
 class Game:
-    def __init__(self, p1Type, p2Type):
+    def __init__(self, p1Type, p2Type, autoresolve=False):
         """
         p1Type and p2Type are the classes of player 1 and player 2.
         e.g. Templar and Thief
@@ -47,6 +47,11 @@ class Game:
 
         # Decision that must be made for the game to progress
         self.requiredDecision = None
+
+        # Automatically resolve actions?
+        # Mostly useful for testing, normally you will want this off
+        # So that you can do an animation for each action
+        self.autoresolve = autoresolve
 
     def start(self):
         for player in self.players:
@@ -166,3 +171,14 @@ class Game:
                 break
             else:
                 effect.resolve()
+
+    def effects(self):
+        while (len(self.triggeredEffectStack) > 0
+                and self.requiredDecision is None):
+            yield self.triggeredEffectStack.pop()
+
+    def resolve(self, effect):
+        if effect.requiresTarget:
+            self.requiredDecision = effect
+        else:
+            effect.resolve()
