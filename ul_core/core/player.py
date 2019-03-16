@@ -22,8 +22,14 @@ def action(func):
     """
     def newFunc(self, *args, **kwargs):
         self.failIfInactive()
-        func(self, *args, **kwargs)
-        self.hasTakenAction = True
+
+        def execute():
+            func(self, *args, **kwargs)
+            self.hasTakenAction = True
+
+        self.game.pushTriggeredEffect(
+            TriggeredEffect(self, execute))
+        self.game.resolveTriggeredEffects()
 
     return newFunc
 
