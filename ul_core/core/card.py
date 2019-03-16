@@ -101,7 +101,9 @@ class Card:
         self.controller.mana -= self.cost
         self.spawn()
         if self.requiresTarget:
-            self.controller.makeRequiredDecision(target)
+            # Remove the pushed effect and re-add it with target
+            effect = self.game.triggeredEffectStack.pop()
+            self.controller.pushTriggeredEffect(lambda: effect.resolve(target))
 
     def spawn(self, newController=None):
         if newController is None:
@@ -110,7 +112,6 @@ class Card:
         self.zone = newController.faceups
 
         self.pushSpawnEffect()
-        self.game.resolveTriggeredEffects()
 
     def pushSpawnEffect(self):
         def cleanupSpell():
