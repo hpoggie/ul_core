@@ -188,7 +188,7 @@ def testManualResolve():
     animations = []
 
     def res():
-        for effect in game.effects():
+        for effect in game.to_resolve:
             animations.append(effect)
             game.resolve(effect)
 
