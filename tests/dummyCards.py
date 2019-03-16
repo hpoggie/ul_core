@@ -8,3 +8,10 @@ class one(Card):
     name = "One"
     cost = 1
     rank = 1
+
+
+class fast(Card):
+    name = "Fast Card"
+    cost = 1
+    rank = 1
+    fast = True

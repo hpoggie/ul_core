@@ -179,3 +179,29 @@ def testCardLocking():
     p1.endTurn()
     p0.revealFacedown(p0.facedowns[0])
     assert len(p0.faceups) == 1
+
+
+def testManualResolve():
+    game, p0, p1 = util.newGame(
+        [base.sweep()], [dummyCards.fast()], autoresolve=False)
+
+    animations = []
+
+    def res():
+        for effect in game.effects():
+            animations.append(effect)
+            game.resolve(effect)
+
+    p0.play(0)  # Pushes 1
+    res()
+    p0.endTurn()  # 1
+    res()
+    p1.playFaceup(0)  # 2: action + spawn
+    res()
+    p1.endTurn()  # 1
+    res()
+    p0.mana = 4
+    p0.revealFacedown(0)  # 2
+    res()
+
+    assert len(animations) == 8
