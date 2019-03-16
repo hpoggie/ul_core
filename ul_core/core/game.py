@@ -172,7 +172,8 @@ class Game:
             else:
                 effect.resolve()
 
-    def effects(self):
+    @property
+    def to_resolve(self):
         while (len(self.triggeredEffectStack) > 0
                 and self.requiredDecision is None):
             yield self.triggeredEffectStack.pop()
