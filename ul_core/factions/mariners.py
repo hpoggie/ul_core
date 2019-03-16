@@ -217,4 +217,3 @@ class Mariner(Player):
         else:
             # Can't do anything until calling replace
             self.pushTriggeredEffect(replace)
-            self.game.resolveTriggeredEffects()

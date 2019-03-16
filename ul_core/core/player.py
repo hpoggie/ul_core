@@ -242,8 +242,6 @@ class Player:
                 "Can only use an alpha effect as the first effect on your turn.")
 
         card.cast(*args, **kwargs)
-        # Get any triggered effects that we might have pushed
-        self.game.resolveTriggeredEffects()
 
     @action
     def playFaceup(self, card, *args, **kwargs):
@@ -262,7 +260,6 @@ class Player:
             raise IllegalMoveError("Not enough mana.")
 
         card.cast(*args, **kwargs)
-        self.game.resolveTriggeredEffects()
 
     @action
     def attack(self, attacker, target):

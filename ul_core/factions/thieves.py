@@ -238,5 +238,3 @@ class Thief(Player):
             target.visible = True
 
         discard.zone = discard.owner.graveyard
-
-        self.game.resolveTriggeredEffects()
