@@ -220,3 +220,12 @@ class Card:
     @property
     def imagePath(self):
         return self.iconPath + '/' + self.image
+   
+    def wait_for_targets(self, *fns):
+        # get targets
+
+        for fn, arg in zip(fns, args):
+            if not fn(arg):
+                raise InvalidTargetError()
+
+        return args
