@@ -197,16 +197,15 @@ def testManualResolve():
         def _a(f2):
             f1(*args)
             f2()
-            return EventHandler(f1)
+            return EventHandler(f2)
 
         return _a
 
-    handler = EventHandler(res)
-
-    handler >> and_cb(p0.play, 0)  # Pushes 1
-    handler >> and_cb(p0.endTurn)  # 1
-    handler >> and_cb(p1.playFaceup, 0)  # 2: action + spawn
-    handler >> and_cb(p1.endTurn)  # 1
+    handler = (EventHandler(res)
+        >> and_cb(p0.play, 0)  # Pushes 1
+        >> and_cb(p0.endTurn)  # 1
+        >> and_cb(p1.playFaceup, 0)  # 2: action + spawn
+        >> and_cb(p1.endTurn))  # 1
 
     p0.mana = 4
 
