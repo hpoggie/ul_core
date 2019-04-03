@@ -4,6 +4,7 @@ import ul_core.core.player as player
 from ul_core.core.player import Player, IllegalMoveError
 from ul_core.factions.templars import Templar
 import ul_core.factions.base as base
+from ul_core.core.event_handler import EventHandler
 
 
 def deckContainsDuplicates(deck):
@@ -192,16 +193,23 @@ def testManualResolve():
             animations.append(effect)
             game.resolve(effect)
 
-    p0.play(0)  # Pushes 1
-    res()
-    p0.endTurn()  # 1
-    res()
-    p1.playFaceup(0)  # 2: action + spawn
-    res()
-    p1.endTurn()  # 1
-    res()
+    def and_cb(f1, *args):
+        def _a(f2):
+            f1(*args)
+            f2()
+            return EventHandler(f1)
+
+        return _a
+
+    handler = EventHandler(res)
+
+    handler >> and_cb(p0.play, 0)  # Pushes 1
+    handler >> and_cb(p0.endTurn)  # 1
+    handler >> and_cb(p1.playFaceup, 0)  # 2: action + spawn
+    handler >> and_cb(p1.endTurn)  # 1
+
     p0.mana = 4
-    p0.revealFacedown(0)  # 2
-    res()
+
+    handler >> and_cb(p0.revealFacedown, 0)  # 2
 
     assert len(animations) == 8
