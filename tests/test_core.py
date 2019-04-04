@@ -193,19 +193,11 @@ def testManualResolve():
             animations.append(effect)
             game.resolve(effect)
 
-    def and_cb(f1, *args):
-        def _a(f2):
-            f1(*args)
-            f2()
-            return EventHandler(f2)
-
-        return _a
-
-    handler = EventHandler(res).do(
-        and_cb(p0.play, 0),  # Pushes 1
-        and_cb(p0.endTurn),  # 1
-        and_cb(p1.playFaceup, 0),  # 2: action + spawn
-        and_cb(p1.endTurn))  # 1
+    handler = event_handler.with_callback(
+        (p0.play, 0),  # Pushes 1
+        (p0.endTurn),  # 1
+        (p1.playFaceup, 0),  # 2: action + spawn
+        (p1.endTurn))  # 1
 
     p0.mana = 4
 

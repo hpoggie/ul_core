@@ -23,3 +23,15 @@ class EventHandler:
 
     def do(self, *funcs):
         return functools.reduce(lambda x, y: x >> y, funcs, self)
+
+
+def with_callback(callback, *funcs):
+    def and_cb(f1, *args):
+        def _a(f2):
+            f1(*args)
+            f2()
+            return EventHandler(f2)
+
+        return _a
+
+    EventHandler(callback).do(*[and_cb(func) for func in funcs])
