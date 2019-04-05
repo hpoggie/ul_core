@@ -126,10 +126,15 @@ class Card:
                         isinstance(target, Card) and
                         target.isValidTarget):
                     self.onSpawn(target)
+                    self.game.eventHandler.on_spawn(self)
 
             self.controller.pushTriggeredEffect(doActionWithTarget)
         else:
-            self.controller.pushTriggeredEffect(lambda: self.onSpawn())
+            def doAction():
+                self.onSpawn()
+                self.game.eventHandler.on_spawn(self)
+
+            self.controller.pushTriggeredEffect(doAction)
 
     def attack(self, target):
         self.hasAttacked = True

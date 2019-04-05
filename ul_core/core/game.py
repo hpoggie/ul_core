@@ -1,4 +1,5 @@
 from . import enums
+from .event_handler import EventHandler
 
 Turn = enums.numericEnum('p1', 'p2')
 
@@ -52,6 +53,8 @@ class Game:
         # Mostly useful for testing, normally you will want this off
         # So that you can do an animation for each action
         self.autoresolve = autoresolve
+
+        self.eventHandler = EventHandler()
 
     def start(self):
         for player in self.players:

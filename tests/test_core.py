@@ -4,6 +4,7 @@ import ul_core.core.player as player
 from ul_core.core.player import Player, IllegalMoveError
 from ul_core.factions.templars import Templar
 import ul_core.factions.base as base
+from ul_core.core.event_handler import EventHandler
 
 
 def deckContainsDuplicates(deck):
@@ -183,25 +184,23 @@ def testCardLocking():
 
 def testManualResolve():
     game, p0, p1 = util.newGame(
-        [base.sweep()], [dummyCards.fast()], autoresolve=False)
+        [base.sweep()], [dummyCards.fast()])
 
-    animations = []
+    class CustomEventHandler(EventHandler):
+        def __init__(self):
+            self.nAnimations = 0
 
-    def res():
-        for effect in game.to_resolve:
-            animations.append(effect)
-            game.resolve(effect)
+        def on_any(self, game):
+            self.nAnimations += 1
+            game.resolveTriggeredEffects()
+
+    game.eventHandler = CustomEventHandler()
 
     p0.play(0)  # Pushes 1
-    res()
     p0.endTurn()  # 1
-    res()
     p1.playFaceup(0)  # 2: action + spawn
-    res()
     p1.endTurn()  # 1
-    res()
     p0.mana = 4
     p0.revealFacedown(0)  # 2
-    res()
 
-    assert len(animations) == 8
+    assert game.eventHandler.nAnimations == 7

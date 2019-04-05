@@ -223,6 +223,8 @@ class Player:
         if not card.fast:
             card.locked = True
 
+        self.game.eventHandler.on_play_facedown(card)
+
     @action
     def revealFacedown(self, card, *args, **kwargs):
         # Overload
@@ -245,6 +247,10 @@ class Player:
 
         card.cast(*args, **kwargs)
 
+        # TODO: this works because kwargs is not used.
+        # Either support arbitrary args or remove kwargs
+        self.game.eventHandler.on_reveal_facedown(card, targets=args)
+
     @action
     def playFaceup(self, card, *args, **kwargs):
         # Overload
@@ -262,6 +268,8 @@ class Player:
             raise IllegalMoveError("Not enough mana.")
 
         card.cast(*args, **kwargs)
+
+        self.game.eventHandler.on_play_faceup(card, targets=args)
 
     @action
     def attack(self, attacker, target):
@@ -286,6 +294,8 @@ class Player:
 
         attacker.attack(target)
 
+        self.game.eventHandler.on_fight(attacker, target)
+
     def attackFacedown(self, attacker, targetIndex):
         self.attack(attacker, self.opponent.facedowns[targetIndex])
 
@@ -298,6 +308,7 @@ class Player:
     @action
     def endTurn(self, *args, **kwargs):
         self.game.endTurn(*args, **kwargs)
+        self.game.eventHandler.on_end_turn(self.game)
 
     def takeExtraTurn(self):
         self.extraTurns += 1
