@@ -183,9 +183,6 @@ def testCardLocking():
 
 
 def testManualResolve():
-    game, p0, p1 = util.newGame(
-        [base.sweep()], [dummyCards.fast()])
-
     class CustomEventHandler(EventHandler):
         def __init__(self):
             self.nAnimations = 0
@@ -194,7 +191,8 @@ def testManualResolve():
             self.nAnimations += 1
             game.resolveTriggeredEffects()
 
-    game.eventHandler = CustomEventHandler()
+    game, p0, p1 = util.newGame(
+        [base.sweep()], [dummyCards.fast()], eventHandler=CustomEventHandler())
 
     p0.play(0)  # Pushes 1
     p0.endTurn()  # 1

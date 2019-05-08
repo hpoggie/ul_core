@@ -1,5 +1,4 @@
 from . import enums
-from .event_handler import EventHandler
 
 Turn = enums.numericEnum('p1', 'p2')
 
@@ -29,7 +28,7 @@ def event(func):
 
 
 class Game:
-    def __init__(self, p1Type, p2Type):
+    def __init__(self, p1Type, p2Type, eventHandler):
         """
         p1Type and p2Type are the classes of player 1 and player 2.
         e.g. Templar and Thief
@@ -49,7 +48,7 @@ class Game:
         # Decision that must be made for the game to progress
         self.requiredDecision = None
 
-        self.eventHandler = EventHandler()
+        self.eventHandler = eventHandler
 
     def start(self):
         for player in self.players:
