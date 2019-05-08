@@ -1,9 +1,15 @@
 from ul_core.core.game import Game, Turn
+from ul_core.core.event_handler import EventHandler
 from ul_core.core.player import Player
 
 
 def dummyFactionPlayer(deck):
     return type('DFP', (Player,), {'deck': list(deck)})
+
+
+class AutoResolver(EventHandler):
+    def on_any(self, game):
+        game.resolveTriggeredEffects()
 
 
 def newGame(*args, disableMulligans=True, autoresolve=True):
@@ -47,7 +53,8 @@ def newGame(*args, disableMulligans=True, autoresolve=True):
     if disableMulligans:
         game.finishMulligans()
 
-    game.autoresolve = autoresolve
+    if autoresolve:
+        game.eventHandler = AutoResolver()
 
     # Return the players for convenience
     return game, game.players[0], game.players[1]

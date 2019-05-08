@@ -29,7 +29,7 @@ def event(func):
 
 
 class Game:
-    def __init__(self, p1Type, p2Type, autoresolve=False):
+    def __init__(self, p1Type, p2Type):
         """
         p1Type and p2Type are the classes of player 1 and player 2.
         e.g. Templar and Thief
@@ -48,11 +48,6 @@ class Game:
 
         # Decision that must be made for the game to progress
         self.requiredDecision = None
-
-        # Automatically resolve actions?
-        # Mostly useful for testing, normally you will want this off
-        # So that you can do an animation for each action
-        self.autoresolve = autoresolve
 
         self.eventHandler = EventHandler()
 

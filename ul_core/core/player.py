@@ -30,8 +30,7 @@ def action(func):
         self.game.pushTriggeredEffect(
             TriggeredEffect(self, execute))
 
-        if self.game.autoresolve:
-            self.game.resolveTriggeredEffects()
+        self.game.eventHandler.on_push_action(self)
 
     return newFunc
 

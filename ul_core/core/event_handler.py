@@ -40,3 +40,11 @@ class EventHandler:
 
     def on_any(self, game):
         pass
+
+    def on_push_action(self, player):
+        """
+        Called when the player pushes an action onto the stack.
+
+        This should not call on_any.
+        """
+        player.game.resolveTriggeredEffects()
