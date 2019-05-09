@@ -229,19 +229,23 @@ def testEventsActuallyCalled():
         def lastEvent(self):
             return self.events[-1]
 
+        def assertPopEvents(self, *events):
+            assert self.events == list(events)
+            self.events = []
+
     eh = CustomEventHandler()
 
     game, p0, p1 = util.newGame(
         [base.sweep()], [dummyCards.fast()], eventHandler=eh)
 
     p0.play(0)
-    assert eh.lastEvent == "on_play_facedown"
+    eh.assertPopEvents('on_play_facedown')
     p0.endTurn()
-    assert eh.lastEvent == "on_end_turn"
+    eh.assertPopEvents('on_end_turn')
     p1.playFaceup(0)
-    assert eh.lastEvent == "on_play_faceup"
+    eh.assertPopEvents('on_spawn', 'on_play_faceup')
     p1.endTurn()
+    eh.assertPopEvents('on_end_turn')
     p0.mana = 4
     p0.revealFacedown(0)
-    # TODO: order events correctly
-    assert eh.events[-3] == "on_die"
+    eh.assertPopEvents('on_die', 'on_die', 'on_spawn', 'on_reveal_facedown')
