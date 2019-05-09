@@ -238,3 +238,5 @@ def testEventsActuallyCalled():
     assert eh.lastEvent == "on_play_facedown"
     p0.endTurn()
     assert eh.lastEvent == "on_end_turn"
+    p1.playFaceup(0)
+    assert eh.lastEvent == "on_play_faceup"
