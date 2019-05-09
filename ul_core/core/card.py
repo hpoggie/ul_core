@@ -179,6 +179,7 @@ class Card:
     def moveToZone(self, zone):
         if self._zone == self.controller.faceups and zone == self.owner.graveyard:
             self.onDeath()
+            self.game.eventHandler.on_die(self)
         elif self._zone == self.controller.hand and zone == self.owner.graveyard:
             self.onDiscard()
 

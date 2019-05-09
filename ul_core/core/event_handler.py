@@ -1,6 +1,8 @@
 class EventHandler:
     """
     Used for animations
+
+    TODO: should death from spell be different?
     """
 
     # ok
@@ -10,7 +12,6 @@ class EventHandler:
     def on_fight(self, c1, c2):
         self.on_any(c1.game)
 
-    # TODO: call
     def on_die(self, card):
         self.on_any(card.game)
 

@@ -199,9 +199,9 @@ def testManualResolve():
     p1.playFaceup(0)  # 2: action + spawn
     p1.endTurn()  # 1
     p0.mana = 4
-    p0.revealFacedown(0)  # 2
+    p0.revealFacedown(0)  # 4: action + spawn + die + die from spell
 
-    assert game.eventHandler.nAnimations == 7
+    assert game.eventHandler.nAnimations == 9
 
 
 def testEventsActuallyCalled():
@@ -240,3 +240,8 @@ def testEventsActuallyCalled():
     assert eh.lastEvent == "on_end_turn"
     p1.playFaceup(0)
     assert eh.lastEvent == "on_play_faceup"
+    p1.endTurn()
+    p0.mana = 4
+    p0.revealFacedown(0)
+    # TODO: order events correctly
+    assert eh.events[-3] == "on_die"
