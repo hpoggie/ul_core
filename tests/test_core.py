@@ -202,3 +202,35 @@ def testManualResolve():
     p0.revealFacedown(0)  # 2
 
     assert game.eventHandler.nAnimations == 7
+
+
+def testEventsActuallyCalled():
+    class CustomEventHandler(EventHandler):
+        def __init__(self):
+            self.lastEvent = None
+
+            # Generate on_x methods for all the events
+            for key in [k for k in EventHandler.__dict__.keys()
+                        if k.startswith('on_') and k not in ('on_any', 'on_push_action')]:
+                def make_on_key(key):
+                    # Have to do this b/c of dumb binding rules
+                    def on_key(*args, **kwargs):
+                        getattr(super(CustomEventHandler, self), key)(*args, **kwargs)
+                        self.lastEvent = key
+
+                    return on_key
+
+                setattr(self, key, make_on_key(key))
+
+        def on_any(self, game):
+            game.resolveTriggeredEffects()
+
+    eh = CustomEventHandler()
+
+    game, p0, p1 = util.newGame(
+        [base.sweep()], [dummyCards.fast()], eventHandler=eh)
+
+    p0.play(0)
+    assert eh.lastEvent == "on_play_facedown"
+    p0.endTurn()
+    assert eh.lastEvent == "on_end_turn"
