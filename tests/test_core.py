@@ -207,7 +207,7 @@ def testManualResolve():
 def testEventsActuallyCalled():
     class CustomEventHandler(EventHandler):
         def __init__(self):
-            self.lastEvent = None
+            self.events = []
 
             # Generate on_x methods for all the events
             for key in [k for k in EventHandler.__dict__.keys()
@@ -216,7 +216,7 @@ def testEventsActuallyCalled():
                     # Have to do this b/c of dumb binding rules
                     def on_key(*args, **kwargs):
                         getattr(super(CustomEventHandler, self), key)(*args, **kwargs)
-                        self.lastEvent = key
+                        self.events.append(key)
 
                     return on_key
 
@@ -224,6 +224,10 @@ def testEventsActuallyCalled():
 
         def on_any(self, game):
             game.resolveTriggeredEffects()
+
+        @property
+        def lastEvent(self):
+            return self.events[-1]
 
     eh = CustomEventHandler()
 
