@@ -5,7 +5,6 @@ class EventHandler:
     TODO: should death from spell be different?
     """
 
-    # ok
     def on_spawn(self, card):
         self.on_any(card.game)
 
@@ -19,23 +18,18 @@ class EventHandler:
     def on_change_controller(self, card, original, new):
         self.on_any(card.game)
 
-    # ok
     def on_reveal_facedown(self, card, targets):
         self.on_any(card.game)
 
-    # ok
     def on_play_faceup(self, card, targets):
         self.on_any(card.game)
 
-    # ok
     def on_play_facedown(self, card):
         self.on_any(card.game)
 
-    # TODO: call
     def on_draw(self, card):
         self.on_any(card.game)
 
-    # ok
     def on_end_turn(self, game):
         self.on_any(game)
 
