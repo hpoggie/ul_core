@@ -69,6 +69,7 @@ class Game:
         def doTrigger(obj, name):
             if hasattr(obj, name):
                 getattr(obj, name)(*args, **kwargs)
+                self.resolveTriggeredEffects()
 
         for pl in self.players:
             doTrigger(pl, name)

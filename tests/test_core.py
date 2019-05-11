@@ -215,8 +215,8 @@ def testEventsActuallyCalled():
                 def make_on_key(key):
                     # Have to do this b/c of dumb binding rules
                     def on_key(*args, **kwargs):
-                        getattr(super(CustomEventHandler, self), key)(*args, **kwargs)
                         self.events.append(key)
+                        getattr(super(CustomEventHandler, self), key)(*args, **kwargs)
 
                     return on_key
 
@@ -243,9 +243,9 @@ def testEventsActuallyCalled():
     p0.endTurn()
     eh.assertPopEvents('on_end_turn')
     p1.playFaceup(0)
-    eh.assertPopEvents('on_spawn', 'on_play_faceup')
+    eh.assertPopEvents('on_play_faceup', 'on_spawn')
     p1.endTurn()
     eh.assertPopEvents('on_end_turn')
     p0.mana = 4
     p0.revealFacedown(0)
-    eh.assertPopEvents('on_die', 'on_die', 'on_spawn', 'on_reveal_facedown')
+    eh.assertPopEvents('on_reveal_facedown', 'on_spawn', 'on_die', 'on_die')
