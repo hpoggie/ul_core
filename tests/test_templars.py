@@ -111,9 +111,7 @@ def testCrystalElemental():
     assert(len(p0.hand) == 0)
 
     # give them a card to draw
-    c = templars.crystalElemental()
-    c.owner = p0  # Need to have an owner or can't switch zones
-    p0.deck.append(c)
+    p0.deck.createAndAddCard(templars.crystalElemental)
 
     p0.attack(p0.faceups[0], p1.facedowns[0])
     assert(len(p0.hand) == 1)

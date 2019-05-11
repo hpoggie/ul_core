@@ -36,3 +36,13 @@ class Zone(list):
 
     def shuffle(self):
         random.shuffle(self)
+
+    def createAndAddCard(self, card_func):
+        """
+        Call card_func and add the card to this zone
+        """
+        c = card_func()
+        c.owner = self.controller
+        c.game = self.controller.game
+        c.zone = self
+        self.append(c)
