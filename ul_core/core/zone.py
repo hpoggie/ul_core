@@ -5,6 +5,7 @@ from ul_core.core.game import destroy
 class Zone(list):
     def __init__(self, controller, lst=[]):
         super().__init__(lst)
+        self.controller = controller
         self.dirty = True
 
     def __setitem__(self, key, value):
