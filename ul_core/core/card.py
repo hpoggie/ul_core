@@ -186,6 +186,8 @@ class Card:
         elif self._zone == self.controller.hand and zone == self.owner.graveyard:
             self.onDiscard()
 
+        oldController = self._zone.controller if self._zone is not None else None
+
         if self._zone is not None:
             self._zone.remove(self)
         self._zone = zone
@@ -194,6 +196,9 @@ class Card:
         self.hasAttacked = False
         self.stale = False
         self.locked = False
+
+        if self.zone.controller is not oldController:
+            self.game.eventHandler.on_change_controller(self, oldController, self.controller)
 
     @property
     def faceup(self):
