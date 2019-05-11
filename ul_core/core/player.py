@@ -104,7 +104,10 @@ class Player:
 
     def drawCard(self):
         if len(self.deck) != 0:
-            self.deck[-1].zone = self.hand
+            c = self.deck[-1]
+            c.zone = self.hand
+            if self.game is not None:
+                self.game.eventHandler.on_draw(c)
 
     def drawCards(self, n):
         for i in range(n):
@@ -307,7 +310,6 @@ class Player:
     @action
     def endTurn(self, *args, **kwargs):
         self.game.endTurn(*args, **kwargs)
-        self.game.eventHandler.on_end_turn(self.game)
 
     def takeExtraTurn(self):
         self.extraTurns += 1

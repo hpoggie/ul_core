@@ -138,6 +138,9 @@ class Game:
         else:
             self.turn = Turn.p2 if self.turn == Turn.p1 else Turn.p1
 
+        # This should be called here because startTurn is not part of ending the turn
+        self.eventHandler.on_end_turn(self)
+
         self.startTurn()
 
     @event

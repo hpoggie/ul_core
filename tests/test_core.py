@@ -195,13 +195,13 @@ def testManualResolve():
         [base.sweep()], [dummyCards.fast()], eventHandler=CustomEventHandler())
 
     p0.play(0)  # Pushes 1
-    p0.endTurn()  # 1
+    p0.endTurn()  # 2: action + draw
     p1.playFaceup(0)  # 2: action + spawn
-    p1.endTurn()  # 1
+    p1.endTurn()  # 2
     p0.mana = 4
     p0.revealFacedown(0)  # 4: action + spawn + die + die from spell
 
-    assert game.eventHandler.nAnimations == 9
+    assert game.eventHandler.nAnimations == 11
 
 
 def testEventsActuallyCalled():
@@ -238,14 +238,16 @@ def testEventsActuallyCalled():
     game, p0, p1 = util.newGame(
         [base.sweep()], [dummyCards.fast()], eventHandler=eh)
 
+    eh.assertPopEvents('on_draw')
     p0.play(0)
     eh.assertPopEvents('on_play_facedown')
     p0.endTurn()
-    eh.assertPopEvents('on_end_turn')
+    eh.assertPopEvents('on_end_turn', 'on_draw')
     p1.playFaceup(0)
     eh.assertPopEvents('on_play_faceup', 'on_spawn')
+    assert len(p1.deck) == 0
     p1.endTurn()
-    eh.assertPopEvents('on_end_turn')
+    eh.assertPopEvents('on_end_turn')  # No draw event b/c no card to draw
     p0.mana = 4
     p0.revealFacedown(0)
     eh.assertPopEvents('on_reveal_facedown', 'on_spawn', 'on_die', 'on_die')
