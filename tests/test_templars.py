@@ -77,12 +77,8 @@ def testMiracleNotEnoughCards():
 
 def testGargoyle():
     game, p0, p1 = newGame()
-    c = templars.gargoyle()
-    c.owner = p0
-    c.zone = p0.faceups
-    c = templars.corvus()
-    c.owner = p1
-    c.zone = p1.faceups
+    p0.faceups.createAndAddCard(templars.gargoyle)
+    p1.faceups.createAndAddCard(templars.corvus)
     p1.faceups[0].hasAttacked = False
     game.turn = Turn.p2
     # Should fail if attack works
