@@ -251,3 +251,9 @@ def testEventsActuallyCalled():
     p0.mana = 4
     p0.revealFacedown(0)
     eh.assertPopEvents('on_reveal_facedown', 'on_spawn', 'on_die', 'on_die')
+
+    p0.faceups.createAndAddCard(dummyCards.one)
+    p1.facedowns.createAndAddCard(base.mindControlTrap)
+    eh.events = []  # Don't care about what this calls right now
+    p0.faceups[0].attack(p1.facedowns[0])
+    eh.assertPopEvents('on_fight', 'on_change_controller')

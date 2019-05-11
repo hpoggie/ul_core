@@ -77,6 +77,10 @@ class Game:
                 doTrigger(c, name)
 
     def fight(self, attacker, target):
+        # Happens first because of beforeAnyFight triggers
+        # TODO: find a better way to do this
+        self.eventHandler.on_fight(attacker, target)
+
         self.doEventTriggers('beforeAnyFight', attacker, target)
         attacker.beforeAttack(target)
         attacker.beforeFight(target)
