@@ -5,6 +5,7 @@ from ul_core.core.enums import numericEnum
 from ul_core.net.serialization import (serialize, deserialize,
                                        DeserializationError)
 from ul_core.net import rep
+from ul_core.core.event_handler import EventHandler
 
 
 class OpcodeError(Exception):
@@ -171,12 +172,24 @@ class ClientNetworkManager (ULNetworkManager):
         'updateEnemyCounter',
         'updatePlayerFacedownStaleness',
         'updateEnemyFacedownStaleness',
+        'playAnimation',
         'requestDecision',
         'endRedraw',
         'winGame',
         'loseGame',
         'setActive',
         'kick')
+
+    Animations = numericEnum(
+        'on_spawn',
+        'on_fight',
+        'on_die',
+        'on_change_controller',
+        'on_reveal_facedown',
+        'on_play_faceup',
+        'on_play_facedown',
+        'on_draw',
+        'on_end_turn')
 
     def onGotPacket(self, packet, addr):
         if packet == '':
@@ -196,3 +209,27 @@ class ClientNetworkManager (ULNetworkManager):
             print("got opcode ", key + " with args " + str(operands))
 
         self.tryCall(key, rep.decode_args_from_server(key, operands, self.player))
+
+
+class AnimationHandler(EventHandler):
+    """
+    Calls animations for client
+
+    Should look something like
+
+    >>> AnimationHandler().__dict__.keys()
+    dict_keys(['on_spawn', 'on_fight', 'on_die', 'on_change_controller', 'on_reveal_facedown', 'on_play_faceu
+    p', 'on_play_facedown', 'on_draw', 'on_end_turn'])
+    """
+
+    def __init__(self):
+        for i, eventName in enumerate(ClientNetworkManager.Animations.keys):
+            # Python binding rules WHY
+            def make_callAndReturn(i):
+                def callAndReturn(self, *args, **kwargs):
+                    getattr(super(), eventName)(*args, **kwargs)
+                    return i
+
+                return callAndReturn
+
+            setattr(self, eventName, types.MethodType(make_callAndReturn(i), self))
