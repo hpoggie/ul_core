@@ -221,15 +221,15 @@ class AnimationHandler(EventHandler):
     dict_keys(['on_spawn', 'on_fight', 'on_die', 'on_change_controller', 'on_reveal_facedown', 'on_play_faceu
     p', 'on_play_facedown', 'on_draw', 'on_end_turn'])
     """
+    pass
 
-    def __init__(self):
-        for i, eventName in enumerate(ClientNetworkManager.Animations.keys):
-            # Python binding rules WHY
-            def make_callAndReturn(i):
-                def callAndReturn(self, *args, **kwargs):
-                    getattr(super(), eventName)(*args, **kwargs)
-                    return i
+for i, eventName in enumerate(ClientNetworkManager.Animations.keys):
+    # Python binding rules WHY
+    def make_callAndReturn(i):
+        def callAndReturn(self, *args, **kwargs):
+            getattr(super(), eventName)(*args, **kwargs)
+            return i
 
-                return callAndReturn
+        return callAndReturn
 
-            setattr(self, eventName, types.MethodType(make_callAndReturn(i), self))
+    setattr(AnimationHandler, eventName, make_callAndReturn(i))
