@@ -43,3 +43,41 @@ class EventHandler:
         This should not call on_any.
         """
         player.game.resolveTriggeredEffects()
+
+
+class EmptyEventHandler:
+    """
+    If you just need the game to store data
+    """
+    def on_spawn(self, card):
+        pass
+
+    def on_fight(self, c1, c2):
+        pass
+
+    def on_die(self, card):
+        pass
+
+    def on_change_controller(self, card, original, new):
+        pass
+
+    def on_reveal_facedown(self, card, targets):
+        pass
+
+    def on_play_faceup(self, card, targets):
+        pass
+
+    def on_play_facedown(self, card):
+        pass
+
+    def on_draw(self, card):
+        pass
+
+    def on_end_turn(self, game):
+        pass
+
+    def on_any(self, game):
+        pass
+
+    def on_push_action(self, player):
+        pass
