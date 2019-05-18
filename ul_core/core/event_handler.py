@@ -14,7 +14,6 @@ class EventHandler:
     def on_die(self, card):
         self.on_any(card.game)
 
-    # TODO: call
     def on_change_controller(self, card, original, new):
         self.on_any(card.game)
 
