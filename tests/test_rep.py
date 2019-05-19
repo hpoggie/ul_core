@@ -28,3 +28,10 @@ def test_encode_args_to_client():
         pass
     else:
         assert False
+
+
+def test_encode_args_to_server():
+    game, p0, p1 = util.newGame(dummyCards.one())
+
+    assert rep.encode_args_to_server('playFaceup', [p0.hand[0]],
+                                     relative_to_player=p0) == (0,)
