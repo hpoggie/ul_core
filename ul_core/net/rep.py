@@ -62,7 +62,7 @@ def encode_args_to_server(opcode_name, entities, relative_to_player=None):
             raise EncodeError("Multiple targets are not currently supported.")
         elif len(entities) == 2:
             card, target = entities
-            return (c_index(card),) + zie.gameEntityToZie(target)
+            return (c_index(card),) + zie.gameEntityToZie(relative_to_player, target)
         else:
             return (c_index(entities[0]),)
     elif opcode_name == 'attack':
