@@ -1,6 +1,7 @@
 from . import util
 from . import dummyCards
 from ul_core.net import rep
+from ul_core.net.enums import Zone
 
 
 def test_iden():
@@ -35,3 +36,9 @@ def test_encode_args_to_server():
 
     assert rep.encode_args_to_server('playFaceup', [p0.hand[0]],
                                      relative_to_player=p0) == (0,)
+
+    p0.hand[0].fast = True
+    p0.playFaceup(0)
+
+    assert rep.encode_args_to_server('attack', [p0.faceups[0], p1.face],
+                                     relative_to_player=p0) == (0, Zone.face, 0)

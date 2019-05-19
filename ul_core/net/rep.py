@@ -68,4 +68,4 @@ def encode_args_to_server(opcode_name, entities, relative_to_player=None):
     elif opcode_name == 'attack':
         attacker, target = entities
         targetZone, targetIndex, _ = zie.gameEntityToZie(relative_to_player, target)
-        return (c_index(attacker),) + zie.gameEntityToZie(target)
+        return (c_index(attacker), targetZone, targetIndex)
