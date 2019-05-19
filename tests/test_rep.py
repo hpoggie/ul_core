@@ -46,3 +46,10 @@ def test_encode_args_to_server():
     p1.deck[0].zone = p1.faceups
     assert rep.encode_args_to_server('attack', [p0.faceups[0], p1.faceups[0]],
                                      relative_to_player=p1) == (0, Zone.faceup, 0)
+
+    game, p0, p1 = util.newGame(dummyCards.one())
+
+    assert rep.encode_args_to_server('mulligan', [p0.hand[0]],
+                                     relative_to_player=p0) == (0,)
+    assert rep.encode_args_to_server('mulligan', [],
+                                     relative_to_player=p0) == ()

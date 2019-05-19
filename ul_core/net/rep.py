@@ -57,7 +57,9 @@ def encode_args_to_server(opcode_name, entities, relative_to_player=None):
     """
     Like encode_args_to_client
     """
-    if opcode_name in ('revealFacedown', 'playFaceup'):
+    if opcode_name == 'mulligan':
+        return tuple(c_index(card) for card in entities)
+    elif opcode_name in ('revealFacedown', 'playFaceup'):
         if len(entities) > 2:
             raise EncodeError("Multiple targets are not currently supported.")
         elif len(entities) == 2:
