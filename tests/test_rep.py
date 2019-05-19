@@ -42,3 +42,7 @@ def test_encode_args_to_server():
 
     assert rep.encode_args_to_server('attack', [p0.faceups[0], p1.face],
                                      relative_to_player=p0) == (0, Zone.face, 0)
+
+    p1.deck[0].zone = p1.faceups
+    assert rep.encode_args_to_server('attack', [p0.faceups[0], p1.faceups[0]],
+                                     relative_to_player=p1) == (0, Zone.faceup, 0)
