@@ -26,7 +26,7 @@ def zone_to_idens(player, zone):
     return [i for c in zone for i in card_to_iden(player, c)]
 
 
-def encode_args(opcode_name, entities, relative_to_player=None):
+def encode_args_to_client(opcode_name, entities, relative_to_player=None):
     """
     The way that UL represents entities in packets is context-sensitive.
     This function converts entities to the correct representation based on the opcode.

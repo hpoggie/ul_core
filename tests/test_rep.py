@@ -15,13 +15,15 @@ def test_iden():
     assert len(rep.zone_to_idens(p0, p0.hand)) == 10
 
 
-def test_encode_args():
+def test_encode_args_to_client():
     game, p0, p1 = util.newGame(dummyCards.one())
 
-    assert rep.encode_args('updatePlayerHand', [p0.hand], relative_to_player=p0) == [0, False]
+    assert rep.encode_args_to_client('updatePlayerHand', [p0.hand],
+                                     relative_to_player=p0) == [0, False]
 
     try:
-        rep.encode_args('updatePlayerHand', [p0.hand, 'a'], relative_to_player=p0) == [0, False]
+        rep.encode_args_to_client('updatePlayerHand', [p0.hand, 'a'],
+                                  relative_to_player=p0) == [0, False]
     except rep.EncodeError:
         pass
     else:
