@@ -37,6 +37,9 @@ def test_encode_args_to_server():
     assert rep.encode_args_to_server('playFaceup', [p0.hand[0]],
                                      relative_to_player=p0) == (0,)
 
+    assert rep.encode_args_to_server('play', [p0.hand[0]],
+                                     relative_to_player=p0) == (0,)
+
     p0.hand[0].fast = True
     p0.playFaceup(0)
 
