@@ -71,3 +71,10 @@ def encode_args_to_server(opcode_name, entities, relative_to_player=None):
         attacker, target = entities
         targetZone, targetIndex, _ = zie.gameEntityToZie(relative_to_player, target)
         return (c_index(attacker), targetZone, targetIndex)
+    elif opcode_name == 'endTurn':
+        # For each value in args, append it if it's a bool, otherwise
+        # assume it's a card and append the indices for it
+        return tuple(
+            i for arg in entities
+            for i in ([arg] if isinstance(arg, bool) else zie.gameEntityToZie(
+                relative_to_player, arg)))

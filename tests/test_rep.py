@@ -53,3 +53,8 @@ def test_encode_args_to_server():
                                      relative_to_player=p0) == (0,)
     assert rep.encode_args_to_server('mulligan', [],
                                      relative_to_player=p0) == ()
+
+    assert rep.encode_args_to_server('endTurn', [True],
+                                     relative_to_player=p0) == (True,)
+    assert rep.encode_args_to_server('endTurn', [p0.hand[0]],
+                                     relative_to_player=p0) == (Zone.hand, 0, False)
