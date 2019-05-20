@@ -1,3 +1,13 @@
+"""
+The way that UL represents entities in packets is context-sensitive.
+This module converts entities to the correct representation based on the opcode.
+
+The representations are context sensitive because
+  (1) server to client zone updates need cardIds,
+  (2) client to server messages can sometimes use a single index, but sometimes not,
+  (3) I want to minimize the size of the packets.
+"""
+
 from . import zie
 
 
@@ -35,8 +45,7 @@ def c_index(card):
 
 def encode_args_to_client(opcode_name, entities, relative_to_player=None):
     """
-    The way that UL represents entities in packets is context-sensitive.
-    This function converts entities to the correct representation based on the opcode.
+    Return the encoded args for a server to client message based on the opcode name
     """
 
     if opcode_name in ('updatePlayerHand',
@@ -55,7 +64,7 @@ def encode_args_to_client(opcode_name, entities, relative_to_player=None):
 
 def encode_args_to_server(opcode_name, entities, relative_to_player=None):
     """
-    Like encode_args_to_client
+    Like encode_args_to_client, but to client to server
     """
     if opcode_name == 'mulligan':
         return tuple(c_index(card) for card in entities)
