@@ -89,3 +89,6 @@ def encode_args_to_server(opcode_name, entities, relative_to_player=None):
             i for arg in entities
             for i in ([arg] if isinstance(arg, bool) else zie.gameEntityToZie(
                 relative_to_player, arg)))
+    elif opcode_name == 'makeDecision':
+        return tuple(i for card in entities
+            for i in zie.gameEntityToZie(relative_to_player, card))

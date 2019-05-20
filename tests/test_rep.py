@@ -61,3 +61,10 @@ def test_encode_args_to_server():
                                      relative_to_player=p0) == (True,)
     assert rep.encode_args_to_server('endTurn', [p0.hand[0]],
                                      relative_to_player=p0) == (Zone.hand, 0, False)
+
+    # Need to do this because deck is not a zone.
+    # TODO: make deck a zone.
+    p1.deck[0].zone = p1.faceups
+
+    assert rep.encode_args_to_server('makeDecision', [p1.faceups[0]],
+                                     relative_to_player=p0) == (Zone.faceup, 0, True)
