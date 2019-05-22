@@ -8,6 +8,11 @@ The representations are context sensitive because
   (3) I want to minimize the size of the packets.
 """
 
+from ul_core.factions.templars import Templar
+from ul_core.factions.thieves import Thief
+from ul_core.factions.mariners import Mariner
+from ul_core.factions.fae import Faerie
+
 from . import zie
 
 
@@ -92,3 +97,11 @@ def encode_args_to_server(opcode_name, entities, relative_to_player=None):
     elif opcode_name == 'makeDecision':
         return tuple(i for card in entities
             for i in zie.gameEntityToZie(relative_to_player, card))
+    elif opcode_name == 'useFactionAbility':
+        return {
+            Templar: lambda entities: tuple(c_index(e) for e in entities),
+            # Yes, this is really the way thief ability works. TODO: make the arg order consistent
+            Thief: lambda entities: (c_index(entities[0]), entities[2], c_index(entities[1])),
+            Mariner: lambda: (),
+            Faerie: Exception
+        }[type(relative_to_player)](entities)
