@@ -102,6 +102,6 @@ def encode_args_to_server(opcode_name, entities, relative_to_player=None):
             Templar: lambda entities: tuple(c_index(e) for e in entities),
             # Yes, this is really the way thief ability works. TODO: make the arg order consistent
             Thief: lambda entities: (c_index(entities[0]), entities[2], c_index(entities[1])),
-            Mariner: lambda: (),
+            Mariner: lambda entities: (),
             Faerie: Exception
         }[type(relative_to_player)](entities)

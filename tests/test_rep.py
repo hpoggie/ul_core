@@ -84,3 +84,7 @@ def test_encode_faction_abilities():
 
     assert rep.encode_args_to_server('useFactionAbility', [p1.hand[0], p0.faceups[0], 'cardname'],
                                      relative_to_player=p1) == (0, 'cardname', 0)
+
+    game, p0, p1 = util.newGame(Mariner, Faerie)
+
+    assert rep.encode_args_to_server('useFactionAbility', [], relative_to_player=p0) == ()
