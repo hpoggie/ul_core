@@ -135,5 +135,7 @@ def decode_args_from_client(opcode_name, args, relative_to_player):
         attacker = relative_to_player.faceups[index]
         target = zie.zieToGameEntity(relative_to_player, target_zie)
         return (attacker, target)
+    elif opcode_name == 'play':
+        return relative_to_player.hand[args[0]]
     else:
         return entities
