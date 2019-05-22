@@ -137,5 +137,11 @@ def decode_args_from_client(opcode_name, args, relative_to_player):
         return (attacker, target)
     elif opcode_name == 'play':
         return relative_to_player.hand[args[0]]
+    elif opcode_name == 'endTurn':
+        target = zie.zieToGameEntity(relative_to_player, args)
+        if target is not None and isinstance(relative_to_player, Faerie):
+            return (target,)
+        else:
+            return ()
     else:
         return entities
