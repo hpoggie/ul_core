@@ -117,3 +117,11 @@ def test_decode_args_from_client():
         pass
     else:
         assert False
+
+
+def test_decode_attack():
+    game, p0, p1 = util.newGame(dummyCards.one())
+
+    p0.hand[0].zone = p0.faceups
+
+    assert rep.decode_args_from_client('attack', [0, Zone.face, -1], p0) == (p0.faceups[0], p1.face)

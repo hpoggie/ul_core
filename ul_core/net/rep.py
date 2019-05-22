@@ -130,5 +130,10 @@ def decode_args_from_client(opcode_name, args, relative_to_player):
                 return card
             else:
                 raise DecodeError("Wrong number of arguments.")
+    elif opcode_name == 'attack':
+        index, target_zie = args[0], args[1:] + [True]  # Target is always an enemy
+        attacker = relative_to_player.faceups[index]
+        target = zie.zieToGameEntity(relative_to_player, target_zie)
+        return (attacker, target)
     else:
         return entities
