@@ -95,3 +95,25 @@ def test_encode_faction_abilities():
         pass
     else:
         assert False
+
+
+def test_decode_args_from_client():
+    game, p0, p1 = util.newGame(dummyCards.one())
+
+    assert rep.decode_args_from_client('mulligan', [0], p0) == (p0.hand[0],)
+
+    p0.hand[0].zone = p0.facedowns
+    p1.drawCard()
+
+    assert rep.decode_args_from_client('revealFacedown',
+                                       [0, Zone.hand, 0, True], p0) == (p0.facedowns[0], p1.hand[0])
+
+    assert rep.decode_args_from_client('playFaceup', [0, Zone.facedown, 0, True],
+                                       p1) == (p1.hand[0], p0.facedowns[0])
+
+    try:
+        rep.decode_args_from_client('playFaceup', [0, Zone.facedown, True], p1)
+    except rep.DecodeError:
+        pass
+    else:
+        assert False

@@ -20,6 +20,10 @@ class EncodeError(Exception):
     pass
 
 
+class DecodeError(Exception):
+    pass
+
+
 def card_to_iden(player, card):
     """
     Convert card to ID/enemy (IDEN) representation.
@@ -104,5 +108,27 @@ def encode_args_to_server(opcode_name, entities, relative_to_player=None):
             Thief: lambda entities: (c_index(entities[0]), entities[2], c_index(entities[1])),
             Mariner: lambda entities: (),
         }[type(relative_to_player)](entities)
+    else:
+        return entities
+
+
+def decode_args_from_client(opcode_name, args, relative_to_player):
+    if opcode_name == 'mulligan':
+        return tuple(relative_to_player.hand[arg] for arg in args)
+    elif opcode_name in ('revealFacedown', 'playFaceup'):
+        if len(args) > 4:  # 4 = index + ZIE
+            raise DecodeError("Multiple targets are not currently supported.")
+        else:
+            card = (relative_to_player.hand[args[0]]
+                    if opcode_name == 'playFaceup'
+                    else relative_to_player.facedowns[args[0]])
+
+            if len(args) == 4:
+                target = zie.zieToGameEntity(relative_to_player, args[1:])
+                return (card, target)
+            elif len(args) == 1:
+                return card
+            else:
+                raise DecodeError("Wrong number of arguments.")
     else:
         return entities
