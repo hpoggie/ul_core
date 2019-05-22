@@ -88,3 +88,10 @@ def test_encode_faction_abilities():
     game, p0, p1 = util.newGame(Mariner, Faerie)
 
     assert rep.encode_args_to_server('useFactionAbility', [], relative_to_player=p0) == ()
+
+    try:
+        rep.encode_args_to_server('useFactionAbility', [], relative_to_player=p1)
+    except KeyError:
+        pass
+    else:
+        assert False
