@@ -2,6 +2,10 @@ from . import util
 from . import dummyCards
 from ul_core.net import rep
 from ul_core.net.enums import Zone
+from ul_core.factions.templars import Templar
+from ul_core.factions.thieves import Thief
+from ul_core.factions.mariners import Mariner
+from ul_core.factions.fae import Faerie
 
 
 def test_iden():
@@ -68,3 +72,15 @@ def test_encode_args_to_server():
 
     assert rep.encode_args_to_server('makeDecision', [p1.faceups[0]],
                                      relative_to_player=p0) == (Zone.faceup, 0, True)
+
+def test_encode_faction_abilities():
+    game, p0, p1 = util.newGame(Templar, Thief)
+
+    assert rep.encode_args_to_server('useFactionAbility', [p0.hand[0]],
+                                     relative_to_player=p0) == (0,)
+
+    p0.hand[0].zone = p0.faceups
+    p1.drawCard()
+
+    assert rep.encode_args_to_server('useFactionAbility', [p1.hand[0], p0.faceups[0], 'cardname'],
+                                     relative_to_player=p1) == (0, 'cardname', 0)
