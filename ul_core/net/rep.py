@@ -104,3 +104,5 @@ def encode_args_to_server(opcode_name, entities, relative_to_player=None):
             Thief: lambda entities: (c_index(entities[0]), entities[2], c_index(entities[1])),
             Mariner: lambda entities: (),
         }[type(relative_to_player)](entities)
+    else:
+        return entities
