@@ -136,3 +136,11 @@ def test_decode_end_turn():
 
     assert rep.decode_args_from_client('endTurn', [Zone.face, 0, True], p0) == ()
     assert rep.decode_args_from_client('endTurn', [Zone.faceup, 0, True], p1) == (p0.faceups[0],)
+
+
+def test_decode_make_decision():
+    game, p0, p1 = util.newGame(Thief, Faerie)
+
+    assert rep.decode_args_from_client('makeDecision', [], p0) == ()
+    assert rep.decode_args_from_client('makeDecision', [Zone.hand, 0, True, Zone.hand, 0, True],
+                                       p1) == (p0.hand[0], p0.hand[0])

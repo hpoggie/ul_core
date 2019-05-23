@@ -146,5 +146,11 @@ def decode_args_from_client(opcode_name, args, relative_to_player):
     elif opcode_name == 'useFactionAbility':
         # TODO: move the faction ability code here
         return entities
+    elif opcode_name == 'makeDecision':
+        lst = []
+        for t_zie in zip(args[::3], args[1::3], args[2::3]):
+            lst.append(zie.zieToGameEntity(relative_to_player, t_zie))
+
+        return tuple(lst)
     else:
         return entities
