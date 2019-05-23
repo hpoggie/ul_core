@@ -143,5 +143,8 @@ def decode_args_from_client(opcode_name, args, relative_to_player):
             return (target,)
         else:
             return ()
+    elif opcode_name == 'useFactionAbility':
+        # TODO: move the faction ability code here
+        return entities
     else:
         return entities
