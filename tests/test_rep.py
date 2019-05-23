@@ -144,3 +144,10 @@ def test_decode_make_decision():
     assert rep.decode_args_from_client('makeDecision', [], p0) == ()
     assert rep.decode_args_from_client('makeDecision', [Zone.hand, 0, True, Zone.hand, 0, True],
                                        p1) == (p0.hand[0], p0.hand[0])
+
+
+def test_decode_args_from_server():
+    game, p0, p1 = util.newGame(Thief, Faerie)
+
+    assert rep.decode_args_from_server('updatePlayerFaceups',
+                                       [0, False], p0) == (p0.referenceDeck[0],)

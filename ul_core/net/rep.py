@@ -48,6 +48,29 @@ def zone_to_idens(player, zone):
     return [i for c in zone for i in card_to_iden(player, c)]
 
 
+def idens_to_cards(player, flat_list):
+    """
+    Take a flat list of idens and return the cards for them
+    """
+    idens = zip(flat_list[::2], flat_list[1::2])
+    cards = []
+    for cardId, ownedByEnemy in idens:
+        if cardId == -1:
+            cards.append(
+                Card(
+                    name="mysterious card",
+                    owner=player.opponent,
+                    game=player.game,
+                    cardId=-1))
+        else:
+            c = (player.opponent.referenceDeck[cardId] if ownedByEnemy
+                    else player.referenceDeck[cardId])
+            c.visible = True
+            cards.append(c)
+
+    return tuple(cards)
+
+
 def c_index(card):
     return card.zone.index(card)
 
@@ -152,5 +175,19 @@ def decode_args_from_client(opcode_name, args, relative_to_player):
             lst.append(zie.zieToGameEntity(relative_to_player, t_zie))
 
         return tuple(lst)
+    else:
+        return entities
+
+
+def decode_args_from_server(opcode_name, args, relative_to_player):
+    if opcode_name in ('updatePlayerHand',
+                       'updateEnemyHand',
+                       'updatePlayerFacedowns',
+                       'updateEnemyFacedowns',
+                       'updatePlayerFaceups',
+                       'updateEnemyFaceups',
+                       'updatePlayerGraveyard',
+                       'updateEnemyGraveyard'):
+        return idens_to_cards(relative_to_player, args)
     else:
         return entities
