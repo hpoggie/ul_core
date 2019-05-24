@@ -75,7 +75,7 @@ def c_index(card):
     return card.zone.index(card)
 
 
-def encode_args_to_client(opcode_name, entities, relative_to_player=None):
+def encode_args_to_client(opcode_name, entities, relative_to_player):
     """
     Return the encoded args for a server to client message based on the opcode name
     """
