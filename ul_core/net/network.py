@@ -4,6 +4,7 @@ from .network_manager import NetworkManager
 from ul_core.core.enums import numericEnum
 from ul_core.net.serialization import (serialize, deserialize,
                                        DeserializationError)
+from ul_core.net import rep
 
 
 class OpcodeError(Exception):
@@ -44,6 +45,13 @@ class ServerNetworkManager (ULNetworkManager):
         'useFactionAbility',
         'endTurn')
 
+    def player_for_addr(self, addr):
+        """
+        Return the server's players
+        TODO: use a cleaner way
+        """
+        return self.base.players[addr] if hasattr(self.base, 'players') else None
+
     def onGotPacket(self, packet, addr):
         if packet == '':
             return
@@ -61,23 +69,28 @@ class ServerNetworkManager (ULNetworkManager):
         if self.verbose:
             print("got opcode: ", key)
 
-        self.tryCall(key, [addr] + operands)
+        self.tryCall(key, [addr] + rep.decode_args_from_client(key,
+                                                               operands,
+                                                               self.player_for_addr(addr)))
 
     def onClientConnected(self, conn):
         # Make it so each client opcode is a function
         for i, key in enumerate(ClientNetworkManager.Opcodes.keys):
             class OpcodeFunc:
-                def __init__(self, manager, opcode):
+                def __init__(self, manager, key, opcode):
+                    self.key = key
                     self.manager = manager
                     self.opcode = opcode
 
                 def __call__(self, base, *args):
                     self.manager.send(
                         base.addr,
-                        serialize([self.opcode] + list(args)))
+                        rep.encode_args_to_client(self.key,
+                                                  serialize([self.opcode] + list(args)),
+                                                  self.manager.player_for_addr(base.addr)))
 
             # Bind the OpcodeFunc as a method to the class
-            setattr(conn, key, types.MethodType(OpcodeFunc(self, i), conn))
+            setattr(conn, key, types.MethodType(OpcodeFunc(self, key, i), conn))
 
         self.base.onClientConnected(conn)
 
@@ -96,16 +109,23 @@ class ClientNetworkManager (ULNetworkManager):
         # Make it so each server opcode is a function
         for i, key in enumerate(ServerNetworkManager.Opcodes.keys):
             class OpcodeFunc:
-                def __init__(self, opcode):
+                def __init__(self, key, opcode):
                     self.opcode = opcode
+                    self.key = key
 
                 def __call__(self, base, *args):
                     base.send(
                         (base.ip, base.port),
-                        serialize([self.opcode] + list(args)))
+                        rep.encode_args_to_server(self.key,
+                                                  serialize([self.opcode] + list(args)),
+                                                  base.player))
 
             # Bind the OpcodeFunc as a method to the class
-            setattr(self, key, types.MethodType(OpcodeFunc(i), self))
+            setattr(self, key, types.MethodType(OpcodeFunc(key, i), self))
+            
+    @property
+    def player(self):
+        return self.base.player if hasattr(self.base, 'player') else None
 
     Opcodes = numericEnum(
         'onEnteredGame',
@@ -155,4 +175,4 @@ class ClientNetworkManager (ULNetworkManager):
         if self.verbose:
             print("got opcode ", key + " with args " + str(operands))
 
-        self.tryCall(key, operands)
+        self.tryCall(key, rep.decode_args_from_server(key, operands, self.player))
