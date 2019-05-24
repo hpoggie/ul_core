@@ -100,11 +100,12 @@ class ClientNetworkManager (ULNetworkManager):
     The ClientNetworkManager takes incoming network opcodes and turns them into
     calls to the client.
     """
-    def __init__(self, base, ip, port):
+    def __init__(self, base, ip, port, state):
         super().__init__()
         self.base = base
         self.ip = ip
         self.port = port
+        self.state = state
 
         # Make it so each server opcode is a function
         for i, key in enumerate(ServerNetworkManager.Opcodes.keys):
@@ -124,7 +125,7 @@ class ClientNetworkManager (ULNetworkManager):
             
     @property
     def player(self):
-        return self.base.player if hasattr(self.base, 'player') else None
+        return self.state.player if hasattr(self.state, 'player') else None
 
     Opcodes = numericEnum(
         'onEnteredGame',

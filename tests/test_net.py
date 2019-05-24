@@ -43,7 +43,7 @@ def server():
 @pytest.fixture(scope='function')
 def client():
     cl = FakeClient()
-    cnm = network.ClientNetworkManager(cl, 'localhost', 9099)
+    cnm = network.ClientNetworkManager(cl, 'localhost', 9099, state=None)
     cl.networkManager = cnm
     cnm.verbose = True
     time.sleep(0.1)
@@ -65,7 +65,7 @@ def test_sanity_check(server, client):
 
 def test_bad_packets():
     nms = (network.ServerNetworkManager(None),
-            network.ClientNetworkManager(None, 'localhost', 9099))
+            network.ClientNetworkManager(None, 'localhost', 9099, state=None))
 
     for nm in nms:
         nm.onGotPacket(b'00000', ('localhost', 9099))
