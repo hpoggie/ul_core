@@ -12,6 +12,7 @@ from ul_core.factions.templars import Templar
 from ul_core.factions.thieves import Thief
 from ul_core.factions.mariners import Mariner
 from ul_core.factions.fae import Faerie
+from ul_core.core.card import Card
 
 from . import zie
 
