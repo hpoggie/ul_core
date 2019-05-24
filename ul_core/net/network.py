@@ -85,9 +85,9 @@ class ServerNetworkManager (ULNetworkManager):
                 def __call__(self, base, *args):
                     self.manager.send(
                         base.addr,
-                        rep.encode_args_to_client(self.key,
-                                                  serialize([self.opcode] + list(args)),
-                                                  self.manager.player_for_addr(base.addr)))
+                        serialize([self.opcode] + list(
+                            rep.encode_args_to_client(self.key, args,
+                                                      self.manager.player_for_addr(base.addr)))))
 
             # Bind the OpcodeFunc as a method to the class
             setattr(conn, key, types.MethodType(OpcodeFunc(self, key, i), conn))
@@ -116,9 +116,8 @@ class ClientNetworkManager (ULNetworkManager):
                 def __call__(self, base, *args):
                     base.send(
                         (base.ip, base.port),
-                        rep.encode_args_to_server(self.key,
-                                                  serialize([self.opcode] + list(args)),
-                                                  base.player))
+                        serialize([self.opcode] + list(
+                            rep.encode_args_to_server(self.key, args, base.player))))
 
             # Bind the OpcodeFunc as a method to the class
             setattr(self, key, types.MethodType(OpcodeFunc(key, i), self))
