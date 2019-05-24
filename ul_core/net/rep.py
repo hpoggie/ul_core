@@ -92,6 +92,8 @@ def encode_args_to_client(opcode_name, entities, relative_to_player=None):
             raise EncodeError("Arguments to zone updates should be one zone.")
 
         return zone_to_idens(relative_to_player, entities[0])
+    else:
+        return entities
 
 
 def encode_args_to_server(opcode_name, entities, relative_to_player=None):
@@ -190,4 +192,4 @@ def decode_args_from_server(opcode_name, args, relative_to_player):
                        'updateEnemyGraveyard'):
         return idens_to_cards(relative_to_player, args)
     else:
-        return entities
+        return args
