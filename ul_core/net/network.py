@@ -25,6 +25,12 @@ class ULNetworkManager(NetworkManager):
             raise OpcodeError("Invalid index: " + str(opcode))
 
 
+def log_send(key, args, encoded):
+    print("Send %s:" % key)
+    print("    ARGS: " + repr(args))
+    print("    ENCODED: " + repr(encoded))
+
+
 class ServerNetworkManager (ULNetworkManager):
     def __init__(self, base):
         super().__init__()
@@ -83,11 +89,16 @@ class ServerNetworkManager (ULNetworkManager):
                     self.opcode = opcode
 
                 def __call__(self, base, *args):
+                    encoded = list(
+                        rep.encode_args_to_client(self.key, args,
+                                                  self.manager.player_for_addr(base.addr)))
+
+                    if self.manager.verbose:
+                        log_send(self.key, args, encoded)
+
                     self.manager.send(
                         base.addr,
-                        serialize([self.opcode] + list(
-                            rep.encode_args_to_client(self.key, args,
-                                                      self.manager.player_for_addr(base.addr)))))
+                        serialize([self.opcode] + encoded))
 
             # Bind the OpcodeFunc as a method to the class
             setattr(conn, key, types.MethodType(OpcodeFunc(self, key, i), conn))
@@ -122,7 +133,7 @@ class ClientNetworkManager (ULNetworkManager):
 
             # Bind the OpcodeFunc as a method to the class
             setattr(self, key, types.MethodType(OpcodeFunc(key, i), self))
-            
+
     @property
     def player(self):
         return self.state.player if hasattr(self.state, 'player') else None
