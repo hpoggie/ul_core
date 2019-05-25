@@ -151,3 +151,27 @@ def test_decode_args_from_server():
 
     assert rep.decode_args_from_server('updatePlayerFaceups',
                                        [0, False], p0) == (p0.referenceDeck[0],)
+
+
+def test_lossless_encoding():
+    """
+    Encode, decode again, check that the result is the same
+    TODO: more of these
+    """
+    def assert_client_to_server(player, opcode_name, args):
+        assert rep.decode_args_from_client(opcode_name,
+                                           rep.encode_args_to_server(opcode_name, args, player),
+                                           player) == args
+
+    def assert_server_to_client(player, opcode_name, args):
+        assert rep.decode_args_from_server(opcode_name,
+                                           rep.encode_args_to_client(opcode_name, args, player),
+                                           player) == args
+
+    game, p0, p1 = util.newGame(Thief, Faerie)
+
+    for opcode, args in [('play', [p0.hand[0]]), ('makeDecision', []), ('endTurn', [])]:
+        assert_client_to_server(opcode, args, p0)
+
+    for opcode, args in [('updatePlayerFaceups', [p0.hand[0]])]:
+        assert_server_to_client(opcode, args, p0)
