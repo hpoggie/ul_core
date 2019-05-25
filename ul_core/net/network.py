@@ -25,8 +25,8 @@ class ULNetworkManager(NetworkManager):
             raise OpcodeError("Invalid index: " + str(opcode))
 
 
-def log_send(key, args, encoded):
-    print("Send %s:" % key)
+def log_send(key, player, args, encoded):
+    print("Send %s to player %s:" % (key, player))
     print("    ARGS: " + repr(args))
     print("    ENCODED: " + repr(encoded))
 
@@ -89,12 +89,13 @@ class ServerNetworkManager (ULNetworkManager):
                     self.opcode = opcode
 
                 def __call__(self, base, *args):
+                    player = self.manager.player_for_addr(base.addr)
+
                     encoded = list(
-                        rep.encode_args_to_client(self.key, args,
-                                                  self.manager.player_for_addr(base.addr)))
+                        rep.encode_args_to_client(self.key, args, player))
 
                     if self.manager.verbose:
-                        log_send(self.key, args, encoded)
+                        log_send(self.key, player, args, encoded)
 
                     self.manager.send(
                         base.addr,
