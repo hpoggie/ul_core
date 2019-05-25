@@ -164,14 +164,19 @@ def test_lossless_encoding():
                                            player) == tuple(args)
 
     def assert_server_to_client(opcode_name, args, player):
+        # Yes, this is weird.
+        # The zone updates encode a zone but decode to a flat array.
+        # This is expected behavior.
+        # TODO: make it not weird
+        expected = tuple(args[0]) if rep.is_zone_update(opcode_name) else tuple(args)
         assert rep.decode_args_from_server(opcode_name,
                                            rep.encode_args_to_client(opcode_name, args, player),
-                                           player) == tuple(args)
+                                           player) == expected
 
     game, p0, p1 = util.newGame(Thief, Faerie)
 
     for opcode, args in [('play', [p0.hand[0]]), ('makeDecision', []), ('endTurn', [])]:
         assert_client_to_server(opcode, args, p0)
 
-    for opcode, args in [('updatePlayerFaceups', [p0.hand[0]])]:
+    for opcode, args in [('updatePlayerFaceups', [p0.faceups])]:
         assert_server_to_client(opcode, args, p0)

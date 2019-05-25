@@ -76,6 +76,17 @@ def c_index(card):
     return card.zone.index(card)
 
 
+def is_zone_update(name):
+    return name in ('updatePlayerHand',
+                    'updateEnemyHand',
+                    'updatePlayerFacedowns',
+                    'updateEnemyFacedowns',
+                    'updatePlayerFaceups',
+                    'updateEnemyFaceups',
+                    'updatePlayerGraveyard',
+                    'updateEnemyGraveyard')
+
+
 def encode_args_to_client(opcode_name, entities, relative_to_player):
     """
     Return the encoded args for a server to client message based on the opcode name
