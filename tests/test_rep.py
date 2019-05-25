@@ -118,7 +118,7 @@ def test_decode_args_from_client():
     else:
         assert False
 
-    assert rep.decode_args_from_client('play', [0], p1) == p1.hand[0]
+    assert rep.decode_args_from_client('play', [0], p1) == (p1.hand[0],)
 
 
 def test_decode_attack():
