@@ -161,12 +161,12 @@ def test_lossless_encoding():
     def assert_client_to_server(opcode_name, args, player):
         assert rep.decode_args_from_client(opcode_name,
                                            rep.encode_args_to_server(opcode_name, args, player),
-                                           player) == args
+                                           player) == tuple(args)
 
     def assert_server_to_client(opcode_name, args, player):
         assert rep.decode_args_from_server(opcode_name,
                                            rep.encode_args_to_client(opcode_name, args, player),
-                                           player) == args
+                                           player) == tuple(args)
 
     game, p0, p1 = util.newGame(Thief, Faerie)
 
