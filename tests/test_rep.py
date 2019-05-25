@@ -158,12 +158,12 @@ def test_lossless_encoding():
     Encode, decode again, check that the result is the same
     TODO: more of these
     """
-    def assert_client_to_server(player, opcode_name, args):
+    def assert_client_to_server(opcode_name, args, player):
         assert rep.decode_args_from_client(opcode_name,
                                            rep.encode_args_to_server(opcode_name, args, player),
                                            player) == args
 
-    def assert_server_to_client(player, opcode_name, args):
+    def assert_server_to_client(opcode_name, args, player):
         assert rep.decode_args_from_server(opcode_name,
                                            rep.encode_args_to_client(opcode_name, args, player),
                                            player) == args
