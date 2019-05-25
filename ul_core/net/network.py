@@ -75,9 +75,9 @@ class ServerNetworkManager (ULNetworkManager):
         if self.verbose:
             print("got opcode: ", key)
 
-        self.tryCall(key, [addr] + rep.decode_args_from_client(key,
-                                                               operands,
-                                                               self.player_for_addr(addr)))
+        decoded_args = rep.decode_args_from_client(key, operands, self.player_for_addr(addr))
+
+        self.tryCall(key, [addr] + list(decoded_args))
 
     def onClientConnected(self, conn):
         # Make it so each client opcode is a function
