@@ -83,27 +83,27 @@ class ServerNetworkManager (ULNetworkManager):
         # Make it so each client opcode is a function
         for i, key in enumerate(ClientNetworkManager.Opcodes.keys):
             class OpcodeFunc:
-                def __init__(self, manager, key, opcode):
+                def __init__(self, key, opcode):
                     self.key = key
-                    self.manager = manager
                     self.opcode = opcode
 
                 def __call__(self, base, *args):
-                    player = self.manager.player_for_addr(base.addr)
+                    player = base.manager.player_for_addr(base.addr)
 
                     encoded = list(
                         rep.encode_args_to_client(self.key, args, player))
 
-                    if self.manager.verbose:
+                    if base.manager.verbose:
                         log_send(self.key, player, args, encoded)
 
-                    self.manager.send(
+                    base.manager.send(
                         base.addr,
                         serialize([self.opcode] + encoded))
 
             # Bind the OpcodeFunc as a method to the class
-            setattr(conn, key, types.MethodType(OpcodeFunc(self, key, i), conn))
+            setattr(conn, key, types.MethodType(OpcodeFunc(key, i), conn))
 
+        conn.manager = self
         self.base.onClientConnected(conn)
 
 
