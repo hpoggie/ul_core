@@ -106,6 +106,14 @@ class ServerNetworkManager (ULNetworkManager):
         conn.manager = self
         self.base.onClientConnected(conn)
 
+    def handoff_to(self, new_base):
+        """
+        Handoff the connections to new_base
+        """
+        self.base = new_base
+        for conn in self.connections:
+            conn.manager = self
+
 
 class ClientNetworkManager (ULNetworkManager):
     """
