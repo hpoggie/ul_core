@@ -175,8 +175,18 @@ def test_lossless_encoding():
 
     game, p0, p1 = util.newGame(Thief, Faerie)
 
+    p0.facedowns.createAndAddCard(dummyCards.one)
+
     for opcode, args in [('play', [p0.hand[0]]), ('makeDecision', []), ('endTurn', [])]:
         assert_client_to_server(opcode, args, p0)
 
-    for opcode, args in [('updatePlayerFaceups', [p0.faceups])]:
+    for opcode, args in [('updatePlayerFaceups', [p0.faceups]),
+                         ('playAnimation', ['on_reveal_facedown', p0.facedowns[0]]),
+                         ('playAnimation', ['on_spawn', p0.hand[0]])]:
         assert_server_to_client(opcode, args, p0)
+
+
+def test_play_animation():
+    game, p0, p1 = util.newGame(Thief, Faerie)
+
+    assert rep.encode_args_to_client('playAnimation', ['on_spawn', p0.hand[0]], p0) == (0, 0)

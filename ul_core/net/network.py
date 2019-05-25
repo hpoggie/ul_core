@@ -179,17 +179,6 @@ class ClientNetworkManager (ULNetworkManager):
         'setActive',
         'kick')
 
-    Animations = numericEnum(
-        'on_spawn',
-        'on_fight',
-        'on_die',
-        'on_change_controller',
-        'on_reveal_facedown',
-        'on_play_faceup',
-        'on_play_facedown',
-        'on_draw',
-        'on_end_turn')
-
     def onGotPacket(self, packet, addr):
         if packet == '':
             return
