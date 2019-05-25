@@ -153,7 +153,7 @@ def decode_args_from_client(opcode_name, args, relative_to_player):
                 target = zie.zieToGameEntity(relative_to_player, args[1:])
                 return (card, target)
             elif len(args) == 1:
-                return card
+                return (card,)
             else:
                 raise DecodeError("Wrong number of arguments.")
     elif opcode_name == 'attack':
@@ -162,7 +162,7 @@ def decode_args_from_client(opcode_name, args, relative_to_player):
         target = zie.zieToGameEntity(relative_to_player, target_zie)
         return (attacker, target)
     elif opcode_name == 'play':
-        return relative_to_player.hand[args[0]]
+        return (relative_to_player.hand[args[0]],)
     elif opcode_name == 'endTurn':
         target = zie.zieToGameEntity(relative_to_player, args)
         if target is not None and isinstance(relative_to_player, Faerie):
