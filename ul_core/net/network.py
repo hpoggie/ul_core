@@ -87,8 +87,9 @@ class ServerNetworkManager (ULNetworkManager):
                     self.key = key
                     self.opcode = opcode
 
-                def __call__(self, base, *args):
-                    player = base.manager.player_for_addr(base.addr)
+                def __call__(self, base, *args, player=None):
+                    if player is None:
+                        player = base.manager.player_for_addr(base.addr)
 
                     encoded = list(
                         rep.encode_args_to_client(self.key, args, player))
