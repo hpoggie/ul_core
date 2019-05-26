@@ -62,6 +62,13 @@ def zone_to_idens(player, zone):
     return [i for c in zone for i in card_to_iden(player, c)]
 
 
+def targets_to_idens(player, targets):
+    """
+    Same as zone_to_idens except discard None
+    """
+    return [i for c in targets if c is not None for i in card_to_iden(player, c)]
+
+
 def idens_to_cards(player, flat_list):
     """
     Take a flat list of idens and return the cards for them
@@ -124,27 +131,7 @@ def encode_args_to_client(opcode_name, entities, relative_to_player):
         animation_name, entities = entities[0], entities[1:]
         animation_id = getattr(Animations, animation_name)
 
-        def to_zie(entity):
-            return zie.gameEntityToZie(relative_to_player, entity)
-
-        def idx(card):
-            return (c_index(card),)
-
-        def ct(card, targets=()):
-            def expandTargets(targets):
-                return tuple(i for t in targets for i in to_zie(t))
-
-            return (c_index(card),) + expandTargets(targets)
-
-        return ((animation_id,) + {
-            'on_spawn': idx,
-            'on_fight': lambda c1, c2: to_zie(c1) + to_zie(c2),
-            'on_die': idx,
-            'on_reveal_facedown': ct,
-            'on_play_faceup': ct,
-            'on_play_facedown': idx,
-            'on_end_turn': lambda: ()
-        }[animation_name](*entities))
+        return ((animation_id,) + tuple(targets_to_idens(relative_to_player, entities)))
     else:
         return entities
 
@@ -250,23 +237,6 @@ def decode_args_from_server(opcode_name, args, relative_to_player):
     elif opcode_name == 'playAnimation':
         animation_name, args = Animations.keys[args[0]], args[1:]
 
-        def from_zie(z):
-            return zie.zieToGameEntity(relative_to_player, z)
-
-        def from_flat_zies(flat_array):
-            return tuple(zie.zieToGameEntity(relative_to_player, t)
-                         for t in zip(flat_array[::3], flat_array[1::3], flat_array[2::3]))
-
-        return ((animation_name,) + {
-            'on_spawn': lambda idx: (relative_to_player.hand[idx],),
-            'on_fight': lambda c1, c2: from_zie(c1) + from_zie(c2),
-            'on_die': lambda idx: (relative_to_player.faceups[idx],),
-            'on_reveal_facedown': lambda *ct: (relative_to_player.facedowns[ct[0]],)
-                + from_flat_zies(ct[1:]),
-            'on_play_faceup': lambda *ct: (relative_to_player.hand[ct[0]],)
-                + from_flat_zies(ct[1:]),
-            'on_play_facedown': lambda idx: (relative_to_player.hand[idx],),
-            'on_end_turn': lambda: ()
-        }[animation_name](*args))
+        return ((animation_name,) + tuple(idens_to_cards(relative_to_player, args)))
     else:
         return args

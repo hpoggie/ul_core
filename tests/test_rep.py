@@ -2,6 +2,7 @@ from . import util
 from . import dummyCards
 from ul_core.net import rep
 from ul_core.net.enums import Zone
+from ul_core.factions import thieves
 from ul_core.factions.templars import Templar
 from ul_core.factions.thieves import Thief
 from ul_core.factions.mariners import Mariner
@@ -175,7 +176,8 @@ def test_lossless_encoding():
 
     game, p0, p1 = util.newGame(Thief, Faerie)
 
-    p0.facedowns.createAndAddCard(dummyCards.one)
+    # Need to do this for cardId to work properly
+    p0.deck[0].zone = p0.facedowns
 
     for opcode, args in [('play', [p0.hand[0]]), ('makeDecision', []), ('endTurn', [])]:
         assert_client_to_server(opcode, args, p0)
@@ -189,4 +191,5 @@ def test_lossless_encoding():
 def test_play_animation():
     game, p0, p1 = util.newGame(Thief, Faerie)
 
-    assert rep.encode_args_to_client('playAnimation', ['on_spawn', p0.hand[0]], p0) == (0, 0)
+    assert rep.encode_args_to_client('playAnimation',
+                                     ['on_spawn', p0.referenceDeck[0]], p0) == (0, 0, False)
