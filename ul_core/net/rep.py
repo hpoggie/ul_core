@@ -127,7 +127,7 @@ def encode_args_to_client(opcode_name, entities, relative_to_player):
         def idx(card):
             return (c_index(card),)
 
-        def ct(card, *targets):
+        def ct(card, targets=()):
             def expandTargets(targets):
                 return tuple(i for t in targets for i in to_zie(t))
 
