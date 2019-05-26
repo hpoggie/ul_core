@@ -251,7 +251,7 @@ def decode_args_from_server(opcode_name, args, relative_to_player):
             return zie.zieToGameEntity(relative_to_player, z)
 
         def from_flat_zies(flat_array):
-            return tuple(zie.zieToGameEntity(t)
+            return tuple(zie.zieToGameEntity(relative_to_player, t)
                          for t in zip(flat_array[::3], flat_array[1::3], flat_array[2::3]))
 
         return ((animation_name,) + {
