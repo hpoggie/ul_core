@@ -86,7 +86,10 @@ def idens_to_cards(player, flat_list):
 
 
 def c_index(card):
-    return card.zone.index(card)
+    """
+    Like index, but check using is instead of ==
+    """
+    return next(i for i, x in enumerate(card.zone) if x is card)
 
 
 def is_zone_update(name):
