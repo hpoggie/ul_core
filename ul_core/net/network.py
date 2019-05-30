@@ -25,10 +25,18 @@ class ULNetworkManager(NetworkManager):
             raise OpcodeError("Invalid index: " + str(opcode))
 
 
-def log_send(key, player, args, encoded):
-    print("Send %s to player %s:" % (key, player))
-    print("    ARGS: " + repr(args))
-    print("    ENCODED: " + repr(encoded))
+def log_send_to_client(key, player, args, encoded):
+    print("""
+Send %s to player %s:
+    ARGS: %s
+    ENCODED: %s""" % (key, player, args, encoded))
+
+
+def log_send_to_server(key, args, encoded):
+    print("""
+Send %s to server:
+    ARGS: %s
+    ENCODED: %s""" % (key, args, encoded))
 
 
 class ServerNetworkManager (ULNetworkManager):
@@ -95,7 +103,7 @@ class ServerNetworkManager (ULNetworkManager):
                         rep.encode_args_to_client(self.key, args, player))
 
                     if base.manager.verbose:
-                        log_send(self.key, player, args, encoded)
+                        log_send_to_client(self.key, player, args, encoded)
 
                     base.manager.send(
                         base.addr,
@@ -136,10 +144,12 @@ class ClientNetworkManager (ULNetworkManager):
                     self.key = key
 
                 def __call__(self, base, *args):
-                    base.send(
-                        (base.ip, base.port),
-                        serialize([self.opcode] + list(
-                            rep.encode_args_to_server(self.key, args, base.player))))
+                    encoded = list(rep.encode_args_to_server(self.key, args, base.player))
+
+                    if base.verbose:
+                        log_send_to_server(self.key, args, encoded)
+
+                    base.send((base.ip, base.port), serialize([self.opcode] + encoded))
 
             # Bind the OpcodeFunc as a method to the class
             setattr(self, key, types.MethodType(OpcodeFunc(key, i), self))
