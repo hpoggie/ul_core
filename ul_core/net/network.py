@@ -199,6 +199,7 @@ class ClientNetworkManager (ULNetworkManager):
         'playAnimation',
         'requestDecision',
         'endRedraw',
+        'illegalMove',
         'winGame',
         'loseGame',
         'setActive',
