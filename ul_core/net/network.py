@@ -39,6 +39,13 @@ Send %s to server:
     ENCODED: %s""" % (key, args, encoded))
 
 
+def log_recv_from_client(key, args, decoded):
+    print("""
+Recv %s from client:
+    ARGS: %s
+    DECODED: %s""" % (key, args, decoded))
+
+
 class ServerNetworkManager (ULNetworkManager):
     def __init__(self, base):
         super().__init__()
@@ -80,10 +87,10 @@ class ServerNetworkManager (ULNetworkManager):
 
         key = self.tryFindKey(opcode)
 
-        if self.verbose:
-            print("got opcode: ", key)
-
         decoded_args = rep.decode_args_from_client(key, operands, self.player_for_addr(addr))
+
+        if self.verbose:
+            log_recv_from_client(key, operands, decoded_args)
 
         self.tryCall(key, [addr] + list(decoded_args))
 
