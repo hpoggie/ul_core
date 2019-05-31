@@ -43,6 +43,12 @@ Animations = numericEnum(
 invisible_card_ids = {}
 
 
+# TODO: kludge
+# This stuff should all be in a different module
+# Client side only dictionary mapping invisible card ids to Card instances
+cl_card_id_to_instance = {}
+
+
 # Constant for the cardId of a player's face
 face_id = -1
 
@@ -123,12 +129,19 @@ def idens_to_cards(player, flat_list):
         if cardId == face_id:
             cards.append(player.opponent.face if ownedByEnemy else player.face)
         elif cardId < 0:
-            cards.append(
-                Card(
-                    name="mysterious card",
-                    owner=player.opponent,
-                    game=player.game,
-                    cardId=cardId))
+            try:
+                cards.append(cl_card_id_to_instance[cardId])
+            except KeyError:
+                # If the card was not found, create a new mysterious card & add it
+                new_card = Card(
+                        name="mysterious card",
+                        owner=player.opponent,
+                        game=player.game,
+                        cardId=cardId)
+
+                cl_card_id_to_instance[cardId] = new_card
+
+                cards.append(new_card)
         else:
             c = (player.opponent.referenceDeck[cardId] if ownedByEnemy
                     else player.referenceDeck[cardId])

@@ -197,3 +197,21 @@ def test_play_animation():
 
     assert rep.encode_args_to_client('playAnimation',
                                      ['on_spawn', p0.referenceDeck[0]], p0) == (0, 0, False)
+
+
+def test_genid():
+    game, p0, p1 = util.newGame(Thief, Faerie)
+
+    p1.deck[0].zone = p1.facedowns
+    p1.deck[1].zone = p1.facedowns
+
+    for c in p1.facedowns:
+        assert not c.visible
+
+    # Different fds should be different
+    assert rep.encode_args_to_client('playAnimation', ['on_fizzle', p1.facedowns[0]], p0)\
+        != rep.encode_args_to_client('playAnimation', ['on_fizzle', p1.facedowns[1]], p0)
+
+    # Same fd should be the same
+    assert rep.encode_args_to_client('playAnimation', ['on_fizzle', p1.facedowns[0]], p0)\
+        == rep.encode_args_to_client('playAnimation', ['on_fizzle', p1.facedowns[0]], p0)
