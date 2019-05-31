@@ -29,6 +29,9 @@ class EventHandler:
     def on_draw(self, card):
         self.on_any(card.game)
 
+    def on_fizzle(self, card):
+        self.on_any(card.game)
+
     def on_end_turn(self, game):
         self.on_any(game)
 
@@ -70,6 +73,9 @@ class EmptyEventHandler:
         pass
 
     def on_draw(self, card):
+        pass
+
+    def on_fizzle(self, card):
         pass
 
     def on_end_turn(self, game):

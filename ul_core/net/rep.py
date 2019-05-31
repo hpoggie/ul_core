@@ -30,6 +30,7 @@ Animations = numericEnum(
     'on_spawn',
     'on_fight',
     'on_die',
+    'on_fizzle',
     'on_change_controller',
     'on_reveal_facedown',
     'on_play_faceup',

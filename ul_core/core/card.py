@@ -183,6 +183,11 @@ class Card:
                 self.game.eventHandler.on_die(self)
 
             self.controller.pushTriggeredEffect(handleDeath)
+        elif self._zone == self.controller.facedowns and zone == self.owner.graveyard:
+            def handleFizzle():
+                self.game.eventHandler.on_fizzle(self)
+
+            self.controller.pushTriggeredEffect(handleFizzle)
         elif self._zone == self.controller.hand and zone == self.owner.graveyard:
             self.onDiscard()
 
