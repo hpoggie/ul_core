@@ -43,6 +43,10 @@ Animations = numericEnum(
 invisible_card_ids = {}
 
 
+# Constant for the cardId of a player's face
+face_id = -1
+
+
 _next_genid = -2
 
 
@@ -72,9 +76,9 @@ def card_to_iden(player, card):
     Used for server to client zone updates
     """
     if card is player.opponent.face:
-        return (-2, True)
+        return (face_id, True)
     elif card is player.face:
-        return (-2, False)
+        return (face_id, False)
 
     def isVisible(c):
         return (c.zone not in (c.controller.hand, c.controller.facedowns)
@@ -116,15 +120,15 @@ def idens_to_cards(player, flat_list):
     idens = zip(flat_list[::2], flat_list[1::2])
     cards = []
     for cardId, ownedByEnemy in idens:
-        if cardId == -1:
+        if cardId == face_id:
+            cards.append(player.opponent.face if ownedByEnemy else player.face)
+        elif cardId < 0:
             cards.append(
                 Card(
                     name="mysterious card",
                     owner=player.opponent,
                     game=player.game,
-                    cardId=-1))
-        elif cardId == -2:
-            cards.append(player.opponent.face if ownedByEnemy else player.face)
+                    cardId=cardId))
         else:
             c = (player.opponent.referenceDeck[cardId] if ownedByEnemy
                     else player.referenceDeck[cardId])
