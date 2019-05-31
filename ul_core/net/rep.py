@@ -39,6 +39,28 @@ Animations = numericEnum(
     'on_end_turn')
 
 
+# Maps cardIds to invisible cardIds
+invisible_card_ids = {}
+
+
+_next_genid = -2
+
+
+def genid():
+    """
+    Generate a cardId for an invisible card
+
+    Guaranteed to be
+    (1) unique,
+    (2) not the same as any visible cardId, and
+    (3) not the same as the cardId for face
+    """
+    global _next_genid
+    val = _next_genid
+    _next_genid -= 1
+    return val
+
+
 def card_to_iden(player, card):
     """
     Convert card to ID/enemy (IDEN) representation.
@@ -58,7 +80,19 @@ def card_to_iden(player, card):
         return (c.zone not in (c.controller.hand, c.controller.facedowns)
                 or c.visible or c.controller is player)
 
-    return ((card.cardId if isVisible(card) else -1), card.owner is not player)
+    cid = None
+
+    # If the card is not visible, create a unique ID for it
+    if not isVisible(card):
+        try:
+            cid = invisible_card_ids[card.cardId]
+        except KeyError:
+            cid = genid()
+            invisible_card_ids[card.cardId] = cid
+    else:
+        cid = card.cardId
+
+    return (cid, card.owner is not player)
 
 
 def zone_to_idens(player, zone):
