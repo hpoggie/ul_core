@@ -5,7 +5,7 @@ import ul_core.net.factions as nf
 def testTemplarAbilityIndices():
     game, p0, p1 = newGame(nf.Templar)
     game.start()
-    
+
     try:
         p0.factionAbility(100)  # index way too big
     except nf.ProtocolError:
