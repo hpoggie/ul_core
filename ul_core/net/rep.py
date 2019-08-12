@@ -158,34 +158,20 @@ def c_index(card):
     return next(i for i, x in enumerate(card.zone) if x is card)
 
 
-def is_zone_update(name):
-    return name in ('updatePlayerHand',
-                    'updateEnemyHand',
-                    'updatePlayerFacedowns',
-                    'updateEnemyFacedowns',
-                    'updatePlayerFaceups',
-                    'updateEnemyFaceups',
-                    'updatePlayerGraveyard',
-                    'updateEnemyGraveyard')
-
-
 def encode_args_to_client(opcode_name, entities, relative_to_player):
     """
     Return the encoded args for a server to client message based on the opcode name
     """
 
-    if opcode_name in ('updatePlayerHand',
-                       'updateEnemyHand',
-                       'updatePlayerFacedowns',
-                       'updateEnemyFacedowns',
-                       'updatePlayerFaceups',
-                       'updateEnemyFaceups',
-                       'updatePlayerGraveyard',
-                       'updateEnemyGraveyard'):
+    if opcode_name == 'updateZone':
         if len(entities) > 1:
             raise EncodeError("Arguments to zone updates should be one zone.")
 
-        return zone_to_idens(relative_to_player, entities[0])
+        zone = entities[0]
+        pl = zone.controller
+
+        return [pl != relative_to_player, pl.zones.index(zone)]\
+            + zone_to_idens(relative_to_player, entities[0])
     elif opcode_name == 'playAnimation':
         animation_name, entities = entities[0], entities[1:]
         animation_id = getattr(Animations, animation_name)
@@ -284,14 +270,9 @@ def decode_args_from_client(opcode_name, args, relative_to_player):
 
 
 def decode_args_from_server(opcode_name, args, relative_to_player):
-    if opcode_name in ('updatePlayerHand',
-                       'updateEnemyHand',
-                       'updatePlayerFacedowns',
-                       'updateEnemyFacedowns',
-                       'updatePlayerFaceups',
-                       'updateEnemyFaceups',
-                       'updatePlayerGraveyard',
-                       'updateEnemyGraveyard'):
+    if opcode_name == 'updateZone':
+        is_enemy, index, args = args[0], args[1], args[2:]
+        z = (relative_to_player.opponent if is_enemy else relative_to_player).zones[index]
         return idens_to_cards(relative_to_player, args)
     elif opcode_name == 'playAnimation':
         animation_name, args = Animations.keys[args[0]], args[1:]

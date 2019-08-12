@@ -25,12 +25,13 @@ def test_iden():
 def test_encode_args_to_client():
     game, p0, p1 = util.newGame(dummyCards.one())
 
-    assert rep.encode_args_to_client('updatePlayerHand', [p0.hand],
-                                     relative_to_player=p0) == [0, False]
+    hand_index = p0.zones.index(p0.hand)
+
+    assert rep.encode_args_to_client('updateZone', [p0.hand],
+                                     relative_to_player=p0) == [False, hand_index, 0, False]
 
     try:
-        rep.encode_args_to_client('updatePlayerHand', [p0.hand, 'a'],
-                                  relative_to_player=p0) == [0, False]
+        rep.encode_args_to_client('updateZone', [p0.hand, 'a'], relative_to_player=p0)
     except rep.EncodeError:
         pass
     else:
@@ -151,8 +152,9 @@ def test_decode_make_decision():
 def test_decode_args_from_server():
     game, p0, p1 = util.newGame(Thief, Faerie)
 
-    assert rep.decode_args_from_server('updatePlayerFaceups',
-                                       [0, False], p0) == (p0.referenceDeck[0],)
+    assert rep.decode_args_from_server('updateZone',
+                                       [False, Zone.facedown, 0, False],
+                                       p0) == (p0.referenceDeck[0],)
 
 
 def test_lossless_encoding():
@@ -170,7 +172,7 @@ def test_lossless_encoding():
         # The zone updates encode a zone but decode to a flat array.
         # This is expected behavior.
         # TODO: make it not weird
-        expected = tuple(args[0]) if rep.is_zone_update(opcode_name) else tuple(args)
+        expected = tuple(args[0]) if opcode_name == 'updateZone' else tuple(args)
         assert rep.decode_args_from_server(opcode_name,
                                            rep.encode_args_to_client(opcode_name, args, player),
                                            player) == expected
@@ -183,7 +185,7 @@ def test_lossless_encoding():
     for opcode, args in [('play', [p0.hand[0]]), ('makeDecision', []), ('endTurn', [])]:
         assert_client_to_server(opcode, args, p0)
 
-    for opcode, args in [('updatePlayerFaceups', [p0.faceups]),
+    for opcode, args in [('updateZone', [p0.faceups]),
                          ('playAnimation', ['on_reveal_facedown', p0.facedowns[0]]),
                          ('playAnimation', ['on_spawn', p0.hand[0]]),
                          # This is wrong but it should still encode correctly
