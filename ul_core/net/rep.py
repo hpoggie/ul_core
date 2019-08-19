@@ -109,6 +109,14 @@ def zone_to_idens(player, zone):
     """
     Return the IDENs for each card in zone relative to player as a flat list
     """
+    # Need to check this because we might be passed a face
+    # Also need to check in card_to_iden because targets_to_idens takes a list,
+    # not a zone
+    if zone is player.opponent.face:
+        return (face_id, True)
+    elif zone is player.face:
+        return (face_id, False)
+
     return [i for c in zone for i in card_to_iden(player, c)]
 
 
