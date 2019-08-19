@@ -171,7 +171,7 @@ def encode_args_to_client(opcode_name, entities, relative_to_player):
         pl = zone.controller
 
         return [pl != relative_to_player, pl.zones.index(zone)]\
-            + zone_to_idens(relative_to_player, entities[0])
+            + list(zone_to_idens(relative_to_player, entities[0]))
     elif opcode_name == 'playAnimation':
         animation_name, entities = entities[0], entities[1:]
         animation_id = getattr(Animations, animation_name)
