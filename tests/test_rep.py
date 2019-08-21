@@ -154,7 +154,7 @@ def test_decode_args_from_server():
 
     assert rep.decode_args_from_server('updateZone',
                                        [False, Zone.facedown, 0, False],
-                                       p0) == (p0.referenceDeck[0],)
+                                       p0) == (p0.facedowns, p0.referenceDeck[0],)
 
 
 def test_lossless_encoding():
@@ -168,11 +168,7 @@ def test_lossless_encoding():
                                            player) == tuple(args)
 
     def assert_server_to_client(opcode_name, args, player):
-        # Yes, this is weird.
-        # The zone updates encode a zone but decode to a flat array.
-        # This is expected behavior.
-        # TODO: make it not weird
-        expected = tuple(args[0]) if opcode_name == 'updateZone' else tuple(args)
+        expected = tuple(args)
         assert rep.decode_args_from_server(opcode_name,
                                            rep.encode_args_to_client(opcode_name, args, player),
                                            player) == expected

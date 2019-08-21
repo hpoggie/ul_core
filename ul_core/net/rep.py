@@ -281,7 +281,7 @@ def decode_args_from_server(opcode_name, args, relative_to_player):
     if opcode_name == 'updateZone':
         is_enemy, index, args = args[0], args[1], args[2:]
         z = (relative_to_player.opponent if is_enemy else relative_to_player).zones[index]
-        return idens_to_cards(relative_to_player, args)
+        return (z,) + tuple(idens_to_cards(relative_to_player, args))
     elif opcode_name == 'playAnimation':
         animation_name, args = Animations.keys[args[0]], args[1:]
 
