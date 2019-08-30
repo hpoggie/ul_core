@@ -3,8 +3,9 @@ from ul_core.core.game import destroy
 
 
 class Zone(list):
-    def __init__(self, controller, lst=[]):
+    def __init__(self, name, controller, lst=[]):
         super().__init__(lst)
+        self.name = name
         self.controller = controller
         self.dirty = True
 
@@ -18,6 +19,9 @@ class Zone(list):
 
     def __eq__(self, other):
         return self is other
+
+    def __repr__(self):
+        return "Zone %s of %s containing %s" % (self.name, self.controller, self[:])
 
     def append(self, card):
         super().append(card)

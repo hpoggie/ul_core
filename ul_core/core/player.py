@@ -40,14 +40,14 @@ class Player:
     cardBack = "my-faction-back.png"
 
     def __init__(self):
-        self.hand = Zone(self)
-        self.facedowns = Zone(self)
-        self.faceups = Zone(self)
+        self.hand = Zone("Hand", self)
+        self.facedowns = Zone("Facedowns", self)
+        self.faceups = Zone("Faceups", self)
         # Need to have a dummy zone to attack
-        self.face = Zone(self, ["A human face."])
-        self.deck = Zone(self, deepcopy(self.deck))  # deck is initially a class var
+        self.face = Zone("Face", self, ["A human face."])
+        self.deck = Zone("Deck", self, deepcopy(self.deck))  # deck is initially a class var
 
-        self.graveyard = Zone(self)
+        self.graveyard = Zone("Graveyard", self)
         self._manaCap = 1
         self.mana = 1
 
