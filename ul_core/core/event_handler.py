@@ -4,6 +4,12 @@ class EventHandler:
 
     TODO: should death from spell be different?
     """
+    def on_move_card(self, card, old, new):
+        """
+        Called whenever a card moves to another zone.
+        This should not call on_any because it shouldn't resolve triggers.
+        """
+        pass
 
     def on_spawn(self, card):
         self.on_any(card.game)
@@ -51,6 +57,9 @@ class EmptyEventHandler:
     """
     If you just need the game to store data
     """
+    def on_move_card(self, card, old, new):
+        pass
+
     def on_spawn(self, card):
         pass
 

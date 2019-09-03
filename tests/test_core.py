@@ -211,7 +211,8 @@ def testEventsActuallyCalled():
 
             # Generate on_x methods for all the events
             for key in [k for k in EventHandler.__dict__.keys()
-                        if k.startswith('on_') and k not in ('on_any', 'on_push_action')]:
+                        if k.startswith('on_') and k not in ('on_any', 'on_move_card',
+                                                             'on_push_action')]:
                 def make_on_key(key):
                     # Have to do this b/c of dumb binding rules
                     def on_key(*args, **kwargs):
@@ -224,6 +225,9 @@ def testEventsActuallyCalled():
 
         def on_any(self, game):
             game.resolveTriggeredEffects()
+
+        def on_move_card(self, card, old, new):
+            self.events.append('on_move_card')
 
         @property
         def lastEvent(self):
@@ -238,22 +242,34 @@ def testEventsActuallyCalled():
     game, p0, p1 = util.newGame(
         [base.sweep()], [dummyCards.fast()], eventHandler=eh)
 
-    eh.assertPopEvents('on_draw')
+    eh.assertPopEvents('on_move_card', 'on_draw')
     p0.play(0)
-    eh.assertPopEvents('on_play_facedown')
+    eh.assertPopEvents('on_move_card', 'on_play_facedown')
     p0.endTurn()
-    eh.assertPopEvents('on_end_turn', 'on_draw')
+    eh.assertPopEvents('on_end_turn', 'on_move_card', 'on_draw')
     p1.playFaceup(0)
-    eh.assertPopEvents('on_play_faceup', 'on_spawn')
+    eh.assertPopEvents('on_move_card', 'on_play_faceup', 'on_spawn')
     assert len(p1.deck) == 0
     p1.endTurn()
     eh.assertPopEvents('on_end_turn')  # No draw event b/c no card to draw
     p0.mana = 4
     p0.revealFacedown(0)
-    eh.assertPopEvents('on_reveal_facedown', 'on_spawn', 'on_die', 'on_die')
+    # NOTE: This is the correct order!
+    # 1. on_move_card fires when the card is actually moved
+    # 2. on_reveal_facedown fires after the reveal facedown action has completed
+    # 3. on_reveal_facedown progresses the game state
+    # 4. on_move_card fires again from sweep's effect
+    # 5. on_spawn fires after sweep's effect ends
+    # 6. on_die fires from the unit dying
+    # 7. on_move_card fires from sweep being discarded
+    # 8. on_die fires from sweep being discarded
+    # TODO: rename on_spawn, etc. to indicate they trigger when the effect triggers
+    # Or make the order more intuitive in general
+    eh.assertPopEvents('on_move_card', 'on_reveal_facedown', 'on_move_card',
+                       'on_spawn', 'on_die', 'on_move_card', 'on_die')
 
     p0.faceups.createAndAddCard(dummyCards.one)
     p1.facedowns.createAndAddCard(base.mindControlTrap)
     eh.events = []  # Don't care about what this calls right now
     p0.faceups[0].attack(p1.facedowns[0])
-    eh.assertPopEvents('on_fight', 'on_change_controller')
+    eh.assertPopEvents('on_fight', 'on_move_card', 'on_change_controller')

@@ -177,6 +177,8 @@ class Card:
         self.moveToZone(value)
 
     def moveToZone(self, zone):
+        old_zone = self.zone
+
         if self._zone == self.controller.faceups and zone == self.owner.graveyard:
             def handleDeath():
                 self.onDeath()
@@ -201,6 +203,8 @@ class Card:
         self.hasAttacked = False
         self.stale = False
         self.locked = False
+
+        self.game.eventHandler.on_move_card(self, old_zone, zone)
 
         if self.zone.controller is not oldController:
             self.game.eventHandler.on_change_controller(self, oldController, self.controller)
