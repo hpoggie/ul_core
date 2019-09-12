@@ -190,6 +190,7 @@ class ClientNetworkManager (ULNetworkManager):
         'updatePlayerFacedownStaleness',
         'updateEnemyFacedownStaleness',
         'playAnimation',
+        'moveCard',
         'requestDecision',
         'endRedraw',
         'illegalMove',

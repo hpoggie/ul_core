@@ -185,6 +185,10 @@ def encode_args_to_client(opcode_name, entities, relative_to_player):
         animation_id = getattr(Animations, animation_name)
 
         return ((animation_id,) + tuple(targets_to_idens(relative_to_player, entities)))
+    elif opcode_name == 'moveCard':
+        card, zone = entities
+        return zie.gameEntityToZie(relative_to_player, card) +\
+            (zone not in relative_to_player.zones, zone.controller.zones.index(zone))
     else:
         return entities
 
@@ -286,5 +290,10 @@ def decode_args_from_server(opcode_name, args, relative_to_player):
         animation_name, args = Animations.keys[args[0]], args[1:]
 
         return ((animation_name,) + tuple(idens_to_cards(relative_to_player, args)))
+    elif opcode_name == 'moveCard':
+        card_zie, new_zone_is_enemy, new_zone_index = args[:3], args[3], args[4]
+        card = zie.zieToGameEntity(relative_to_player, card_zie)
+        return (card, (relative_to_player.opponent if new_zone_is_enemy else relative_to_player)
+                .zones[new_zone_index])
     else:
         return args

@@ -186,7 +186,9 @@ def test_lossless_encoding():
                          ('playAnimation', ['on_spawn', p0.hand[0]]),
                          # This is wrong but it should still encode correctly
                          ('playAnimation', ['on_fight', p0.facedowns[0], p1.face]),
-                         ('playAnimation', ['on_change_controller', p0.facedowns[0]])]:
+                         ('playAnimation', ['on_change_controller', p0.facedowns[0]]),
+                         ('moveCard', [p0.facedowns[0], p0.hand]),
+                         ('moveCard', [p0.facedowns[0], p1.hand])]:
         assert_server_to_client(opcode, args, p0)
 
 
