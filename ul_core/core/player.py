@@ -67,7 +67,8 @@ class Player:
             self.faceups,
             self.facedowns,
             self.hand,
-            self.graveyard
+            self.graveyard,
+            self.deck
         ]
 
         # Counter for "Take an extra turn after this one" effects
