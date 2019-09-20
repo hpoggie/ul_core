@@ -200,14 +200,15 @@ def test_play_animation():
 
 def test_update_card_visibility():
     """
-    updateCardVisibility should give the card id on the client side
+    updateCardVisibility should give the card on the client side
     """
     game, p0, p1 = util.newGame(Templar, Mariner)
     p0.deck[0].zone = p0.hand
 
     encoded = rep.encode_args_to_client('updateCardVisibility', [p0.hand[0]], p1)
-    assert encoded == (Zone.hand, 0, True, p0.hand[0].cardId)
-    assert rep.decode_args_from_server('updateCardVisibility', encoded, p1) == encoded
+    assert encoded == (Zone.hand, 0, True, p0.hand[0].cardId, True)
+    assert rep.decode_args_from_server('updateCardVisibility',
+                                       encoded, p1) == (Zone.hand, 0, True, p0.hand[0])
 
 def test_genid():
     game, p0, p1 = util.newGame(Thief, Faerie)

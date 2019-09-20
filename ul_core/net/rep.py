@@ -191,7 +191,8 @@ def encode_args_to_client(opcode_name, entities, relative_to_player):
             (zone not in relative_to_player.zones, zone.controller.zones.index(zone), card.cardId)
     elif opcode_name == 'updateCardVisibility':
         card, = entities
-        return zie.gameEntityToZie(relative_to_player, card) + (card.cardId,)
+        return zie.gameEntityToZie(relative_to_player, card) +\
+            (card.cardId, card.controller is not relative_to_player)
     else:
         return entities
 
@@ -298,5 +299,9 @@ def decode_args_from_server(opcode_name, args, relative_to_player):
         card = zie.zieToGameEntity(relative_to_player, card_zie)
         return (card, (relative_to_player.opponent if new_zone_is_enemy else relative_to_player)
                 .zones[new_zone_index])
+    elif opcode_name == 'updateCardVisibility':
+        card_id, is_enemy = args[3], args[4]
+        return args[:3] + ((relative_to_player.opponent if is_enemy else relative_to_player)
+                           .referenceDeck[card_id],)
     else:
-        return args  # This also handles updateCardVisibility
+        return args
