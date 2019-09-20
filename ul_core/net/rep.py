@@ -301,7 +301,7 @@ def decode_args_from_server(opcode_name, args, relative_to_player):
                 .zones[new_zone_index])
     elif opcode_name == 'updateCardVisibility':
         card_id, is_enemy = args[3], args[4]
-        return args[:3] + ((relative_to_player.opponent if is_enemy else relative_to_player)
-                           .referenceDeck[card_id],)
+        return tuple(args[:3]) + ((relative_to_player.opponent if is_enemy else relative_to_player)
+                                  .referenceDeck[card_id],)
     else:
         return args
