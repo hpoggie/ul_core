@@ -7,6 +7,39 @@ import ul_core.factions.base as base
 from ul_core.core.event_handler import EventHandler
 
 
+class CustomEventHandler(EventHandler):
+    def __init__(self):
+        self.events = []
+
+        # Generate on_x methods for all the events
+        for key in [k for k in EventHandler.__dict__.keys()
+                    if k.startswith('on_') and k not in ('on_any', 'on_move_card',
+                                                            'on_push_action')]:
+            def make_on_key(key):
+                # Have to do this b/c of dumb binding rules
+                def on_key(*args, **kwargs):
+                    self.events.append(key)
+                    getattr(super(CustomEventHandler, self), key)(*args, **kwargs)
+
+                return on_key
+
+            setattr(self, key, make_on_key(key))
+
+    def on_any(self, game):
+        game.resolveTriggeredEffects()
+
+    def on_move_card(self, card, old, new):
+        self.events.append('on_move_card')
+
+    @property
+    def lastEvent(self):
+        return self.events[-1]
+
+    def assertPopEvents(self, *events):
+        assert self.events == list(events)
+        self.events = []
+
+
 def deckContainsDuplicates(deck):
     for i, card in enumerate(deck):
         for card2 in deck[i + 1:]:
@@ -205,38 +238,6 @@ def testManualResolve():
 
 
 def testEventsActuallyCalled():
-    class CustomEventHandler(EventHandler):
-        def __init__(self):
-            self.events = []
-
-            # Generate on_x methods for all the events
-            for key in [k for k in EventHandler.__dict__.keys()
-                        if k.startswith('on_') and k not in ('on_any', 'on_move_card',
-                                                             'on_push_action')]:
-                def make_on_key(key):
-                    # Have to do this b/c of dumb binding rules
-                    def on_key(*args, **kwargs):
-                        self.events.append(key)
-                        getattr(super(CustomEventHandler, self), key)(*args, **kwargs)
-
-                    return on_key
-
-                setattr(self, key, make_on_key(key))
-
-        def on_any(self, game):
-            game.resolveTriggeredEffects()
-
-        def on_move_card(self, card, old, new):
-            self.events.append('on_move_card')
-
-        @property
-        def lastEvent(self):
-            return self.events[-1]
-
-        def assertPopEvents(self, *events):
-            assert self.events == list(events)
-            self.events = []
-
     eh = CustomEventHandler()
 
     game, p0, p1 = util.newGame(
@@ -273,3 +274,14 @@ def testEventsActuallyCalled():
     eh.events = []  # Don't care about what this calls right now
     p0.faceups[0].attack(p1.facedowns[0])
     eh.assertPopEvents('on_fight', 'on_move_card', 'on_change_controller')
+
+
+def test_counter_event():
+    eh = CustomEventHandler()
+
+    game, p0, p1 = util.newGame(
+        [dummyCards.fast()], [dummyCards.fast()], eventHandler=eh)
+
+    p0.playFaceup(0)
+    p0.faceups[0].counter = 1
+    assert 'on_change_counter' in eh.events

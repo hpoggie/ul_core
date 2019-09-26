@@ -57,6 +57,7 @@ class Card:
         self.desc = ""
         self.stale = False  # Will this fizzle at end of turn?
         self.locked = False  # Can this be cast?
+        self._counter = None
 
         # Alpha effects can only be done as the first action on your turn
         self.alpha = False
@@ -241,3 +242,12 @@ class Card:
     @property
     def imagePath(self):
         return self.iconPath + '/' + self.image
+
+    @property
+    def counter(self):
+        return self._counter
+
+    @counter.setter
+    def counter(self, value):
+        self.game.eventHandler.on_change_counter(self, value)
+        self._counter = value

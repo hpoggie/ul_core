@@ -41,6 +41,9 @@ class EventHandler:
     def on_end_turn(self, game):
         self.on_any(game)
 
+    def on_change_counter(self, card, new_value):
+        self.on_any(card.game)
+
     def on_any(self, game):
         pass
 
@@ -88,6 +91,9 @@ class EmptyEventHandler:
         pass
 
     def on_end_turn(self, game):
+        pass
+
+    def on_change_counter(self, card, new_value):
         pass
 
     def on_any(self, game):
