@@ -193,6 +193,9 @@ def encode_args_to_client(opcode_name, entities, relative_to_player):
         card, = entities
         return zie.gameEntityToZie(relative_to_player, card) +\
             (card.cardId, card.controller is not relative_to_player)
+    elif opcode_name == 'updateCounter':
+        card, new_value = entities
+        return zie.gameEntityToZie(relative_to_player, card) + (new_value,)
     else:
         return entities
 
@@ -303,5 +306,9 @@ def decode_args_from_server(opcode_name, args, relative_to_player):
         card_id, is_enemy = args[3], args[4]
         return tuple(args[:3]) + ((relative_to_player.opponent if is_enemy else relative_to_player)
                                   .referenceDeck[card_id],)
+    elif opcode_name == 'updateCounter':
+        card_zie, new_value = args[:3], args[3]
+        card = zie.zieToGameEntity(relative_to_player, card_zie)
+        return (card, new_value)
     else:
         return args

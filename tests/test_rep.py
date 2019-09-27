@@ -188,7 +188,8 @@ def test_lossless_encoding():
                          ('playAnimation', ['on_fight', p0.facedowns[0], p1.face]),
                          ('playAnimation', ['on_change_controller', p0.facedowns[0]]),
                          ('moveCard', [p0.facedowns[0], p0.hand]),
-                         ('moveCard', [p0.facedowns[0], p1.hand])]:
+                         ('moveCard', [p0.facedowns[0], p1.hand]),
+                         ('updateCounter', [p0.facedowns[0], 2])]:
         assert_server_to_client(opcode, args, p0)
 
 
