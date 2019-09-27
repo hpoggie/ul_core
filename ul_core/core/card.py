@@ -249,5 +249,6 @@ class Card:
 
     @counter.setter
     def counter(self, value):
-        self.game.eventHandler.on_change_counter(self, value)
-        self._counter = value
+        if value != self.counter:
+            self.game.eventHandler.on_change_counter(self, value)
+            self._counter = value
