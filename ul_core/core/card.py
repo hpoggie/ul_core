@@ -204,6 +204,7 @@ class Card:
         self.hasAttacked = False
         self.stale = False
         self.locked = False
+        self.counter = None
 
         if self.zone.controller is not oldController:
             self.game.eventHandler.on_change_controller(self, oldController, self.controller)
