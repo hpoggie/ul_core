@@ -23,10 +23,11 @@ def intStringToBool(s):
 
 def serialize(args):
     def typeSpecifier(x):
-        return {int: 'i', bool: 'b', str: 's'}[type(x)]
+        return {int: 'i', bool: 'b', str: 's', type(None): 'n'}[type(x)]
 
     def data(x):
-        return x if isinstance(x, str) else repr(int(x))
+        return (x if isinstance(x, str) else
+                'None' if isinstance(x, type(None)) else repr(int(x)))
 
     # \uffff is guaranteed not to be a valid unicode character.
     # Thus it will never be part of a string that we would
@@ -48,7 +49,7 @@ def deserialize(packet):
 
     for s in re.findall('[a-z][^\uffff]+', packet):
         try:
-            t = {'i': int, 'b': intStringToBool, 's': str}[s[0]]
+            t = {'i': int, 'b': intStringToBool, 's': str, 'n': lambda _: None}[s[0]]
         except KeyError as e:
             raise DeserializationError('Bad type specifier', e)
 

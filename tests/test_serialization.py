@@ -47,3 +47,7 @@ def test_too_long_integer():
         pass
     else:
         assert False
+
+
+def test_none():
+    assert deserialize(serialize([None, None])) == [None, None]
