@@ -215,28 +215,6 @@ def testCardLocking():
     assert len(p0.faceups) == 1
 
 
-def testManualResolve():
-    class CustomEventHandler(EventHandler):
-        def __init__(self):
-            self.nAnimations = 0
-
-        def on_any(self, game):
-            self.nAnimations += 1
-            game.resolveTriggeredEffects()
-
-    game, p0, p1 = util.newGame(
-        [base.sweep()], [dummyCards.fast()], eventHandler=CustomEventHandler())
-
-    p0.play(0)  # Pushes 1
-    p0.endTurn()  # 3: action + mana cap + draw
-    p1.playFaceup(0)  # 2: action + spawn
-    p1.endTurn()  # 3
-    p0.mana = 4
-    p0.revealFacedown(0)  # 4: action + spawn + die + die from spell
-
-    assert game.eventHandler.nAnimations == 19
-
-
 def testEventsActuallyCalled():
     eh = CustomEventHandler()
 
