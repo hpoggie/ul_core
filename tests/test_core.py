@@ -234,7 +234,7 @@ def testManualResolve():
     p0.mana = 4
     p0.revealFacedown(0)  # 4: action + spawn + die + die from spell
 
-    assert game.eventHandler.nAnimations == 13
+    assert game.eventHandler.nAnimations == 19
 
 
 def testEventsActuallyCalled():
@@ -243,16 +243,20 @@ def testEventsActuallyCalled():
     game, p0, p1 = util.newGame(
         [base.sweep()], [dummyCards.fast()], eventHandler=eh)
 
-    eh.assertPopEvents('on_move_card', 'on_draw')
+    eh.assertPopEvents('on_change_mana', 'on_move_card', 'on_draw')
     p0.play(0)
     eh.assertPopEvents('on_move_card', 'on_play_facedown')
     p0.endTurn()
-    eh.assertPopEvents('on_change_mana_cap', 'on_end_turn', 'on_move_card', 'on_draw')
+    eh.assertPopEvents('on_change_mana_cap',
+                       'on_end_turn',
+                       'on_change_mana',
+                       'on_move_card',
+                       'on_draw')
     p1.playFaceup(0)
-    eh.assertPopEvents('on_move_card', 'on_play_faceup', 'on_spawn')
+    eh.assertPopEvents('on_change_mana', 'on_move_card', 'on_play_faceup', 'on_spawn')
     assert len(p1.deck) == 0
     p1.endTurn()
-    eh.assertPopEvents('on_change_mana_cap', 'on_end_turn')  # No draw event b/c no card to draw
+    eh.assertPopEvents('on_change_mana_cap', 'on_end_turn', 'on_change_mana')  # No draw event b/c no card to draw
     p0.mana = 4
     p0.revealFacedown(0)
     # NOTE: This is the correct order!
@@ -266,7 +270,8 @@ def testEventsActuallyCalled():
     # 8. on_die fires from sweep being discarded
     # TODO: rename on_spawn, etc. to indicate they trigger when the effect triggers
     # Or make the order more intuitive in general
-    eh.assertPopEvents('on_move_card', 'on_reveal_facedown', 'on_move_card',
+    eh.assertPopEvents('on_change_mana', 'on_change_mana', 'on_move_card',
+                       'on_reveal_facedown', 'on_move_card',
                        'on_spawn', 'on_die', 'on_move_card', 'on_die')
 
     p0.faceups.createAndAddCard(dummyCards.one)

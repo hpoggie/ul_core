@@ -49,7 +49,7 @@ class Player:
 
         self.graveyard = Zone("Graveyard", self)
         self._manaCap = 1
-        self.mana = 1
+        self._mana = 1
 
         self.hasMulliganed = False
         self.hasFirstPlayerPenalty = False
@@ -94,6 +94,15 @@ class Player:
         self._manaCap = value
         if self._manaCap > 15:
             self.opponent.win()
+
+    @property
+    def mana(self):
+        return self._mana
+
+    @mana.setter
+    def mana(self, value):
+        self.game.eventHandler.on_change_mana(self, value)
+        self._mana = value
 
     def shuffle(self):
         self.deck.shuffle()

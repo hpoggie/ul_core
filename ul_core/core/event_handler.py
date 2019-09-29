@@ -47,6 +47,9 @@ class EventHandler:
     def on_change_mana_cap(self, player, new_amount):
         self.on_any(player.game)
 
+    def on_change_mana(self, player, new_amount):
+        self.on_any(player.game)
+
     def on_any(self, game):
         pass
 
@@ -100,6 +103,9 @@ class EmptyEventHandler:
         pass
 
     def on_change_mana_cap(self, player, new_amount):
+        pass
+
+    def on_change_mana(self, player, new_amount):
         pass
 
     def on_any(self, game):
