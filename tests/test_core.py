@@ -228,13 +228,13 @@ def testManualResolve():
         [base.sweep()], [dummyCards.fast()], eventHandler=CustomEventHandler())
 
     p0.play(0)  # Pushes 1
-    p0.endTurn()  # 2: action + draw
+    p0.endTurn()  # 3: action + mana cap + draw
     p1.playFaceup(0)  # 2: action + spawn
-    p1.endTurn()  # 2
+    p1.endTurn()  # 3
     p0.mana = 4
     p0.revealFacedown(0)  # 4: action + spawn + die + die from spell
 
-    assert game.eventHandler.nAnimations == 11
+    assert game.eventHandler.nAnimations == 13
 
 
 def testEventsActuallyCalled():
@@ -247,12 +247,12 @@ def testEventsActuallyCalled():
     p0.play(0)
     eh.assertPopEvents('on_move_card', 'on_play_facedown')
     p0.endTurn()
-    eh.assertPopEvents('on_end_turn', 'on_move_card', 'on_draw')
+    eh.assertPopEvents('on_change_mana_cap', 'on_end_turn', 'on_move_card', 'on_draw')
     p1.playFaceup(0)
     eh.assertPopEvents('on_move_card', 'on_play_faceup', 'on_spawn')
     assert len(p1.deck) == 0
     p1.endTurn()
-    eh.assertPopEvents('on_end_turn')  # No draw event b/c no card to draw
+    eh.assertPopEvents('on_change_mana_cap', 'on_end_turn')  # No draw event b/c no card to draw
     p0.mana = 4
     p0.revealFacedown(0)
     # NOTE: This is the correct order!

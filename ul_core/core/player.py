@@ -90,6 +90,7 @@ class Player:
 
     @manaCap.setter
     def manaCap(self, value):
+        self.game.eventHandler.on_change_mana_cap(self, value)
         self._manaCap = value
         if self._manaCap > 15:
             self.opponent.win()
