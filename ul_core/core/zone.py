@@ -7,29 +7,12 @@ class Zone(list):
         super().__init__(lst)
         self.name = name
         self.controller = controller
-        self.dirty = True
-
-    def __setitem__(self, key, value):
-        super().__setitem__(key, value)
-        self.dirty = True
-
-    def __delitem__(self, key):
-        super().__delitem__(key)
-        self.dirty = True
 
     def __eq__(self, other):
         return self is other
 
     def __repr__(self):
         return "Zone %s of %s containing %s" % (self.name, self.controller, self[:])
-
-    def append(self, card):
-        super().append(card)
-        self.dirty = True
-
-    def remove(self, card):
-        super().remove(card)
-        self.dirty = True
 
     def destroyAll(self, fltr=lambda c: True):
         for card in [c for c in self if fltr(c)]:
