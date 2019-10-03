@@ -196,6 +196,11 @@ def encode_args_to_client(opcode_name, entities, relative_to_player):
     elif opcode_name == 'updateCounter':
         card, new_value = entities
         return zie.gameEntityToZie(relative_to_player, card) + (new_value,)
+    elif opcode_name == 'updateHasAttacked':
+        if len(entities) > 1:
+            raise EncodeError("Too many arguments to updateHasAttacked.")
+
+        return zie.gameEntityToZie(relative_to_player, entities[0])
     else:
         return entities
 
@@ -310,5 +315,7 @@ def decode_args_from_server(opcode_name, args, relative_to_player):
         card_zie, new_value = args[:3], args[3]
         card = zie.zieToGameEntity(relative_to_player, card_zie)
         return (card, new_value)
+    elif opcode_name == 'updateHasAttacked':
+        return (zie.zieToGameEntity(relative_to_player, args),)
     else:
         return args
