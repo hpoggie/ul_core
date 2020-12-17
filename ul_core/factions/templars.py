@@ -151,9 +151,5 @@ class Templar(Player):
             crystalElemental) + base.deck
 
     @action
-    def templarAbility(self, card):
-        if card and card in self.hand:
-            card.zone = self.graveyard
-            self.manaCap += 1
-
-        self.endTurn()
+    def templarAbility(self):
+        self.manaCap += 1

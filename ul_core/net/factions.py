@@ -9,13 +9,8 @@ class ProtocolError(Exception):
 
 
 class Templar(templars.Templar):
-    def factionAbility(self, discardIndex):
-        try:
-            discard = self.hand[discardIndex]
-        except IndexError as e:
-            raise ProtocolError("Bad discard index.", e)
-
-        self.templarAbility(discard)
+    def factionAbility(self):
+        self.templarAbility()
 
 
 class Thief(thieves.Thief):
